@@ -1,0 +1,25 @@
+{
+  "id": "case_route_slot",
+  "track": "track_id",
+  "slot": "slot_id",
+  "mainMentalMove": "um único movimento mental novo",
+  "prerequisites": ["conceito_anterior"],
+  "ritualContract": {
+    "phenomenon": "anomalia observável",
+    "instrument": "instrumento concreto",
+    "dataSource": "origem física do registro",
+    "inputMeaning": "significado de cada entrada",
+    "dependentAction": "ação que depende da resposta",
+    "risk": "consequência de agir sem resposta",
+    "logicalOperation": "operação em português",
+    "output": "formato exato da saída",
+    "physicalConsequence": "mudança observável do sucesso",
+    "grimoireKnowledge": ["entry_id"]
+  },
+  "hints": {
+    "conceptual": "reformular raciocínio",
+    "structural": "indicar estrutura",
+    "nearOperational": "próximo passo sem código completo"
+  },
+  "languageAdapters": ["java", "python"]
+}

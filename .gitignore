@@ -1,0 +1,31 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated output
+node_modules/
+output/
+test-results/
+.playwright-cli/
+*.log
+
+# Local database backups and runtime state
+deploy/backups/
+*.dump
+*.sql
+
+# Unlicensed prototype audio (keep local until publication rights are cleared)
+assets/audio/
+assets/suspense-intrigue.mp3
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local certificates/keys
+*.pem
+*.key
+*.crt

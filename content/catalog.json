@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "productTitle": "Vesper",
+  "defaultCase": "vesper_case_02_observatory",
+  "cases": [
+    {
+      "id": "vesper_case_01",
+      "subtitle": "Caso 01",
+      "title": "A Mansão de Vesper",
+      "description": "O desaparecimento de Theo Vesper leva a uma casa que conserva mais espaço por dentro do que deveria.",
+      "contentPath": "./content/cases/vesper_case_01",
+      "cover": "./assets/rooms/exterior_closed.png",
+      "status": "playable",
+      "order": 1
+    },
+    {
+      "id": "vesper_case_02_observatory",
+      "subtitle": "Caso 02",
+      "title": "O Observatório das Nove Luzes",
+      "description": "Uma cúpula interditada voltou a se mover. O último registro precisa ser recuperado antes que o alinhamento termine.",
+      "contentPath": "./content/cases/vesper_case_02_observatory",
+      "cover": "./assets/rooms/observatorio/cupula.png",
+      "status": "playable",
+      "order": 2
+    }
+  ]
+}

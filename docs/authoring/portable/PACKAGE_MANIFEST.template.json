@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "caseId": "case_id",
+  "contentVersion": "1.0.0",
+  "files": [
+    "campaign.json",
+    "rooms.json",
+    "characters.json",
+    "scenes.json",
+    "challenges.json",
+    "objectives.json",
+    "tracks.json",
+    "grimoire.json"
+  ],
+  "routes": ["route_id"],
+  "languages": ["java", "python"],
+  "canonProposals": [],
+  "humanReview": []
+}

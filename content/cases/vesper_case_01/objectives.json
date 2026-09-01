@@ -1,0 +1,74 @@
+[
+  {
+    "id": "check_gate",
+    "text": "Theo entrou pela frente. Examine as marcas no portão antes de seguir o mesmo caminho.",
+    "targetRoom": "exterior",
+    "requires": [
+      "intro_finished"
+    ],
+    "hideWhen": [
+      "gate_unlocked"
+    ],
+    "title": "Próximo passo"
+  },
+  {
+    "id": "screen_returned_items",
+    "text": "Antes de subir, verifique os objetos que a polícia devolveu ao hall.",
+    "targetRoom": "hall",
+    "requires": [
+      "gate_unlocked"
+    ],
+    "hideWhen": [
+      "ritual_1_completed"
+    ],
+    "title": "Próximo passo"
+  },
+  {
+    "id": "follow_theo_marks",
+    "text": "Lívia disse que Theo passou a semana fotografando os retratos. A galeria é a pista mais concreta até agora.",
+    "targetRoom": "galeria",
+    "requires": [
+      "ritual_1_completed"
+    ],
+    "hideWhen": [
+      "ritual_2_completed"
+    ],
+    "title": "Próximo passo"
+  },
+  {
+    "id": "reach_private_wing",
+    "text": "A ordem dos brasões aponta para a ala privada. Procure o que Theo deixou no próprio quarto.",
+    "targetRoom": "quarto",
+    "requires": [
+      "ritual_2_completed"
+    ],
+    "hideWhen": [
+      "ritual_3_completed"
+    ],
+    "title": "Próximo passo"
+  },
+  {
+    "id": "follow_detector",
+    "text": "A reconstrução do detector termina na direção do escritório.",
+    "targetRoom": "escritorio",
+    "requires": [
+      "ritual_3_completed"
+    ],
+    "hideWhen": [
+      "ritual_4_completed"
+    ],
+    "title": "Próximo passo"
+  },
+  {
+    "id": "go_below",
+    "text": "A planta e o registro de 2009 deixam uma direção plausível: abaixo da casa.",
+    "targetRoom": "porao",
+    "requires": [
+      "ritual_4_completed"
+    ],
+    "hideWhen": [
+      "ritual_5_completed"
+    ],
+    "title": "Próximo passo"
+  }
+]

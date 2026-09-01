@@ -1,0 +1,14 @@
+{
+  "id": "ritual_id",
+  "title": "Nome diegético",
+  "concept": "conceito pedagógico",
+  "narrative": "Descrição curta depois que a cena já contextualizou o fenômeno.",
+  "generator": {},
+  "outputHint": "O que o ritual precisa devolver.",
+  "successScene": "success_scene_id",
+  "hints": [
+    "Tomás: primeira dica de raciocínio.",
+    "Tomás: segunda dica mais concreta."
+  ],
+  "displayMeta": []
+}

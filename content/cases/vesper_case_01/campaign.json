@@ -1,0 +1,41 @@
+{
+  "id": "vesper_case_01",
+  "title": "A Mansão de Vesper",
+  "subtitle": "Caso 01",
+  "contentVersion": "1.0.0",
+  "startRoom": "exterior",
+  "startScene": "intro_arrival",
+  "finalScene": "ending_rescue",
+  "secretClueThreshold": 6,
+  "theme": {
+    "accent": "#92d8c8",
+    "danger": "#b66d69"
+  },
+  "audio": {
+    "ambient": {
+      "url": "./assets/suspense-intrigue.mp3",
+      "license": "User provided",
+      "source": "Conversation upload",
+      "author": "Tuesday Knights compilation"
+    },
+    "basement": {
+      "url": "https://opengameart.org/sites/default/files/dark_cavern_ambient_002.ogg",
+      "license": "CC0",
+      "source": "https://opengameart.org/content/dark-cavern-ambient",
+      "author": "Paul Wortmann"
+    },
+    "door": {
+      "url": "https://opengameart.org/sites/default/files/door_open.mp3",
+      "license": "CC0",
+      "source": "https://opengameart.org/content/opening-lock-and-door",
+      "author": "RPG"
+    }
+  },
+  "learningTrack": "arrays_beginner",
+  "supportedLanguages": ["java", "python"],
+  "knownCharacters": ["livia", "tomas"],
+  "rewards": {
+    "caseCompletion": { "xp": 100, "fieldMarks": 10 }
+  },
+  "version": "0.5.0"
+}

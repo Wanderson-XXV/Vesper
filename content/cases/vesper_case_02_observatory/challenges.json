@@ -1,0 +1,196 @@
+[
+  {
+    "id": "obs_bridge_shutters",
+    "title": "A Coroa de Lâminas",
+    "shortLabel": "LÂMINAS",
+    "concept": "repetir uma decisão com for",
+    "tutorial": true,
+    "narrative": "A coroa do leitor travou no meio da volta. Junto de cada uma das doze lâminas, a agulha riscou uma marca de pressão: da sete para cima, a lâmina prende a coroa em vez de ceder. Antes de girar, Tomás precisa saber quantas travas armar.",
+    "generator": { "type": "thresholdCount", "length": 12, "min": 0, "max": 10, "threshold": 7 },
+    "outputHint": "Imprima quantas travas Tomás deve armar — uma para cada lâmina marcada com 7 ou mais.",
+    "successScene": "obs_bridge_shutters_success",
+    "flagsOnSuccess": ["obs_calibration_done"],
+    "rewards": { "xp": 25, "fieldMarks": 0 },
+    "hints": [
+      "Tomás: Você já sabe decidir se uma lâmina prende. A coroa só repete essa decisão doze vezes.",
+      "Tomás: Percorra as marcas com um for. Dentro dele, teste se a marca atual é sete ou mais.",
+      "Tomás: Comece um contador em zero. Para cada marcas[i] >= 7, aumente o contador; no fim, imprima o total."
+    ],
+    "displayMeta": ["{{N}} lâminas na coroa", "marca de trava: 7 ou mais"],
+    "ritualContract": {
+      "phenomenon": "A cúpula força o mecanismo do leitor mesmo sem operador.",
+      "instrument": "Agulha de bronze do leitor de placas.",
+      "dataSource": "Doze marcas riscadas pela agulha, uma junto de cada lâmina.",
+      "inputMeaning": "Cada número é a pressão que aquela lâmina está aguentando agora.",
+      "dependentAction": "Tomás arma uma trava em cada lâmina que vai prender.",
+      "risk": "Girar com uma lâmina presa e sem trava fecha a coroa sobre a placa.",
+      "logicalOperation": "Percorrer, comparar com o limite e contar.",
+      "output": "Quantidade de travas a armar.",
+      "physicalConsequence": "A coroa completa a volta e a fileira de gavetas avança.",
+      "grimoireKnowledge": ["obs_repetition"]
+    }
+  },
+  {
+    "id": "obs_bridge_exposures",
+    "title": "Índice contra Estado",
+    "shortLabel": "CONFRONTO",
+    "concept": "dois registros alinhados, um índice",
+    "narrative": "O catálogo tem duas tiras no mesmo eixo: o índice, escrito pela própria máquina a cada exposição, e o estado, medido hoje. Onde as duas divergem, alguém mexeu na gaveta depois do lacre — e puxar a gaveta errada queima a emulsão que resta.",
+    "generator": {
+      "type": "fixed",
+      "input": [4, 2, 9, 1, 0, 5, 7, 8, 6, 3, 2, 4, 1, 0, 5, 2, 4, 2, 0, 1, 0, 5, 0, 0, 0, 0, 2, 4, 1, 0, 5, 2],
+      "answer": "3 7 8 9 10",
+      "meta": { "N": 16, "strips": 2 }
+    },
+    "outputHint": "Imprima, em ordem crescente e começando por 1, as posições em que as duas tiras divergem, separadas por espaço.",
+    "successScene": "obs_bridge_exposures_success",
+    "flagsOnSuccess": ["obs_catalog_done"],
+    "rewards": { "xp": 25, "fieldMarks": 0 },
+    "hints": [
+      "Tomás: As duas tiras contam a mesma história em momentos diferentes. Só interessam as posições em que a história mudou.",
+      "Tomás: Percorra as gavetas com um índice i. A gaveta i aparece no índice como tiras[i] e no estado como tiras[i + 16].",
+      "Tomás: Para cada i de 0 a 15, se tiras[i] for diferente de tiras[i + 16], imprima i + 1 seguido de um espaço."
+    ],
+    "displayMeta": ["32 marcas: índice (16) + estado (16)", "a gaveta i está em i e em i + 16", "gavetas numeradas a partir de 1"],
+    "ritualContract": {
+      "phenomenon": "O arquivo foi alterado depois da interdição.",
+      "instrument": "Rolo duplo do catálogo: índice mecânico e estado medido.",
+      "dataSource": "Duas tiras do mesmo eixo: 16 marcas do índice seguidas das 16 do estado.",
+      "inputMeaning": "As 16 primeiras marcas dizem o que cada gaveta deveria ter; as 16 seguintes, o que ela tem agora.",
+      "dependentAction": "Tomás puxa apenas as gavetas divergentes.",
+      "risk": "Puxar a gaveta errada queima a emulsão restante.",
+      "logicalOperation": "Comparar posição a posição e emitir as posições divergentes.",
+      "output": "Posições divergentes, base 1, em ordem crescente.",
+      "physicalConsequence": "As gavetas adulteradas recuam e a haste da escada aparece.",
+      "grimoireKnowledge": ["obs_arrays", "obs_two_registers"]
+    }
+  },
+  {
+    "id": "obs_bridge_alignment",
+    "title": "A Janela do Calço",
+    "shortLabel": "ALINHAMENTO",
+    "concept": "estado atual e melhor sequência",
+    "narrative": "O regulador marcou o humor da cúpula a cada batida: fases 0, 1 e 2. O calço de bronze só entra enquanto o humor se mantém; se a fase mudar com o calço dentro, a coroa estoura. O trabalho precisa do maior trecho sem mudança.",
+    "generator": { "type": "longestRun", "length": 24, "symbols": [0, 1, 2] },
+    "outputHint": "Imprima o tamanho do maior trecho em que a fase não muda — é a janela para encaixar o calço.",
+    "successScene": "obs_bridge_alignment_success",
+    "flagsOnSuccess": ["obs_alignment_done"],
+    "rewards": { "xp": 25, "fieldMarks": 0 },
+    "hints": [
+      "Tomás: Compare cada batida com a anterior. Se o humor se mantém, o trecho cresce; se muda, o trecho recomeça.",
+      "Tomás: Guarde dois números: o trecho atual e o maior já visto.",
+      "Tomás: Comece atual e melhor em 1. Se fases[i] == fases[i - 1], aumente atual; senão, atual volta a 1. Atualize melhor quando atual passar dele."
+    ],
+    "displayMeta": ["{{N}} batidas registradas", "fases possíveis: 0, 1 e 2"],
+    "ritualContract": {
+      "phenomenon": "A cúpula alterna entre três humores enquanto procura o alinhamento.",
+      "instrument": "Regulador de fase e calço de bronze.",
+      "dataSource": "Rolo de batidas recolhido do eixo principal.",
+      "inputMeaning": "Cada número é o humor da cúpula numa batida consecutiva.",
+      "dependentAction": "O calço precisa entrar dentro do maior trecho estável.",
+      "risk": "Se a fase mudar com o calço dentro, a coroa estoura.",
+      "logicalOperation": "Comparar atual/anterior, manter estado e máximo.",
+      "output": "Tamanho do maior trecho sem mudança.",
+      "physicalConsequence": "A cúpula para e a projeção se desenha no vidro do regulador.",
+      "grimoireKnowledge": ["obs_state"]
+    }
+  },
+  {
+    "id": "obs_advanced_plate_grid",
+    "title": "O Ponto que Furou a Placa",
+    "shortLabel": "MATRIZ",
+    "concept": "matriz e loops aninhados",
+    "tutorial": true,
+    "inputFormat": "lines",
+    "narrative": "A emulsão da placa guarda uma grade de marcas de luz, quatro linhas por quatro colunas. Uma célula recebeu mais luz do que qualquer estrela explicaria; o carro óptico precisa parar exatamente sobre ela, ou o trilho risca a placa.",
+    "generator": { "type": "matrixMaxPosition", "rows": 4, "cols": 4, "min": 0, "max": 9, "peak": 12 },
+    "outputHint": "Imprima a linha e a coluna da célula mais marcada, começando a contar de 1.",
+    "successScene": "obs_advanced_plate_grid_success",
+    "flagsOnSuccess": ["obs_calibration_done"],
+    "rewards": { "xp": 25, "fieldMarks": 0 },
+    "hints": [
+      "Tomás: Trate a placa como linhas que contêm colunas. Cada célula precisa ser visitada uma vez.",
+      "Tomás: Um loop para as linhas; dentro dele, outro para as colunas. Guarde a maior marca e o endereço dela.",
+      "Tomás: Quando matriz[i][j] superar a maior marca, atualize maior, linha = i + 1 e coluna = j + 1."
+    ],
+    "displayMeta": ["4 linhas", "4 colunas", "endereços começam em 1"],
+    "ritualContract": {
+      "phenomenon": "Uma exposição impossível concentrou-se numa única célula da placa.",
+      "instrument": "Carro óptico de dois trilhos.",
+      "dataSource": "Grade de marcas de luz revelada na emulsão.",
+      "inputMeaning": "Cada célula é uma área física da placa.",
+      "dependentAction": "O carro precisa ser levado ao endereço de maior marca.",
+      "risk": "Mover o carro à célula errada risca a única placa íntegra.",
+      "logicalOperation": "Percorrer a matriz, guardar máximo e endereço.",
+      "output": "Linha e coluna, base 1.",
+      "physicalConsequence": "A lente enquadra o ponto e a gaveta do catálogo destrava.",
+      "grimoireKnowledge": ["obs_matrices"]
+    }
+  },
+  {
+    "id": "obs_advanced_catalog",
+    "title": "A Categoria que Sobra",
+    "shortLabel": "MAPA",
+    "concept": "mapa de frequências",
+    "narrative": "Dezoito etiquetas foram arrancadas das placas e devolvidas fora de ordem. Para fechar a contagem do arquivo, quem adulterou repetiu uma categoria além da conta. O símbolo que sobra é a marca da falsificação.",
+    "generator": { "type": "frequencyWinner", "length": 18, "symbols": ["CÍRCULO", "CHAVE", "OLHO", "TORRE"] },
+    "outputHint": "Imprima o símbolo mais repetido: CÍRCULO, CHAVE, OLHO ou TORRE.",
+    "successScene": "obs_advanced_catalog_success",
+    "flagsOnSuccess": ["obs_catalog_done"],
+    "rewards": { "xp": 25, "fieldMarks": 0 },
+    "hints": [
+      "Tomás: Não importa onde cada símbolo aparece. Importa quantas vezes cada um foi usado.",
+      "Tomás: Monte um mapa: a chave é o símbolo, o valor é quantas vezes ele apareceu.",
+      "Tomás: Para cada etiqueta, aumente mapa[símbolo] em um. No fim, percorra o mapa e imprima a chave de maior contagem."
+    ],
+    "displayMeta": ["{{N}} etiquetas soltas", "4 símbolos do arquivo"],
+    "ritualContract": {
+      "phenomenon": "Uma categoria falsa foi repetida para fechar a contagem do arquivo.",
+      "instrument": "Indexador de etiquetas do catálogo.",
+      "dataSource": "Símbolos gravados nas bordas das etiquetas soltas.",
+      "inputMeaning": "Cada palavra é a categoria de uma etiqueta.",
+      "dependentAction": "A categoria que sobra aponta a gaveta adulterada.",
+      "risk": "Procurar gaveta por gaveta expõe as emulsões à luz.",
+      "logicalOperation": "Contar frequências por chave e selecionar a maior.",
+      "output": "Nome do símbolo mais repetido.",
+      "physicalConsequence": "A gaveta falsa se desprende e a haste da escada aparece.",
+      "grimoireKnowledge": ["obs_maps"]
+    }
+  },
+  {
+    "id": "obs_advanced_ninth_light",
+    "title": "O Sinal nas Células Firmes",
+    "shortLabel": "CRUZAMENTO",
+    "concept": "cruzar dois registros: filtrar antes de contar",
+    "inputFormat": "lines",
+    "narrative": "A projeção se divide em dezesseis células, cada uma com um dos quatro sinais. Na tira ao lado, a máquina marcou quais células estavam firmes. A luz de fora só escreve nas firmes; nas trêmulas há ruído — e o ruído foi feito para confundir a contagem.",
+    "generator": {
+      "type": "fixed",
+      "input": [0, 2, 0, 2, 2, 0, 0, 1, 0, 2, 3, 1, 0, 2, 1, 3, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+      "answer": "V",
+      "meta": { "N": 16, "strips": 2 }
+    },
+    "outputHint": "Imprima o sinal que domina as células firmes: N, L, V ou S.",
+    "successScene": "obs_advanced_ninth_light_success",
+    "flagsOnSuccess": ["obs_alignment_done"],
+    "rewards": { "xp": 25, "fieldMarks": 0 },
+    "hints": [
+      "Tomás: A grade inteira mente de propósito. Só as células firmes carregam a luz de fora.",
+      "Tomás: Para cada posição i, o sinal está em celulas[i] e o estado em celulas[i + 16]. Conte o sinal apenas quando o estado for 1.",
+      "Tomás: Monte um mapa sinal → contagem só com as células firmes; no fim, imprima a letra da maior contagem (0=N, 1=L, 2=V, 3=S)."
+    ],
+    "displayMeta": ["32 marcas: sinais (16) + estados (16)", "0=N · 1=L · 2=V · 3=S", "estado 1 = célula firme"],
+    "ritualContract": {
+      "phenomenon": "A projeção externa insiste num único sinal, escondido sob ruído.",
+      "instrument": "Regulador óptico quadriculado e tira de estabilidade.",
+      "dataSource": "Dezesseis sinais da grade seguidos dos dezesseis estados de firmeza.",
+      "inputMeaning": "Cada sinal é a marca dominante da célula; cada estado diz se a célula estava firme.",
+      "dependentAction": "Tomás calça a engrenagem do sinal verdadeiro.",
+      "risk": "Calçar a engrenagem do sinal errado completa o alinhamento em vez de interrompê-lo.",
+      "logicalOperation": "Filtrar por um registro e contar frequências no outro.",
+      "output": "Letra do sinal predominante nas células firmes.",
+      "physicalConsequence": "A cúpula para e a projeção se desenha no vidro do regulador.",
+      "grimoireKnowledge": ["obs_matrices", "obs_maps", "obs_two_registers"]
+    }
+  }
+]

@@ -1,0 +1,370 @@
+[
+  {
+    "id": "ritual_0",
+    "title": "Leitura dos Selos",
+    "concept": "tutorial: array + for + if + contador",
+    "tutorial": true,
+    "narrative": "A placa de latão transcreveu a resposta dos seis selos do portão. 1 indica que a marca ainda sustenta a trava; 0 indica que aquela parte do selo já se apagou.",
+    "generator": {
+      "type": "fixed",
+      "input": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        1
+      ],
+      "answer": "4"
+    },
+    "outputHint": "Quantos selos ainda sustentam a trava.",
+    "successScene": "ritual_0_success",
+    "flagsOnSuccess": [
+      "ritual_0_completed",
+      "gate_unlocked"
+    ],
+    "shortLabel": "SELOS",
+    "hints": [
+      "Tomás: Trata cada marca como uma pergunta separada: ela vale 1? Se sim, ela entra na contagem.",
+      "Tomás: Percorre as leituras com um for. Dentro dele, usa um if para testar se a posição atual é igual a 1.",
+      "Tomás: Começa um contador em 0 e aumenta sempre que encontrar 1. No fim, imprime esse contador."
+    ],
+    "displayMeta": [
+      "6 marcas transcritas",
+      "1 = selo responde",
+      "0 = selo apagado"
+    ]
+  },
+  {
+    "id": "ritual_1",
+    "title": "Triagem de Objetos",
+    "concept": "array + for + if + contador",
+    "narrative": "Cada objeto passou pelo prato de leitura da maleta. A agulha riscou uma intensidade para cada peça; qualquer marca em 7 ou mais exige isolamento.",
+    "generator": {
+      "type": "thresholdCount",
+      "length": 18,
+      "min": 0,
+      "max": 10,
+      "threshold": 7
+    },
+    "outputHint": "Quantos objetos precisam ser isolados antes de continuar.",
+    "successScene": "ritual_1_success",
+    "flagsOnSuccess": [
+      "ritual_1_completed"
+    ],
+    "clueOnSuccess": {
+      "id": "safe_inventory",
+      "title": "Triagem concluída",
+      "text": "As etiquetas perigosas foram separadas antes da abertura da maleta."
+    },
+    "shortLabel": "TRIAGEM",
+    "hints": [
+      "Tomás: Aqui é a mesma ideia do portão, mas a condição mudou. Em vez de procurar 1, procure valores maiores ou iguais a 7.",
+      "Tomás: Percorra o array inteiro e aumente um contador sempre que leituras[i] >= 7."
+    ],
+    "displayMeta": [
+      "{{N}} leituras recuperadas",
+      "limite de isolamento: {{threshold}}"
+    ]
+  },
+  {
+    "id": "ritual_2",
+    "title": "Linhagens da Galeria",
+    "concept": "comparar elemento atual com o anterior",
+    "narrative": "Theo copiou, na ordem do corredor, o código de cada brasão. Códigos iguais aparecem juntos; uma troca de número significa que outra linhagem começou.",
+    "generator": {
+      "type": "groupCount",
+      "groupsMin": 5,
+      "groupsMax": 9,
+      "runMin": 2,
+      "runMax": 6
+    },
+    "outputHint": "Quantas linhagens aparecem na sequência.",
+    "successScene": "ritual_2_success",
+    "flagsOnSuccess": [
+      "ritual_2_completed"
+    ],
+    "clueOnSuccess": {
+      "id": "lineage_count",
+      "title": "Número de linhagens",
+      "text": "A contagem das mudanças entre brasões foi registrada."
+    },
+    "shortLabel": "LINHAGENS",
+    "hints": [
+      "Tomás: Você não precisa guardar todas as linhagens. Só precisa perceber quando o valor atual é diferente do anterior."
+    ],
+    "displayMeta": [
+      "{{N}} brasões transcritos",
+      "a mudança de número inicia outra linhagem"
+    ]
+  },
+  {
+    "id": "ritual_3",
+    "title": "Reconstrução do Detector",
+    "concept": "estado que aumenta e reseta",
+    "narrative": "O detector deixou apenas 1 e 0. Enquanto o sinal permanece em 1, o nível acumulado cresce. Quando aparece 0, o nível cai para zero. A segunda coluna do caderno ficou inacabada.",
+    "generator": {
+      "type": "stateTrace",
+      "length": 24,
+      "chanceOn": 0.64
+    },
+    "outputHint": "A sequência completa dos níveis, separada por espaços.",
+    "successScene": "ritual_3_success",
+    "flagsOnSuccess": [
+      "ritual_3_completed"
+    ],
+    "clueOnSuccess": {
+      "id": "detector_route",
+      "title": "Rota de interferência",
+      "text": "A coluna incompleta do detector de Theo pôde ser reconstruída."
+    },
+    "shortLabel": "INTERFERÊNCIA",
+    "hints": [
+      "Tomás: Pense em uma variável que representa o nível agora. Se vier 1, ela cresce. Se vier 0, ela volta para zero."
+    ],
+    "displayMeta": [
+      "{{N}} sinais registrados",
+      "1 mantém a interferência",
+      "0 rompe a sequência"
+    ]
+  },
+  {
+    "id": "ritual_4",
+    "title": "Pico de Intensidade",
+    "concept": "guardar o maior valor",
+    "narrative": "O caderno de 2009 traz dezenas de medições. Uma única frase foi sublinhada duas vezes: “o selo só reconheceu o maior valor que vimos”.",
+    "generator": {
+      "type": "maxValue",
+      "length": 35,
+      "min": 4,
+      "max": 99
+    },
+    "outputHint": "O maior valor do registro.",
+    "successScene": "ritual_4_success",
+    "flagsOnSuccess": [
+      "ritual_4_completed"
+    ],
+    "clueOnSuccess": {
+      "id": "peak_intensity",
+      "title": "Pico de intensidade",
+      "text": "O maior valor do caderno de 2009 foi identificado."
+    },
+    "shortLabel": "PICO",
+    "hints": [
+      "Tomás: Você não precisa ordenar nada. Guarde o maior valor visto até agora e atualize quando encontrar um maior."
+    ],
+    "displayMeta": [
+      "{{N}} medições do caderno",
+      "o selo reconhece apenas o maior pico"
+    ]
+  },
+  {
+    "id": "ritual_5",
+    "title": "Estabilidade do Selo",
+    "concept": "consecutivos: comparação + estado + reset + máximo",
+    "narrative": "O detector traduz os pulsos da parede em números. No verso do memorando, Augusto escreveu: “não conte quantas vezes ele volta. Conte quanto tempo se recusa a mudar”.",
+    "generator": {
+      "type": "longestRun",
+      "length": 64,
+      "symbols": [
+        30,
+        40,
+        50,
+        60
+      ]
+    },
+    "outputHint": "O tamanho da maior sequência consecutiva de valores iguais.",
+    "successScene": "ritual_5_success",
+    "flagsOnSuccess": [
+      "ritual_5_completed"
+    ],
+    "clueOnSuccess": {
+      "id": "seal_stability",
+      "title": "Estabilidade do selo",
+      "text": "O maior intervalo estável do selo foi identificado."
+    },
+    "shortLabel": "ESTABILIDADE",
+    "hints": [
+      "Tomás: Esse é o ponto em que as ideias anteriores se encontram. Compare com o anterior, mantenha uma sequência atual e guarde o maior valor que ela já alcançou."
+    ],
+    "displayMeta": [
+      "{{N}} pulsos transcritos",
+      "o que importa é quanto tempo uma resposta permanece igual"
+    ]
+  },
+  {
+    "id": "ifelse_gate",
+    "title": "Resposta do Selo",
+    "concept": "if / else",
+    "tutorial": true,
+    "narrative": "A placa registra se a única marca que ainda segura o portão responde ao traço de teste. Uma resposta ativa precisa ser rompida; uma marca apagada deve ser deixada em paz.",
+    "generator": {
+      "type": "binaryDecision",
+      "trueValue": 1,
+      "whenTrue": "ROMPER",
+      "whenFalse": "IGNORAR"
+    },
+    "outputHint": "Imprima ROMPER se a marca for 1; caso contrário, IMPRIMA IGNORAR.",
+    "successScene": "ifelse_gate_success",
+    "flagsOnSuccess": [
+      "ritual_0_completed",
+      "gate_unlocked"
+    ],
+    "shortLabel": "SELO",
+    "displayMeta": [
+      "1 = selo responde",
+      "0 = selo apagado"
+    ],
+    "hints": [
+      "Tomás: A marca só pode estar em um de dois estados: ainda responde ou já se apagou.",
+      "Tomás: Faça a pergunta marca == 1. Se ela for verdadeira, a resposta é ROMPER; senão, IGNORAR.",
+      "Tomás: Use if para o caso em que a marca vale 1 e else para o outro caso."
+    ]
+  },
+  {
+    "id": "ifelse_hall",
+    "title": "Peça sob Leitura",
+    "concept": "if / else",
+    "narrative": "Uma única chave encontrada pela polícia foi colocada na placa de leitura. A medida mostra quanto resíduo ela reteve perto da anomalia; sete é o limite para mexer nela sem isolamento.",
+    "generator": {
+      "type": "thresholdDecision",
+      "min": 0,
+      "max": 10,
+      "threshold": 7,
+      "below": "EXAMINAR",
+      "atOrAbove": "ISOLAR"
+    },
+    "outputHint": "Imprima EXAMINAR se a leitura for menor que 7; caso contrário, IMPRIMA ISOLAR.",
+    "successScene": "ifelse_hall_success",
+    "flagsOnSuccess": [
+      "ritual_1_completed"
+    ],
+    "shortLabel": "LEITURA",
+    "displayMeta": [
+      "1 leitura",
+      "limite: 7"
+    ],
+    "hints": [
+      "Tomás: A leitura não nomeia o objeto; ela indica quanto ele foi afetado. O limite é 7.",
+      "Tomás: Pergunte se leitura < 7. Abaixo do limite, podemos examinar; no restante, isolamos.",
+      "Tomás: O valor 7 pertence ao isolamento. Por isso, a condição segura é leitura < 7."
+    ]
+  },
+  {
+    "id": "ifelse_gallery",
+    "title": "Retrato sob Luz",
+    "concept": "if / else if / else",
+    "narrative": "A luz da maleta revela uma reação na tinta de um retrato. A leitura indica se a moldura pode ser observada de perto, precisa ser fixada antes ou deve ser deixada sem toque.",
+    "generator": {
+      "type": "rangeDecision",
+      "min": 0,
+      "max": 10,
+      "ranges": [
+        { "max": 3, "answer": "OBSERVAR" },
+        { "max": 7, "answer": "FIXAR" },
+        { "max": 10, "answer": "RECUAR" }
+      ]
+    },
+    "outputHint": "0–3: OBSERVAR; 4–7: FIXAR; 8–10: RECUAR.",
+    "successScene": "ifelse_gallery_success",
+    "flagsOnSuccess": [
+      "ritual_2_completed"
+    ],
+    "shortLabel": "MOLDURA",
+    "displayMeta": [
+      "1 leitura",
+      "3 faixas de resposta"
+    ],
+    "hints": [
+      "Tomás: Primeiro decida se a reação ainda está na faixa em que podemos observar. Só depois trate a faixa intermediária.",
+      "Tomás: Se leitura <= 3, observe. Senão, se leitura <= 7, fixe a moldura. O que restar exige recuo.",
+      "Tomás: Use if / else if / else. O último else cobre as leituras de 8 a 10 sem repetir outra comparação."
+    ]
+  },
+  {
+    "id": "ifelse_bedroom",
+    "title": "Agulha Dupla",
+    "concept": "&& com if / else",
+    "narrative": "O detector tem duas agulhas: a primeira registra se encontrou o rastro de Theo; a segunda acusa distorção na passagem. Só seguimos quando há rastro e não há distorção.",
+    "generator": {
+      "type": "andDecision",
+      "firstRequired": 1,
+      "secondRequired": 0,
+      "whenTrue": "SEGUIR",
+      "whenFalse": "RECUAR"
+    },
+    "outputHint": "Imprima SEGUIR se o rastro for 1 e a distorção for 0; caso contrário, IMPRIMA RECUAR.",
+    "successScene": "ifelse_bedroom_success",
+    "flagsOnSuccess": [
+      "ritual_3_completed"
+    ],
+    "shortLabel": "PASSAGEM",
+    "displayMeta": [
+      "rastro: 1 = encontrado",
+      "distorção: 1 = presente"
+    ],
+    "hints": [
+      "Tomás: O rastro, sozinho, não basta. Uma passagem distorcida pode levar a outro lugar.",
+      "Tomás: Para seguir, as duas perguntas precisam dar a resposta certa: rastro == 1 e distorcao == 0.",
+      "Tomás: Una as duas condições com &&. Se o conjunto não for verdadeiro, a resposta é RECUAR."
+    ]
+  },
+  {
+    "id": "ifelse_office",
+    "title": "Trava de Contrapeso",
+    "concept": "múltiplas variáveis + if / else if / else",
+    "narrative": "Sob a escrivaninha, uma barra presa pelo centro mantém a gaveta travada. Um bloco fica em cada lado; a força de cada lado depende da massa do bloco e da distância até o eixo.",
+    "generator": {
+      "type": "balanceDecision",
+      "massMin": 1,
+      "massMax": 9,
+      "distanceMin": 1,
+      "distanceMax": 9,
+      "left": "ESQUERDA",
+      "right": "DIREITA",
+      "equal": "EQUILIBRIO"
+    },
+    "outputHint": "Imprima ESQUERDA, DIREITA ou EQUILIBRIO conforme massa × distância em cada lado.",
+    "successScene": "ifelse_office_success",
+    "flagsOnSuccess": [
+      "ritual_4_completed"
+    ],
+    "shortLabel": "CONTRAPESO",
+    "displayMeta": [
+      "massa esquerda · distância esquerda",
+      "massa direita · distância direita"
+    ],
+    "hints": [
+      "Tomás: O bloco mais pesado não vence necessariamente. Um bloco mais leve, se estiver mais longe do eixo, também pode puxar a barra.",
+      "Tomás: Calcule massaEsquerda * distanciaEsquerda e massaDireita * distanciaDireita antes de comparar os dois resultados.",
+      "Tomás: Se o resultado esquerdo for maior, imprima ESQUERDA; se forem iguais, EQUILIBRIO; senão, DIREITA."
+    ]
+  },
+  {
+    "id": "ifelse_basement",
+    "title": "Abertura da Passagem",
+    "concept": "condições compostas como integração",
+    "narrative": "Três sinais decidem como abordar a parede: o selo responde, a linha entre as pedras se alinhou e há ou não distorção no local. A ordem da decisão impede que a passagem abra no momento errado.",
+    "generator": {
+      "type": "finalDecision",
+      "open": "ABRIR",
+      "contain": "CONTER",
+      "wait": "ESPERAR"
+    },
+    "outputHint": "ABRIR se selo e passagem forem 1 e distorção for 0; CONTER se selo for 1 e houver distorção; ESPERAR nos outros casos.",
+    "successScene": "ifelse_basement_success",
+    "flagsOnSuccess": [
+      "ritual_5_completed"
+    ],
+    "shortLabel": "ABERTURA",
+    "displayMeta": [
+      "selo · passagem · distorção",
+      "1 = responde / alinhada / presente"
+    ],
+    "hints": [
+      "Tomás: Há três respostas possíveis, mas a interferência só exige contenção quando o selo ainda responde.",
+      "Tomás: Primeiro teste a condição completa de abertura. Depois teste se selo == 1 && distorcao == 1. O que não couber nelas espera.",
+      "Tomás: Use if para ABRIR, else if para CONTER e else para ESPERAR."
+    ]
+  }
+]

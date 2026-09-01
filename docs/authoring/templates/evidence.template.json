@@ -1,0 +1,9 @@
+{
+  "id": "evidence_id",
+  "title": "Título visto pelo jogador",
+  "type": "document",
+  "summary": "O que a protagonista registrou sobre a evidência.",
+  "foundIn": "scene_id",
+  "viewScene": "evidence_id_view",
+  "linkedCharacters": ["character_id"]
+}

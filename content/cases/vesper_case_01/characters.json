@@ -1,0 +1,139 @@
+[
+  {
+    "id": "livia",
+    "name": "Lívia Vesper",
+    "role": "Irmã de Theo",
+    "monogram": "LV",
+    "description": "Foi Lívia quem pediu ajuda depois que as buscas comuns falharam.",
+    "topics": [
+      {
+        "id": "theo",
+        "label": "O que Theo estava tentando descobrir nos retratos?",
+        "scene": "livia_about_theo",
+        "requires": [
+          "topic_theo_investigation"
+        ]
+      },
+      {
+        "id": "mansion",
+        "label": "Sua família sempre evitou alguma parte desta casa?",
+        "scene": "livia_about_mansion",
+        "requires": [
+          "topic_house_history"
+        ]
+      },
+      {
+        "id": "door",
+        "label": "Você também viu a porta que Theo menciona?",
+        "scene": "livia_about_door",
+        "requires": [
+          "found_theo_note"
+        ],
+        "tone": "confront"
+      }
+    ],
+    "portrait": "./assets/characters/livia.png",
+    "profile": {
+      "role": "Irmã de Theo; foi quem pediu a investigação.",
+      "firstImpression": "Cansada demais para fingir tranquilidade. Mede cada resposta antes de entregá-la.",
+      "knownFacts": [
+        "Theo desapareceu depois de voltar à mansão.",
+        "Lívia chamou investigadores ritualistas quando duas buscas comuns falharam.",
+        "Conhece a rotina da família e a disposição da casa."
+      ],
+      "linkedEvidence": [
+        "theo_telegram",
+        "scratched_family_photo"
+      ]
+    }
+  },
+  {
+    "id": "tomas",
+    "name": "Tomás Vale",
+    "role": "Investigador ritualista",
+    "monogram": "TV",
+    "description": "Profissional chamado para acompanhar a investigação em campo.",
+    "topics": [
+      {
+        "id": "approach",
+        "label": "O que exatamente devemos procurar primeiro?",
+        "scene": "tomas_about_approach",
+        "requires": [
+          "intro_finished"
+        ]
+      },
+      {
+        "id": "rules",
+        "label": "O que você chama de ritual, exatamente?",
+        "scene": "tomas_about_rituals",
+        "requires": [
+          "topic_rituals_established"
+        ]
+      },
+      {
+        "id": "mansion",
+        "label": "Você parece conhecer casas assim. Já esteve nesta?",
+        "scene": "tomas_about_mansion",
+        "requires": [
+          "topic_tomas_mansion"
+        ]
+      },
+      {
+        "id": "confront",
+        "label": "Então por que seu nome está no Relatório 14-B?",
+        "scene": "tomas_confront_2009",
+        "requires": [
+          "found_2009_report"
+        ],
+        "tone": "confront"
+      },
+      {
+        "id": "neri",
+        "label": "Quem era Augusto Neri?",
+        "scene": "tomas_about_neri",
+        "requires": [
+          "found_neri_memo"
+        ]
+      }
+    ],
+    "portrait": "./assets/characters/tomas.png",
+    "profile": {
+      "role": "Investigador ritualista designado para acompanhar o trabalho de campo.",
+      "firstImpression": "Econômico nas palavras, cuidadoso com instrumentos e com qualquer conclusão precipitada.",
+      "knownFacts": [
+        "Carrega uma maleta de instrumentos rituais.",
+        "Prefere medir uma anomalia antes de nomeá-la.",
+        "Sabe orientar a execução dos ritos, mas evita explicar mais do que considera necessário."
+      ],
+      "linkedEvidence": [
+        "report_2009",
+        "neri_memo"
+      ]
+    }
+  },
+  {
+    "id": "theo",
+    "name": "Theo Vesper",
+    "role": "Desaparecido",
+    "monogram": "TH",
+    "description": "Desaparecido. A maior parte do que se sabe sobre ele vem do que deixou para trás.",
+    "topics": [],
+    "portrait": "./assets/source-packs/kalaverita-horror-vn/BUTLER_FACE1.png",
+    "revealWhen": [
+      "theo_found"
+    ],
+    "profile": {
+      "role": "Irmão de Lívia; desaparecido dentro ou nas proximidades da Mansão Vesper.",
+      "firstImpression": "Até encontrá-lo, ele existe para nós apenas nas coisas que deixou para trás.",
+      "knownFacts": [
+        "Voltou à mansão para investigar medidas e marcas que não coincidiam.",
+        "Estava concentrado nos retratos e na geometria da casa antes de desaparecer."
+      ],
+      "linkedEvidence": [
+        "theo_telegram",
+        "scratched_family_photo",
+        "theo_note"
+      ]
+    }
+  }
+]

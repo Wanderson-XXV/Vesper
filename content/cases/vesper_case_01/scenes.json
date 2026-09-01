@@ -1,0 +1,1541 @@
+{
+  "intro_arrival": {
+    "events": [
+      {
+        "type": "music",
+        "track": "ambient"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A carruagem desaparece pela estrada antes que a chuva tenha tempo de apagar as marcas das rodas."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Do outro lado do portão, uma mulher espera com um envelope dobrado entre as mãos."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Você é {{player.name}}?"
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Sou. Lívia Vesper?"
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Obrigada por vir. Eu já não sabia a quem recorrer."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O homem ao lado dela fecha uma maleta de couro escuro. Pequenas placas de latão cobrem as travas."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Tomás Vale. Vou trabalhar ao seu lado dentro da casa."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Lívia, mostra o que seu irmão deixou."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Theo voltou para esta casa três noites atrás. Antes de sair da cidade, deixou um telegrama para mim."
+      },
+      {
+        "type": "showEvidence",
+        "title": "TELEGRAMA — THEO VESPER",
+        "body": "LÍVIA —\n\nVOLTEI À CASA PARA CONFERIR AS MARCAS ENTRE OS RETRATOS.\nAS MEDIDAS NÃO ESTÃO FECHANDO.\n\nSE EU NÃO VOLTAR PELA MANHÃ, NÃO VENHA SOZINHA.\n\n— THEO",
+        "clue": {
+          "id": "theo_telegram",
+          "title": "Telegrama de Theo",
+          "text": "Theo retornou à mansão para conferir marcas entre retratos e medidas que não coincidiam.",
+          "view": {
+            "title": "TELEGRAMA — THEO VESPER",
+            "body": "LÍVIA —\n\nVOLTEI À CASA PARA CONFERIR AS MARCAS ENTRE OS RETRATOS.\nAS MEDIDAS NÃO ESTÃO FECHANDO.\n\nSE EU NÃO VOLTAR PELA MANHÃ, NÃO VENHA SOZINHA.\n\n— THEO",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      },
+      {
+        "type": "setFlag",
+        "flag": "topic_theo_investigation",
+        "value": true
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Ele não voltou pela manhã. Nem no dia seguinte."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "A polícia procurou aqui?"
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Duas vezes. Na segunda trouxeram cães. Vasculharam quartos, terreno, porão... e saíram sem encontrar uma trilha."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Então por que chamar investigadores ritualistas?"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Porque uma busca comum parte do princípio de que a casa continua obedecendo às mesmas regras."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Nós começamos verificando justamente isso."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Theo vinha dizendo que a mansão estava... errada. Eu achei que fosse medo misturado com obsessão."
+      },
+      {
+        "type": "setFlag",
+        "flag": "topic_house_history",
+        "value": true
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Não vamos decidir o que aconteceu antes de medir o que ainda está aqui."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Theo entrou pela frente. Começamos pelo portão."
+      },
+      {
+        "type": "setFlag",
+        "flag": "intro_finished",
+        "value": true
+      }
+    ]
+  },
+  "exterior_first": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A fachada parece mais distante do portão do que deveria."
+      }
+    ]
+  },
+  "exterior_gate": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Sob a hera, o ferro ainda guarda um brasão: três círculos cortados por uma linha vertical."
+      },
+      {
+        "type": "addClue",
+        "clue": {
+          "id": "vesper_crest",
+          "title": "Brasão Vesper",
+          "text": "Três círculos atravessados por uma linha vertical. O desenho se repete no portão."
+        }
+      }
+    ]
+  },
+  "hall_first": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "door"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A porta fecha atrás de vocês. O hall cheira a madeira encerada, tecido úmido e uma lareira que não é acesa há dias."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "O quarto do Theo fica no andar de cima."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Ela dá um passo para a escada. Tomás permanece junto ao aparador."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Antes de subir, eu quero o que a polícia devolveu."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Por quê?"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Se algum objeto ficou exposto ao mesmo fenômeno que Theo encontrou, ele pode carregar resíduo. Misturar tudo agora apaga uma pista — ou cria outra."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Eles deixaram uma caixa perto da entrada."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Então começamos por ela."
+      },
+      {
+        "type": "setFlag",
+        "flag": "topic_tomas_mansion",
+        "value": true
+      }
+    ]
+  },
+  "hall_clock": {
+    "events": [
+      {
+        "type": "clockObservation"
+      }
+    ]
+  },
+  "hall_family_portrait": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Uma fotografia antiga descansa junto ao relógio. Lívia aparece criança ao lado de um garoto. Entre os dois, uma terceira figura foi raspada até o papel ficar branco."
+      },
+      {
+        "type": "showEvidence",
+        "title": "FOTOGRAFIA DA FAMÍLIA VESPER",
+        "body": "Lívia e Theo Vesper, ainda crianças, na escadaria do hall.\n\nUma terceira figura foi removida da cópia com algo pontiagudo.",
+        "clue": {
+          "id": "scratched_family_photo",
+          "title": "Fotografia raspada",
+          "text": "Uma fotografia de infância mostra Lívia e Theo. Uma terceira figura foi removida com algo pontiagudo.",
+          "view": {
+            "title": "FOTOGRAFIA DA FAMÍLIA VESPER",
+            "body": "Lívia e Theo Vesper, ainda crianças, na escadaria do hall.\n\nUma terceira figura foi removida da cópia com algo pontiagudo.",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      },
+      {
+        "type": "discoverCharacter",
+        "character": "theo"
+      }
+    ]
+  },
+  "ritual_1_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A caixa devolvida pela polícia reúne objetos encontrados perto da entrada: chaves, papéis, moedas, um medalhão e pequenas peças embrulhadas às pressas."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás prende um prato de cobre à maleta e coloca a primeira peça no centro. A agulha vibra, arranha o papel e deixa uma marca numerada."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "O prato mede resíduo ritual. Uma peça que permaneceu perto de uma anomalia ativa retém parte da resposta — quanto maior a leitura, mais forte o contato."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "E a partir de quando fica perigoso mexer?"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Sete. Abaixo disso eu examino aqui. Em sete ou mais, isolamento primeiro. Se abrirmos tudo junto, podemos contaminar uma pista que ainda está limpa."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Ele passa os objetos pelo prato, um a um. O rolo de papel cresce com uma sequência de leituras."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Então preciso descobrir quantas leituras chegaram a sete ou mais. Essa é a quantidade de peças que vão para isolamento."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Isso. Traz a contagem e eu separo o que não podemos tocar."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "hall"
+      }
+    ]
+  },
+  "ritual_1_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A agulha repete a contagem. Tomás compara os riscos, envolve os objetos mais fortes em tecido encerado e fecha-os numa bolsa marcada com sal e cera."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Certo. Agora podemos examinar o restante sem espalhar o resíduo pela casa."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Theo passou a última semana na galeria. Fotografava os retratos, anotava os brasões e depois media as paredes."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "O telegrama também falava dos retratos."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Então temos uma trilha que concorda consigo mesma. Galeria."
+      }
+    ]
+  },
+  "library_first": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A biblioteca sobe dois andares. Uma lâmpada de mesa está acesa no fundo, embora ninguém tenha passado por aqui."
+      }
+    ]
+  },
+  "library_report": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "paper"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Um papel ficou preso sob o mata-borrão. A data é de 2009."
+      },
+      {
+        "type": "showEvidence",
+        "title": "RELATÓRIO 14-B — EQUIPE DE CAMPO",
+        "body": "Augusto Neri\nElisa Prado\nTomás Vale\n\nEntrada: 23:41\nSaída: —",
+        "clue": {
+          "id": "report_2009",
+          "title": "Relatório 14-B",
+          "text": "Tomás Vale consta na equipe que entrou na Mansão Vesper em 2009. Não há horário de saída.",
+          "view": {
+            "title": "RELATÓRIO 14-B — EQUIPE DE CAMPO",
+            "body": "Augusto Neri\nElisa Prado\nTomás Vale\n\nEntrada: 23:41\nSaída: —",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      },
+      {
+        "type": "setFlag",
+        "flag": "found_2009_report",
+        "value": true
+      }
+    ]
+  },
+  "library_shelf": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Uma fileira inteira usa números no lugar de títulos. O mesmo desenho do portão aparece a lápis em três lombadas."
+      },
+      {
+        "type": "addClue",
+        "clue": {
+          "id": "uncatalogued_shelf",
+          "title": "Estante sem catálogo",
+          "text": "Parte do acervo foi organizada por códigos e não aparece no catálogo da biblioteca."
+        }
+      }
+    ]
+  },
+  "livia_about_theo": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "O telegrama fala em marcas entre os retratos. O que Theo estava tentando descobrir?"
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "No começo, eu achei que ele só estivesse catalogando a família. Depois vieram as medidas."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Ele marcava a distância entre portas, voltava no dia seguinte e media de novo."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Os números mudavam?"
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Era o que ele dizia. Eu nunca vi acontecer."
+      }
+    ]
+  },
+  "livia_about_mansion": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Você disse que Theo achava a casa errada. Sua família sempre evitou alguma parte daqui?"
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Havia portas que meu avô chamava de “serviço”. Algumas não tinham maçaneta do nosso lado."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Quando eu perguntava serviço de quê, minha mãe mudava de assunto. Depois de um tempo eu parei de perguntar."
+      }
+    ]
+  },
+  "livia_about_door": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Foi rápida. Um vão entre duas paredes. No dia seguinte não tinha nada ali."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Theo ficou feliz. Eu não."
+      },
+      {
+        "type": "setFlag",
+        "flag": "livia_confessed",
+        "value": true
+      }
+    ]
+  },
+  "tomas_about_rituals": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "O que você chama de ritual, exatamente?"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Uma forma de obrigar uma anomalia a responder a uma regra clara."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "O instrumento transforma o fenômeno em marcas. Você formaliza a regra; o ritual verifica se a resposta se sustenta."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "E se eu formalizar errado?"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Na melhor hipótese, nada acontece. Por isso a gente entende o problema antes de escrever qualquer coisa."
+      }
+    ]
+  },
+  "tomas_about_mansion": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Você já esteve nesta mansão antes?"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Não."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Mas você parece conhecer esse tipo de lugar."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Já trabalhei em casas com sintomas parecidos. Não é a mesma coisa."
+      }
+    ]
+  },
+  "tomas_confront_2009": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Relatório 14-B."
+      },
+      {
+        "type": "wait",
+        "duration": 650
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Onde achou?"
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Seu nome está nele."
+      },
+      {
+        "type": "wait",
+        "duration": 850
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Então você já sabe o suficiente para não gostar da resposta."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Eu entrei aqui com Augusto. Ele não saiu comigo."
+      },
+      {
+        "type": "setFlag",
+        "flag": "tomas_confronted",
+        "value": true
+      }
+    ]
+  },
+  "tomas_about_neri": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Augusto dizia que a casa errava por dentro."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Eu achava que era jeito de falar."
+      }
+    ]
+  },
+  "gallery_first": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O corredor leste é estreito e excessivamente ornamentado. Perto do rodapé, pequenas placas de bronze foram numeradas à mão."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Isso é do Theo."
+      }
+    ]
+  },
+  "gallery_empty_frame": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Há dois furos recentes na parede e um retângulo mais claro no papel de parede. Alguma coisa ficou pendurada aqui por muito tempo."
+      },
+      {
+        "type": "addClue",
+        "clue": {
+          "id": "empty_frame",
+          "title": "Marca na parede",
+          "text": "Uma peça retangular foi retirada do corredor; a marca no papel de parede é antiga, os furos não."
+        }
+      }
+    ]
+  },
+  "ritual_2_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Ao lado das placas, Theo deixou uma sequência de códigos. Quando o brasão muda, ele faz um pequeno risco vertical no caderno."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Ele não estava contando quadros. Estava contando mudanças."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "gallery"
+      }
+    ]
+  },
+  "ritual_2_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O total coincide com o número gravado no trinco da escada. A peça gira sem resistência."
+      }
+    ]
+  },
+  "gallery_changed_portrait": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Onde havia apenas a marca clara, agora há uma fotografia presa por dois pregos."
+      },
+      {
+        "type": "wait",
+        "duration": 750
+      },
+      {
+        "type": "showEvidence",
+        "title": "FOTOGRAFIA SEM DATA",
+        "body": "Um jovem diante da escadaria do hall.\nNo verso: THEO.",
+        "clue": {
+          "id": "theo_portrait",
+          "title": "Fotografia de Theo",
+          "text": "Uma fotografia de Theo apareceu no corredor onde antes havia apenas uma marca na parede.",
+          "view": {
+            "title": "FOTOGRAFIA SEM DATA",
+            "body": "Um jovem diante da escadaria do hall.\nNo verso: THEO.",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      },
+      {
+        "type": "discoverCharacter",
+        "character": "theo"
+      }
+    ]
+  },
+  "theo_room_first": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A cama está desfeita. Há um copo pela metade na mesa de cabeceira e uma película de poeira sobre a água."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Na escrivaninha, um aparelho improvisado ainda pisca."
+      }
+    ]
+  },
+  "theo_note": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "paper"
+      },
+      {
+        "type": "showEvidence",
+        "title": "PÁGINA ARRANCADA",
+        "body": "Lívia viu a porta também.\nEla só não quer admitir.\n\nO sinal cresce enquanto a coisa está perto.\nQuando some, volta a zero.\n\nA parede do escritório não está certa.",
+        "clue": {
+          "id": "theo_note",
+          "title": "Nota de Theo",
+          "text": "Theo menciona uma porta vista por Lívia, o comportamento do detector e a parede do escritório.",
+          "view": {
+            "title": "PÁGINA ARRANCADA",
+            "body": "Lívia viu a porta também.\nEla só não quer admitir.\n\nO sinal cresce enquanto a coisa está perto.\nQuando some, volta a zero.\n\nA parede do escritório não está certa.",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      },
+      {
+        "type": "setFlag",
+        "flag": "found_theo_note",
+        "value": true
+      }
+    ]
+  },
+  "theo_photo": {
+    "events": [
+      {
+        "type": "showEvidence",
+        "title": "FOTOGRAFIA DE FAMÍLIA",
+        "body": "Theo e Lívia, ainda crianças, na escadaria do hall.\nAo fundo, o relógio marca 23:47.",
+        "clue": {
+          "id": "clock_photo",
+          "title": "Fotografia — 23:47",
+          "text": "Uma fotografia antiga registra o relógio do hall em 23:47.",
+          "view": {
+            "title": "FOTOGRAFIA DE FAMÍLIA",
+            "body": "Theo e Lívia, ainda crianças, na escadaria do hall.\nAo fundo, o relógio marca 23:47.",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      },
+      {
+        "type": "discoverCharacter",
+        "character": "theo"
+      }
+    ]
+  },
+  "ritual_3_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O caderno do detector tem duas colunas. A primeira está cheia de 1 e 0. A segunda termina no meio da página."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "No topo, Theo escreveu apenas: 'cresce enquanto continua; zero quando some'."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "bedroom"
+      }
+    ]
+  },
+  "ritual_3_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A coluna reconstruída encaixa nos registros seguintes. Na última linha útil, Theo desenhou uma seta curta: ESCRITÓRIO."
+      },
+      {
+        "type": "wait",
+        "duration": 450
+      },
+      {
+        "type": "sound",
+        "sound": "knock",
+        "blocking": true,
+        "duration": 280
+      }
+    ]
+  },
+  "office_first": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "door"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A porta abre devagar. O escritório está frio, apesar da lareira apagada."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "A mesa mudou."
+      },
+      {
+        "type": "wait",
+        "duration": 700
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Lívia olha para ele. Tomás não corrige a frase."
+      }
+    ]
+  },
+  "ritual_4_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Um caderno de medições está escondido sob o tampo da escrivaninha. Uma frase foi sublinhada duas vezes."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "'O selo só reconheceu o maior valor que vimos.'"
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "office"
+      }
+    ]
+  },
+  "ritual_4_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "unlock"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A gaveta da direita salta alguns milímetros. Atrás da madeira há um segundo fundo."
+      }
+    ]
+  },
+  "office_blueprint": {
+    "events": [
+      {
+        "type": "showEvidence",
+        "title": "PLANTA ORIGINAL — ALA LESTE",
+        "body": "GALERIA ───── 4,8 m ───── ESCRITÓRIO\n\nAs medidas externas da ala não fecham com as internas.",
+        "clue": {
+          "id": "hidden_room_blueprint",
+          "title": "Planta da ala leste",
+          "text": "As medidas externas e internas deixam 4,8 m sem correspondência entre a galeria e o escritório.",
+          "view": {
+            "title": "PLANTA ORIGINAL — ALA LESTE",
+            "body": "GALERIA ───── 4,8 m ───── ESCRITÓRIO\n\nAs medidas externas da ala não fecham com as internas.",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      }
+    ]
+  },
+  "office_neri_memo": {
+    "events": [
+      {
+        "type": "showEvidence",
+        "title": "MEMORANDO — A. NERI",
+        "body": "Não é um quarto.\nÉ a pausa entre duas posições.\n\nQuando a casa repetir a mesma resposta, não interrompa.\nConte quanto tempo ela insiste.\n\nTomás não deve voltar aqui.",
+        "clue": {
+          "id": "neri_memo",
+          "title": "Memorando de Augusto",
+          "text": "Augusto relaciona uma passagem a um padrão que permanece sem mudar e registra o nome de Tomás.",
+          "view": {
+            "title": "MEMORANDO — A. NERI",
+            "body": "Não é um quarto.\nÉ a pausa entre duas posições.\n\nQuando a casa repetir a mesma resposta, não interrompa.\nConte quanto tempo ela insiste.\n\nTomás não deve voltar aqui.",
+            "stamp": "ARQUIVO DE CAMPO"
+          }
+        }
+      },
+      {
+        "type": "setFlag",
+        "flag": "found_neri_memo",
+        "value": true
+      }
+    ]
+  },
+  "basement_first": {
+    "events": [
+      {
+        "type": "music",
+        "track": "basement"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O ar muda antes do último degrau. Pedra úmida, metal e o cheiro doce do vinho velho."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Não desce mais um."
+      },
+      {
+        "type": "wait",
+        "duration": 650
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Foi aqui."
+      }
+    ]
+  },
+  "basement_bottle": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Entre as garrafas há um estojo de couro sem identificação. Dentro dele, um cilindro de fonógrafo foi embrulhado em tecido encerado."
+      },
+      {
+        "type": "addClue",
+        "clue": {
+          "id": "unlabelled_bottle",
+          "title": "Cilindro escondido",
+          "text": "Um cilindro de fonógrafo de campo foi escondido entre as garrafas da adega."
+        }
+      }
+    ]
+  },
+  "ritual_5_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Quatro marcas na parede pulsam em intervalos diferentes. O detector transforma cada pulso em um número."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "É isso que Augusto estava tentando medir."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "basement"
+      }
+    ]
+  },
+  "ritual_5_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "wait",
+        "duration": 900
+      },
+      {
+        "type": "sound",
+        "sound": "knock",
+        "blocking": true,
+        "duration": 280
+      },
+      {
+        "type": "wait",
+        "duration": 650
+      },
+      {
+        "type": "sound",
+        "sound": "knock",
+        "blocking": true,
+        "duration": 280
+      },
+      {
+        "type": "wait",
+        "duration": 800
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Uma linha escura aparece entre duas pedras. Continua para cima até desaparecer no teto."
+      },
+      {
+        "type": "sound",
+        "sound": "door"
+      },
+      {
+        "type": "scene",
+        "scene": "ending_rescue"
+      }
+    ]
+  },
+  "ending_rescue": {
+    "events": [
+      {
+        "type": "setFlag",
+        "flag": "theo_found",
+        "value": true
+      },
+      {
+        "type": "say",
+        "speaker": "Theo",
+        "text": "Vocês fazem barulho demais."
+      },
+      {
+        "type": "wait",
+        "duration": 600
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A voz vem do outro lado. Theo está sentado no chão, pálido e acordado, com um pequeno fonógrafo de campo nas mãos."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Theo."
+      },
+      {
+        "type": "say",
+        "speaker": "Theo",
+        "text": "Oi, Li."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás não olha para ele. Olha para o fonógrafo."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Isso era do Augusto."
+      },
+      {
+        "type": "sound",
+        "sound": "tape"
+      },
+      {
+        "type": "say",
+        "speaker": "Augusto — gravação",
+        "text": "Se isso está tocando, a passagem abriu de novo."
+      },
+      {
+        "type": "wait",
+        "duration": 850
+      },
+      {
+        "type": "say",
+        "speaker": "Augusto — gravação",
+        "text": "Tomás... se for você, não deixa que encontrem o segundo local."
+      },
+      {
+        "type": "setFlag",
+        "flag": "ending_completed",
+        "value": true
+      },
+      {
+        "type": "conditionalScene",
+        "condition": {
+          "type": "clueCountAtLeast",
+          "value": 6
+        },
+        "trueScene": "ending_secret",
+        "falseScene": "ending_card"
+      }
+    ]
+  },
+  "ending_secret": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Já do lado de fora, Tomás espera até Lívia acomodar Theo na carruagem."
+      },
+      {
+        "type": "showEvidence",
+        "title": "FOTOGRAFIA — VESPER, 2009",
+        "body": "Augusto Neri. Elisa Prado. Tomás Vale.\n\nUma quarta pessoa sem identificação.\n\nNo verso: VESPER."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Eu não lembrava dele na foto."
+      },
+      {
+        "type": "scene",
+        "scene": "ending_card"
+      }
+    ]
+  },
+  "ending_card": {
+    "events": [
+      {
+        "type": "endCase",
+        "title": "CASO 01 ENCERRADO",
+        "subtitle": "Theo Vesper foi encontrado. A gravação de Augusto aponta para outro local."
+      }
+    ]
+  },
+  "gate_tutorial_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A chave de Lívia gira até o fim. O portão não se move. O ferro responde com um estalo curto, como se outra trava segurasse o mecanismo por dentro."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Não força. A fechadura está funcionando."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Então o que está segurando o portão?"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás afasta a hera junto à fechadura. Seis marcas finas foram gravadas no ferro, quase invisíveis sob a ferrugem."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Selos de contenção. Cada marca sustenta uma parte da trava enquanto ainda consegue responder ao rito."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Ele abre a maleta. Uma placa de latão se encaixa sobre as marcas; uma agulha risca o rolo de papel cada vez que Tomás toca um dos selos."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Quando a marca ainda responde, a agulha registra 1. Quando o selo já se apagou, registra 0."
+      },
+      {
+        "type": "showEvidence",
+        "title": "TRANSCRIÇÃO DOS SELOS",
+        "body": "1   0   1   1   0   1"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "A trava se equilibra nos selos que continuam ativos. Para romper esse equilíbrio, precisamos declarar quantos ainda respondem."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Então eu percorro as seis leituras e conto quantas são iguais a 1."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Exato. Faz o rito responder essa contagem e o portão deve ceder."
+      },
+      {
+        "type": "setFlag",
+        "flag": "topic_rituals_established",
+        "value": true
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "gate"
+      }
+    ]
+  },
+  "ritual_0_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "wait",
+        "duration": 260
+      },
+      {
+        "type": "sound",
+        "sound": "unlock",
+        "blocking": true,
+        "duration": 420
+      },
+      {
+        "type": "sound",
+        "sound": "door"
+      },
+      {
+        "type": "transitionRoomBackground",
+        "duration": 360
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A agulha fixa a contagem no papel. Quatro dos seis selos escurecem ao mesmo tempo; a pressão no ferro desaparece."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O ferrolho recua. O portão se abre alguns centímetros sob o próprio peso."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "A chave nunca conseguiu passar dessa trava."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Porque a chave só fala com a fechadura."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "O rito fala com a regra que está sustentando o fenômeno. Se a regra estiver certa, a casa precisa responder."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Guarda essa ideia, {{player.name}}. Hoje foram seis marcas. Mais adiante, confiar no olho vai deixar de ser uma opção."
+      }
+    ]
+  },
+  "tomas_about_approach": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "O que exatamente devemos procurar primeiro?"
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Uma contradição concreta. Algo que deveria obedecer a uma regra simples e não obedece."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "No portão, por exemplo: Lívia tem a chave, a fechadura está inteira e mesmo assim o ferrolho não cede. Primeiro medimos isso."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Se a casa estiver interferindo, ela vai deixar um padrão antes de deixar uma explicação."
+      }
+    ]
+  },
+  "ifelse_gate_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A chave de Lívia gira até o fim. O portão não se move; uma marca estreita, ao lado da fechadura, parece mais escura que as outras."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Essa marca ainda pode estar segurando o ferrolho. A placa vai nos dizer se ela responde ao traço de teste."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Ele apoia uma pequena placa de metal sobre o risco. A agulha para em 1 quando o selo responde e em 0 quando já se apagou."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Se a marca responder, mandamos romper. Se estiver apagada, deixamos como está."
+      },
+      {
+        "type": "setFlag",
+        "flag": "topic_rituals_established",
+        "value": true
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "gate"
+      }
+    ]
+  },
+  "ifelse_gate_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "wait",
+        "duration": 260
+      },
+      {
+        "type": "sound",
+        "sound": "unlock",
+        "blocking": true,
+        "duration": 420
+      },
+      {
+        "type": "sound",
+        "sound": "door"
+      },
+      {
+        "type": "transitionRoomBackground",
+        "duration": 360
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás executa o traço indicado pela leitura. A pressão sai do ferro, e o ferrolho recua."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "A chave nunca conseguiu passar dessa trava."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Porque a chave fala com a fechadura. O rito fala com o que está prendendo a casa."
+      }
+    ]
+  },
+  "ifelse_hall_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A caixa devolvida pela polícia reúne coisas encontradas perto da entrada. No fundo, uma chave de ferro está embrulhada num pedaço de tecido."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Vamos testar só esta chave. Se ela reteve resíduo demais, abri-la aqui pode estragar a peça e o que estiver preso nela."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A placa de leitura risca um número de 0 a 10. Sete é o limite de segurança."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Abaixo de sete, examinamos a chave. Em sete ou mais, ela vai para isolamento primeiro."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "hall"
+      }
+    ]
+  },
+  "ifelse_hall_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás segue a decisão da leitura e termina o procedimento sem tocar na chave no momento errado."
+      },
+      {
+        "type": "say",
+        "speaker": "Lívia",
+        "text": "Theo passou a última semana na galeria. Fotografava os retratos, anotava os brasões e depois media as paredes."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "O telegrama também falava dos retratos."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Então começamos pela galeria."
+      }
+    ]
+  },
+  "ifelse_gallery_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A lanterna de Tomás passa pela moldura que Theo fotografou por último. A tinta perto do canto inferior parece mudar de tom sob a luz."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "A moldura não reage sempre do mesmo jeito. Pela leitura, nós a observamos de perto, prendemos o vidro antes de mexer ou simplesmente recuamos."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O mostrador marca uma intensidade de 0 a 10. Até 3, a tinta está quieta; de 4 a 7, o vidro precisa ser fixado; acima disso, ninguém toca na moldura."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Então a leitura decide entre observar, fixar ou recuar."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "gallery"
+      }
+    ]
+  },
+  "ifelse_gallery_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás trata a moldura como a leitura pede. A vibração cessa, e uma pequena placa sob o retrato revela o número do trinco da escada."
+      }
+    ]
+  },
+  "ifelse_bedroom_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "O detector que Theo deixou sobre a cômoda tem duas agulhas. Uma reage ao rastro que ele marcou pela casa; a outra treme quando a parede ao lado da cama está distorcida."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Rastro sem distorção é caminho. Rastro com distorção pode ser uma isca da casa."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A primeira leitura vale 1 quando o rastro foi encontrado. A segunda vale 1 quando há distorção."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Só seguimos se houver rastro e a parede não estiver distorcida."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "bedroom"
+      }
+    ]
+  },
+  "ifelse_bedroom_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás não entra na passagem sem a resposta certa. Ao fechar o detector, encontra uma tira de papel presa sob a tampa: ESCRITÓRIO."
+      },
+      {
+        "type": "sound",
+        "sound": "knock",
+        "blocking": true,
+        "duration": 280
+      }
+    ]
+  },
+  "ifelse_office_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Sob o tampo da escrivaninha, uma barra de metal atravessa uma cavidade. Ela se apoia num pino central; um bloco preso em cada lado impede que a gaveta se abra."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "A barra puxa a trava para o lado que faz mais força. E força aqui não é só peso: depende também de quão longe o bloco está do pino."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "A régua gravada na madeira dá as duas distâncias. A placa de leitura mede a massa de cada bloco."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Calculo massa vezes distância nos dois lados. Assim sabemos se prendemos a esquerda, a direita ou o centro."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "office"
+      }
+    ]
+  },
+  "ifelse_office_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "unlock"
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás prende a barra do modo indicado. A tensão sai da trava, e a gaveta da direita salta alguns milímetros. Atrás da madeira há um segundo fundo."
+      }
+    ]
+  },
+  "ifelse_basement_intro": {
+    "events": [
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Três marcas estão expostas na parede do porão. A primeira responde ao selo externo; a segunda marca se a linha entre as pedras está alinhada; a terceira acusa distorção no local."
+      },
+      {
+        "type": "say",
+        "speaker": "Tomás",
+        "text": "Se as duas primeiras responderem e não houver distorção, abrimos. Se o selo responder dentro de uma distorção, contemos. Nos outros casos, esperamos o próximo pulso."
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Cada marca registra 1 quando está presente: selo responde, passagem alinhada, distorção presente."
+      },
+      {
+        "type": "say",
+        "speaker": "Protagonista",
+        "text": "Primeiro testo a abertura completa. Depois vejo se precisamos conter. Se não, esperamos."
+      },
+      {
+        "type": "startChallenge",
+        "challengeSlot": "basement"
+      }
+    ]
+  },
+  "ifelse_basement_success": {
+    "events": [
+      {
+        "type": "sound",
+        "sound": "ritual"
+      },
+      {
+        "type": "wait",
+        "duration": 900
+      },
+      {
+        "type": "sound",
+        "sound": "knock",
+        "blocking": true,
+        "duration": 280
+      },
+      {
+        "type": "say",
+        "speaker": "Narrador",
+        "text": "Tomás executa a resposta sem se adiantar ao pulso. As marcas param de disputar a parede; uma linha escura aparece entre duas pedras e sobe até desaparecer no teto."
+      },
+      {
+        "type": "sound",
+        "sound": "door"
+      },
+      {
+        "type": "scene",
+        "scene": "ending_rescue"
+      }
+    ]
+  }
+}

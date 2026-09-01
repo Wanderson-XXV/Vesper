@@ -1,0 +1,25 @@
+{
+  "id": "vesper_case_02_observatory",
+  "title": "O Observatório das Nove Luzes",
+  "subtitle": "Caso 02",
+  "contentVersion": "1.1.0",
+  "ritualContractVersion": 1,
+  "startRoom": "obs_archive",
+  "startScene": "obs_intro_arrival",
+  "finalScene": "obs_final_choice",
+  "secretClueThreshold": 2,
+  "theme": { "accent": "#a8c6c8", "danger": "#a76d68" },
+  "audio": {
+    "ambient": {
+      "url": "./assets/suspense-intrigue.mp3",
+      "license": "User provided placeholder",
+      "source": "Project asset",
+      "author": "Unverified"
+    }
+  },
+  "learningTrack": "bridge_loops_arrays",
+  "supportedLanguages": ["java", "python"],
+  "knownCharacters": ["tomas"],
+  "rewards": { "caseCompletion": { "xp": 100, "fieldMarks": 10 } },
+  "version": "1.0.0"
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "arrays_beginner",
+    "name": "Registros e repetição",
+    "audience": "Arrays, for, if, comparação e estado",
+    "supportedLanguages": ["java", "python"],
+    "status": "playable",
+    "description": "Trilha atual: arrays, for, if, comparação, estado e máximo.",
+    "ritualSlots": {
+      "gate": "ritual_0",
+      "hall": "ritual_1",
+      "gallery": "ritual_2",
+      "bedroom": "ritual_3",
+      "office": "ritual_4",
+      "basement": "ritual_5"
+    },
+    "sceneSlots": {
+      "gate_ritual_intro": "gate_tutorial_intro",
+      "hall_ritual_intro": "ritual_1_intro",
+      "gallery_ritual_intro": "ritual_2_intro",
+      "bedroom_ritual_intro": "ritual_3_intro",
+      "office_ritual_intro": "ritual_4_intro",
+      "basement_ritual_intro": "ritual_5_intro"
+    }
+  },
+  {
+    "id": "conditionals_beginner",
+    "name": "Escolhas e condições",
+    "audience": "If, else, comparações e condições compostas",
+    "supportedLanguages": ["java", "python"],
+    "status": "playable",
+    "description": "Rituais de decisão: sinais isolados, comparações, ramificações e condições combinadas. Compartilha a mansão sem exigir arrays ou repetição.",
+    "ritualSlots": {
+      "gate": "ifelse_gate",
+      "hall": "ifelse_hall",
+      "gallery": "ifelse_gallery",
+      "bedroom": "ifelse_bedroom",
+      "office": "ifelse_office",
+      "basement": "ifelse_basement"
+    },
+    "notes": "Cada rito apresenta um objeto, uma leitura identificável, uma decisão e uma consequência imediata. A passagem para repetição fica fora desta track.",
+    "sceneSlots": {
+      "gate_ritual_intro": "ifelse_gate_intro",
+      "hall_ritual_intro": "ifelse_hall_intro",
+      "gallery_ritual_intro": "ifelse_gallery_intro",
+      "bedroom_ritual_intro": "ifelse_bedroom_intro",
+      "office_ritual_intro": "ifelse_office_intro",
+      "basement_ritual_intro": "ifelse_basement_intro"
+    }
+  }
+]

@@ -1,0 +1,7 @@
+node_modules
+.playwright-cli
+output
+.git
+deploy/backups
+*.log
+.env

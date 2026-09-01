@@ -1,0 +1,99 @@
+[
+  {
+    "id": "obs_archive",
+    "name": "Câmara de Registros",
+    "background": "./assets/rooms/observatorio/arquivo.png",
+    "interactions": [
+      {
+        "id": "obs_calibrate_reader",
+        "label": "Examinar o leitor de placas",
+        "kind": "ritual",
+        "sceneSlot": "calibration_intro",
+        "hideWhen": ["obs_calibration_done"]
+      },
+      {
+        "id": "obs_archive_registry",
+        "label": "Folhear o livro de acesso",
+        "scene": "obs_archive_registry",
+        "hideWhen": ["obs_registry_entry"]
+      },
+      {
+        "id": "obs_archive_ivo",
+        "label": "Ler a ficha do astrônomo",
+        "scene": "obs_archive_ivo",
+        "hideWhen": ["obs_ivo_known"]
+      },
+      {
+        "id": "obs_archive_telegram",
+        "label": "Reler o telegrama da diretoria",
+        "scene": "obs_archive_telegram",
+        "hideWhen": ["obs_telegram_read"]
+      },
+      {
+        "id": "obs_archive_margin",
+        "label": "Examinar as margens do rolo-índice",
+        "scene": "obs_archive_margin",
+        "requires": ["obs_calibration_done"],
+        "hideWhen": ["obs_ninth_not_star"]
+      },
+      {
+        "id": "obs_hidden_plate",
+        "label": "Verificar a gaveta desalinhada",
+        "scene": "obs_optional_plate",
+        "requires": ["obs_calibration_done"],
+        "hideWhen": ["obs_hidden_plate_found"]
+      },
+      {
+        "id": "obs_restore_catalog",
+        "label": "Confrontar o índice com o estado das gavetas",
+        "kind": "ritual",
+        "sceneSlot": "catalog_intro",
+        "requires": ["obs_calibration_done"],
+        "hideWhen": ["obs_catalog_done"]
+      },
+      {
+        "id": "obs_grimoire",
+        "label": "Consultar o Grimório",
+        "action": "openGrimoire"
+      }
+    ],
+    "npcs": ["tomas"],
+    "connections": [
+      {
+        "to": "obs_dome",
+        "label": "Subir para a cúpula",
+        "requires": ["obs_catalog_done"]
+      }
+    ]
+  },
+  {
+    "id": "obs_dome",
+    "name": "Cúpula Principal",
+    "background": "./assets/rooms/observatorio/cupula.png",
+    "firstEnterScene": "obs_dome_arrival",
+    "interactions": [
+      {
+        "id": "obs_dome_log",
+        "label": "Ler o rolo do regulador",
+        "scene": "obs_dome_log",
+        "hideWhen": ["obs_dome_log_read"]
+      },
+      {
+        "id": "obs_align_dome",
+        "label": "Preparar o calço do regulador",
+        "kind": "ritual",
+        "sceneSlot": "dome_intro",
+        "requires": ["obs_catalog_done"],
+        "hideWhen": ["obs_alignment_done"]
+      }
+    ],
+    "npcs": ["tomas"],
+    "connections": [
+      {
+        "to": "obs_archive",
+        "label": "Descer à câmara de registros",
+        "hideWhen": ["obs_alignment_done"]
+      }
+    ]
+  }
+]

@@ -1,0 +1,367 @@
+{
+  "obs_intro_arrival": {
+    "events": [
+      { "type": "music", "track": "ambient" },
+      { "type": "say", "speaker": "Narrador", "text": "A estrada termina em degraus de pedra, e os degraus terminam no Observatório de Santa Avelina. Acima do telhado, a cúpula gira contra o vento da tarde — devagar, para, volta a girar, como quem procura alguma coisa no escuro." },
+      { "type": "say", "speaker": "Narrador", "text": "Na porta, um ofício do instituto cobre a fechadura: interditado desde o desaparecimento do astrônomo." },
+      { "type": "say", "speaker": "Tomás", "text": "O instituto lacrou o prédio quando Ivo Marinho desapareceu. Três noites depois, a cúpula acordou. Sem caldeira acesa, sem vigia, sem operador." },
+      { "type": "say", "speaker": "Protagonista", "text": "E por que chamaram a gente, e não um mecânico?" },
+      { "type": "say", "speaker": "Tomás", "text": "Porque máquina parada é problema de mecânico. Máquina que trabalha sozinha é nosso." },
+      { "type": "say", "speaker": "Narrador", "text": "O lacre de papel sobre a fechadura está rompido. As fibras dobram para fora: o selo foi quebrado por dentro." },
+      { "type": "say", "speaker": "Protagonista", "text": "Alguém saiu daqui depois da interdição." },
+      { "type": "say", "speaker": "Tomás", "text": "Ou alguma coisa saiu. Anota." },
+      { "type": "addClue", "clue": { "id": "obs_seal_broken", "title": "Lacre rompido por dentro", "text": "O selo do instituto foi rompido de dentro para fora, depois da interdição." } },
+      { "type": "say", "speaker": "Tomás", "text": "Uma coisa antes de entrar. Este lugar é uma máquina de anotar: placas, rolos, catálogos. Se a cúpula se move, alguma coisa registrou o movimento. A gente lê o registro antes de acreditar na assombração." },
+      { "type": "say", "speaker": "Narrador", "text": "Tomás empurra a porta. Lá dentro, o ar cheira a papel velho e óleo de máquina." },
+      { "type": "setFlag", "flag": "obs_case_started", "value": true },
+      { "type": "scene", "scene": "obs_archive_first" }
+    ]
+  },
+
+  "obs_archive_first": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "As gavetas do catálogo acompanham a parede circular, centenas delas, cada uma com sua etiqueta de latão. Uma permanece alguns centímetros para fora, alinhada a nada." },
+      { "type": "say", "speaker": "Narrador", "text": "No centro da sala, o leitor de placas espera com uma placa ainda presa na coroa. No teto, a cada poucos segundos, o mecanismo da cúpula range e se corrige." },
+      { "type": "say", "speaker": "Tomás", "text": "Ninguém desligou nada. Ivo saiu no meio de um trabalho — ou o trabalho não deixou ele sair." },
+      { "type": "say", "speaker": "Protagonista", "text": "Por onde a gente começa?" },
+      { "type": "say", "speaker": "Tomás", "text": "Pelo instrumento que ainda está engatado. Depois o arquivo responde o resto." }
+    ]
+  },
+
+  "obs_archive_registry": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "O livro de acesso fica preso por uma corrente ao balcão. As páginas cheiram a umidade." },
+      {
+        "type": "showEvidence",
+        "title": "Livro de Acesso — últimas entradas",
+        "body": "14 — I. Marinho, rotina noturna.\n15 — I. Marinho, rotina noturna.\n16 — I. Marinho. (interdição decretada nesta data)\n—\n19 — I. Marinho.\n\nA última linha está datada de três noites atrás, na mesma grafia."
+      },
+      { "type": "addClue", "clue": { "id": "obs_registry_entry", "title": "Entrada impossível", "text": "O livro de acesso registra Ivo Marinho três noites atrás — dias depois do desaparecimento e do lacre." } },
+      { "type": "setFlag", "flag": "obs_registry_entry", "value": true },
+      { "type": "say", "speaker": "Protagonista", "text": "A grafia é dele?" },
+      { "type": "say", "speaker": "Tomás", "text": "Ou de alguém que estudou a grafia dele. As duas respostas são ruins." }
+    ]
+  },
+
+  "obs_archive_ivo": {
+    "events": [
+      {
+        "type": "showEvidence",
+        "title": "Ficha funcional — Ivo Marinho",
+        "body": "Astrônomo-responsável. Vinte e dois anos de instituto.\n\nAnotações da diretoria: 'metódico', 'irredutível', 'recusou a transferência duas vezes'.\n\nNo rodapé, em grafia apertada:\n'Um registro não mente. Registros são queimados, perdidos, reescritos — mas não mentem.'"
+      },
+      { "type": "say", "speaker": "Narrador", "text": "A ficha traz duas páginas de anotações miúdas, sempre na mesma grafia apertada. Você decora o traço." },
+      { "type": "setFlag", "flag": "obs_ivo_known", "value": true }
+    ]
+  },
+
+  "obs_archive_telegram": {
+    "events": [
+      {
+        "type": "showEvidence",
+        "title": "Telegrama — Diretoria do Instituto",
+        "body": "'A cúpula voltou a operar sem operador. Resolvam antes da votação de sexta. A alternativa na pauta é a demolição. Discrição absoluta.'"
+      },
+      { "type": "say", "speaker": "Tomás", "text": "É por isso que estamos aqui e não a polícia. Para o instituto, assombração é problema de relações públicas." },
+      { "type": "setFlag", "flag": "obs_telegram_read", "value": true }
+    ]
+  },
+
+  "obs_archive_margin": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "No rolo-índice, entre uma tira e outra, há anotações a grafite na margem. Uma grafia apertada, miúda, de quem escreve para si." },
+      {
+        "type": "showEvidence",
+        "title": "Margem do rolo-índice",
+        "body": "Anotações laterais, a grafite:\n\n'nono ponto de novo. fora de toda carta.'\n\n'A NONA NÃO É ESTRELA. CONTEM DE NOVO.'\n\n'e aqui contaram errado de propósito.'"
+      },
+      { "type": "addClue", "clue": { "id": "obs_ninth_not_star", "title": "A nona não é estrela", "text": "Na margem do índice, alguém de grafia miúda escreveu que a nona luz não é estrela — e que o arquivo foi contado errado de propósito.", "optional": true, "rewards": { "xp": 10, "fieldMarks": 2 } } },
+      { "type": "setFlag", "flag": "obs_ninth_not_star", "value": true }
+    ]
+  },
+
+  "obs_bridge_shutters_intro": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "A coroa do leitor travou no meio da volta. Doze lâminas cercam a placa; junto de cada uma, a agulha de bronze riscou uma marca fresca, de zero a dez." },
+      { "type": "say", "speaker": "Tomás", "text": "A cúpula está forçando o mecanismo por cima. Cada lâmina aguenta uma pressão, e a agulha marcou quanto cada uma aguenta agora." },
+      { "type": "say", "speaker": "Tomás", "text": "Sete é o limite. Daí para cima, a lâmina não cede — ela prende a coroa. Se eu girar com uma dessas solta, a coroa fecha em cima da placa." },
+      { "type": "say", "speaker": "Protagonista", "text": "Então antes de girar, você precisa saber quantas travas armar. Uma para cada lâmina que vai prender." },
+      { "type": "say", "speaker": "Tomás", "text": "Isso. Você declara a regra; eu armo as travas." },
+      { "type": "startChallenge", "challengeSlot": "calibration" }
+    ]
+  },
+  "obs_bridge_shutters_success": {
+    "events": [
+      { "type": "sound", "sound": "ritual" },
+      { "type": "say", "speaker": "Narrador", "text": "Tomás arma uma trava de cada vez, conferindo a marca de cada lâmina. Na última, a coroa cede e completa meia volta — e, na parede, uma fileira de gavetas avança com um estalo seco." },
+      { "type": "say", "speaker": "Narrador", "text": "A gaveta desalinhada não avançou com as outras. Continua alguns centímetros para fora." },
+      { "type": "say", "speaker": "Tomás", "text": "A máquina ainda resiste. Mas agora resiste no nosso ritmo." }
+    ]
+  },
+
+  "obs_optional_plate": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "Atrás da gaveta desalinhada há um vão estreito. Uma placa menor foi embrulhada em tecido preto e presa ao fundo com cera. A cera ainda cede ao polegar." },
+      {
+        "type": "showEvidence",
+        "title": "Placa de Teste — exposição interrompida",
+        "body": "Oito pontos fixos cercam uma mancha sem contorno.\n\nNo verso, a grafite:\n\n'NÃO É UMA NONA ESTRELA. É A MESMA JANELA VISTA DO OUTRO LADO.'",
+        "clue": {
+          "id": "obs_hidden_plate",
+          "title": "Placa escondida",
+          "text": "Alguém registrou que a nona luz era uma janela refletida, não um astro — e escondeu a placa em cera.",
+          "optional": true,
+          "rewards": { "xp": 10, "fieldMarks": 2 }
+        }
+      },
+      { "type": "setFlag", "flag": "obs_hidden_plate_found", "value": true },
+      { "type": "conditionalScene", "condition": { "type": "flag", "flag": "obs_ivo_known", "equals": true }, "trueScene": "obs_optional_plate_known", "falseScene": "obs_optional_plate_unknown" }
+    ]
+  },
+  "obs_optional_plate_known": {
+    "events": [
+      { "type": "say", "speaker": "Protagonista", "text": "A grafia. É a mesma da ficha — é do Ivo." },
+      { "type": "say", "speaker": "Tomás", "text": "Ele entendeu o que estava vendo. E escondeu a prova de quem conhecia este arquivo bem o bastante para vir procurá-la." }
+    ]
+  },
+  "obs_optional_plate_unknown": {
+    "events": [
+      { "type": "say", "speaker": "Tomás", "text": "Alguém escondeu isto às pressas, de quem conhecesse o arquivo. Guarda." }
+    ]
+  },
+
+  "obs_bridge_exposures_intro": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "Do eixo do catálogo pendem duas tiras de papel, presas lado a lado. A primeira é o índice: o que a máquina registrou em cada gaveta, exposição por exposição. A segunda é o estado que a agulha encontrou hoje." },
+      { "type": "say", "speaker": "Tomás", "text": "O índice é escrito pela própria máquina a cada exposição. Para falsificá-lo, seria preciso trocar o rolo inteiro — e o rolo está lacrado desde a interdição." },
+      { "type": "say", "speaker": "Tomás", "text": "Confronta as duas tiras. Onde divergirem, mexeram na gaveta depois do lacre. Uma advertência: puxar a gaveta errada queima o que resta de emulsão dentro." },
+      { "type": "say", "speaker": "Protagonista", "text": "Então eu comparo posição por posição — a mesma gaveta nas duas tiras — e anoto o número de cada uma que não bate." },
+      { "type": "say", "speaker": "Tomás", "text": "Começando pela um. O arquivo não conhece gaveta zero." },
+      { "type": "startChallenge", "challengeSlot": "catalog" }
+    ]
+  },
+  "obs_bridge_exposures_success": {
+    "events": [
+      { "type": "sound", "sound": "ritual" },
+      { "type": "say", "speaker": "Narrador", "text": "Tomás puxa apenas as gavetas indicadas. Sete, oito, nove, dez: quatro luvas vazias, em sequência. Na três, restos de cera preta ainda brilham no fundo." },
+      { "type": "addClue", "clue": { "id": "obs_sequence_removed", "title": "Sequência removida", "text": "As gavetas 7 a 10 foram esvaziadas em bloco; a 3 foi esvaziada com cuidado e fechada com cera." } },
+      { "type": "say", "speaker": "Protagonista", "text": "Não falta uma placa. Falta uma sequência inteira. E a três foi esvaziada com cuidado — por último." },
+      { "type": "say", "speaker": "Tomás", "text": "Anota. Quem levou sabia como o arquivo numera. E sabia exatamente o que precisava sumir." },
+      { "type": "say", "speaker": "Narrador", "text": "Atrás da fileira vazia, uma haste que não consta na planta libera a escada da cúpula." }
+    ]
+  },
+
+  "obs_dome_arrival": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "A escada de ferro termina sob a cúpula. O telescópio se move em saltos curtos, e cada salto corrige o anterior — sempre para o mesmo ponto do céu." },
+      { "type": "say", "speaker": "Narrador", "text": "Nas cartas pregadas à bancada, aquele ponto não tem nome nem número. Só um círculo a grafite, na grafia apertada." },
+      { "type": "say", "speaker": "Tomás", "text": "Ele não acompanha estrela nenhuma das cartas. Está mantendo uma linha com alguma coisa." },
+      { "type": "say", "speaker": "Protagonista", "text": "Com alguma coisa onde?" },
+      { "type": "say", "speaker": "Tomás", "text": "É o que o registro vai dizer." }
+    ]
+  },
+
+  "obs_dome_log": {
+    "events": [
+      {
+        "type": "showEvidence",
+        "title": "Rolo do regulador",
+        "body": "A máquina anotou o humor da cúpula a cada batida: três estados, marcados 0, 1 e 2.\n\nNa margem, na grafia apertada:\n'quando se aquieta, ela escuta.'"
+      },
+      { "type": "say", "speaker": "Protagonista", "text": "Três humores. E trechos longos em que ela não muda." },
+      { "type": "say", "speaker": "Tomás", "text": "É nesses trechos que dá para trabalhar." },
+      { "type": "setFlag", "flag": "obs_dome_log_read", "value": true }
+    ]
+  },
+
+  "obs_bridge_alignment_intro": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "O regulador é uma coroa dentada do tamanho de uma roda de carroça. Tomás mostra o calço de bronze na palma da mão: uma vez encaixado, ele trava a cúpula." },
+      { "type": "say", "speaker": "Tomás", "text": "A engrenagem só aceita o calço enquanto o humor se mantém. Se a fase mudar com o calço dentro, a coroa estoura — e a cúpula fica livre de vez." },
+      { "type": "say", "speaker": "Tomás", "text": "O rolo marcou a fase a cada batida. A gente precisa do maior trecho em que ela não mudou." },
+      { "type": "say", "speaker": "Protagonista", "text": "Comparo cada batida com a anterior. O trecho mais comprido sem mudança é a nossa janela para encaixar o calço." },
+      { "type": "startChallenge", "challengeSlot": "dome" }
+    ]
+  },
+  "obs_bridge_alignment_success": {
+    "events": [
+      { "type": "sound", "sound": "ritual", "blocking": true, "duration": 420 },
+      { "type": "say", "speaker": "Narrador", "text": "Tomás escolhe a batida e encaixa o calço. A coroa range, segura — e para. Pela primeira vez em dias, a cúpula inteira silencia." },
+      { "type": "say", "speaker": "Narrador", "text": "A luz, não. Ela atravessa a lente parada e se desenha no vidro do regulador: oito estrelas, nas posições que as cartas conhecem. E um nono ponto — baixo demais, quente demais — onde nenhuma carta marca nada." },
+      { "type": "conditionalScene", "condition": { "type": "flag", "flag": "obs_ninth_not_star", "equals": true }, "trueScene": "obs_alignment_reveal_clue", "falseScene": "obs_alignment_reveal_plain" }
+    ]
+  },
+  "obs_alignment_reveal_clue": {
+    "events": [
+      { "type": "say", "speaker": "Protagonista", "text": "'A nona não é estrela.' Estava escrito na margem do índice." },
+      { "type": "say", "speaker": "Tomás", "text": "Não é. Olha os cantos." },
+      { "type": "say", "speaker": "Narrador", "text": "O nono ponto tem quatro cantos, como uma moldura: uma janela acesa, vista de muito longe." },
+      { "type": "scene", "scene": "obs_final_choice" }
+    ]
+  },
+  "obs_alignment_reveal_plain": {
+    "events": [
+      { "type": "say", "speaker": "Tomás", "text": "Olha os cantos." },
+      { "type": "say", "speaker": "Narrador", "text": "O nono ponto não é redondo. Tem quatro cantos, como uma moldura: uma janela acesa, vista de muito longe." },
+      { "type": "scene", "scene": "obs_final_choice" }
+    ]
+  },
+
+  "obs_advanced_plate_grid_intro": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "O carro óptico desliza sobre a placa em dois trilhos: linha por linha, coluna por coluna. Na emulsão, uma grade de marcas — e uma célula onde a luz quase furou o vidro." },
+      { "type": "say", "speaker": "Tomás", "text": "O carro precisa parar exatamente sobre a célula de maior marca. Se eu mover a lente sobre a célula errada, o trilho risca a única placa íntegra." },
+      { "type": "say", "speaker": "Protagonista", "text": "Então eu visito cada célula e guardo o endereço da mais forte — linha e coluna, contando de um." },
+      { "type": "startChallenge", "challengeSlot": "calibration" }
+    ]
+  },
+  "obs_advanced_plate_grid_success": {
+    "events": [
+      { "type": "sound", "sound": "ritual" },
+      { "type": "say", "speaker": "Narrador", "text": "O carro range sobre os trilhos e para. Sob a lente, o ponto claro se divide em quatro traços finos — e a gaveta abaixo do leitor destrava." },
+      { "type": "say", "speaker": "Tomás", "text": "Isso não é defeito de emulsão. Alguma coisa bateu exatamente ali. E bateu de fora." }
+    ]
+  },
+
+  "obs_advanced_catalog_intro": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "Na gaveta destravada, dezoito etiquetas soltas, arrancadas das placas. Nas bordas, os quatro símbolos do arquivo: círculo, chave, olho e torre." },
+      { "type": "say", "speaker": "Tomás", "text": "Quem esvaziou as gavetas precisou fechar a contagem do arquivo — etiqueta demais denuncia. Então repetiram uma categoria até o volume bater." },
+      { "type": "say", "speaker": "Tomás", "text": "A categoria que sobra é a falsa. E procurar gaveta por gaveta expõe as emulsões à luz." },
+      { "type": "say", "speaker": "Protagonista", "text": "Então eu conto quantas vezes cada símbolo aparece. O mais repetido é a adulteração." },
+      { "type": "startChallenge", "challengeSlot": "catalog" }
+    ]
+  },
+  "obs_advanced_catalog_success": {
+    "events": [
+      { "type": "sound", "sound": "ritual" },
+      { "type": "say", "speaker": "Narrador", "text": "Tomás pressiona o símbolo indicado no índice. A gaveta falsa se desprende do trilho — atrás dela, uma haste que não consta na planta libera a escada da cúpula." },
+      { "type": "addClue", "clue": { "id": "obs_catalog_gap", "title": "Categoria adulterada", "text": "Uma categoria foi repetida para fechar a contagem do arquivo e esconder as gavetas esvaziadas." } },
+      { "type": "say", "speaker": "Protagonista", "text": "Eles conheciam o método do arquivo. Sabiam que a contagem precisava fechar." },
+      { "type": "say", "speaker": "Tomás", "text": "E sabiam que um dia alguém ia conferir." }
+    ]
+  },
+
+  "obs_advanced_ninth_light_intro": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "No vidro do regulador, a projeção se divide em dezesseis células. Cada uma traz um dos quatro sinais gravados no mecanismo — e, na tira ao lado, a máquina marcou quais células estavam firmes a cada batida." },
+      { "type": "say", "speaker": "Tomás", "text": "A luz de fora só escreve onde a cúpula está firme. Nas células trêmulas, o mecanismo escreve ruído." },
+      { "type": "say", "speaker": "Tomás", "text": "O sinal verdadeiro é o que domina as células firmes. Se eu calçar a engrenagem do sinal errado, a gente não interrompe o alinhamento — a gente completa." },
+      { "type": "say", "speaker": "Protagonista", "text": "Então eu esqueço a grade inteira e olho só onde ela estava firme. Conto os sinais dali e fico com o mais frequente." },
+      { "type": "startChallenge", "challengeSlot": "dome" }
+    ]
+  },
+  "obs_advanced_ninth_light_success": {
+    "events": [
+      { "type": "sound", "sound": "ritual", "blocking": true, "duration": 420 },
+      { "type": "say", "speaker": "Narrador", "text": "Tomás encaixa o calço na engrenagem do sinal indicado. A coroa range, segura — e para. Pela primeira vez em dias, a cúpula inteira silencia." },
+      { "type": "say", "speaker": "Narrador", "text": "A luz, não. Ela atravessa a lente parada e se desenha no vidro: oito estrelas, nas posições que as cartas conhecem. E um nono ponto onde nenhuma carta marca nada." },
+      { "type": "conditionalScene", "condition": { "type": "flag", "flag": "obs_ninth_not_star", "equals": true }, "trueScene": "obs_alignment_reveal_clue", "falseScene": "obs_alignment_reveal_plain" }
+    ]
+  },
+
+  "tomas_about_declaration": {
+    "events": [
+      { "type": "say", "speaker": "Protagonista", "text": "O que significa, exatamente, 'declarar' um ritual?" },
+      { "type": "say", "speaker": "Tomás", "text": "O trabalho tem duas metades. A declaração é a lei escrita sem brecha: o que conta, o que não conta, o que acontece com cada marca. O trabalho é a operação — travar, calçar, puxar." },
+      { "type": "say", "speaker": "Tomás", "text": "A anomalia responde à declaração, não à intenção. Se a lei tem brecha, o ritual responde errado. Aqui, errado quebra máquina. Em outros lugares, quebra gente." },
+      { "type": "say", "speaker": "Protagonista", "text": "Então escrever a regra é a parte perigosa." },
+      { "type": "say", "speaker": "Tomás", "text": "Sempre foi. O instrumento só obedece." }
+    ]
+  },
+  "tomas_about_interdiction": {
+    "events": [
+      { "type": "say", "speaker": "Protagonista", "text": "O que o instituto sabe sobre o desaparecimento do Ivo?" },
+      { "type": "say", "speaker": "Tomás", "text": "O oficial: ele faltou ao turno, a cúpula estava parada, a porta sem arrombamento. Lacraram o prédio no mesmo dia. Três noites depois, a cúpula acordou." },
+      { "type": "say", "speaker": "Protagonista", "text": "E o lacre rompido por dentro?" },
+      { "type": "say", "speaker": "Tomás", "text": "Não consta no ofício. O instituto lacrou um prédio vazio. Ou acha que lacrou." }
+    ]
+  },
+  "tomas_about_ivo": {
+    "events": [
+      { "type": "say", "speaker": "Protagonista", "text": "Que tipo de pessoa era o Ivo?" },
+      { "type": "say", "speaker": "Tomás", "text": "Metódico demais para sumir sem deixar recado. Vinte e dois anos no mesmo instituto, recusou transferência duas vezes." },
+      { "type": "say", "speaker": "Tomás", "text": "Gente assim não abandona o arquivo. Esconde." },
+      { "type": "say", "speaker": "Protagonista", "text": "Você acha que ele sabia que iam mexer nos registros?" },
+      { "type": "say", "speaker": "Tomás", "text": "Acho que ele contava com isso." }
+    ]
+  },
+  "tomas_about_window": {
+    "events": [
+      { "type": "say", "speaker": "Protagonista", "text": "Você já viu uma luz que não fosse estrela?" },
+      { "type": "say", "speaker": "Tomás", "text": "Já vi um lugar responder a outro. Medida por medida, como um eco com atraso. Nunca por uma janela." },
+      { "type": "say", "speaker": "Protagonista", "text": "E o que tem do outro lado de uma janela dessas?" },
+      { "type": "say", "speaker": "Tomás", "text": "Se eu soubesse, não precisava de você declarando os rituais." }
+    ]
+  },
+
+  "obs_final_choice": {
+    "events": [
+      { "type": "say", "speaker": "Narrador", "text": "Sobre a bancada, entre vocês, a placa que registrou a janela esfria devagar. Lá fora, a noite inteira sem o rangido da cúpula." },
+      { "type": "say", "speaker": "Tomás", "text": "A cúpula parou. A correspondência, não. Enquanto esta placa existir, a janela pode ser encontrada de novo — por nós, ou por quem esvaziou as gavetas." },
+      { "type": "say", "speaker": "Protagonista", "text": "Se destruirmos, ninguém mais prova o que aconteceu aqui. Se guardarmos, a porta fica fechada — mas continua sendo uma porta." },
+      {
+        "type": "choice",
+        "id": "obs_plate_fate",
+        "prompt": "O que deve acontecer com a última placa?",
+        "context": "Não existe resposta segura. A decisão entrará no relatório do investigador.",
+        "options": [
+          {
+            "id": "preserve",
+            "label": "Preservar a placa sob lacre de campo",
+            "description": "Guardar a prova e aceitar o risco de ela voltar a responder.",
+            "setFlags": ["obs_plate_preserved"],
+            "relation": { "character": "tomas", "amount": 1 },
+            "scene": "obs_preserve_router"
+          },
+          {
+            "id": "destroy",
+            "label": "Queimar a emulsão",
+            "description": "Fechar a porta de vez e abrir mão da prova material.",
+            "setFlags": ["obs_plate_destroyed"],
+            "relation": { "character": "tomas", "amount": -1 },
+            "scene": "obs_destroy_router"
+          }
+        ]
+      }
+    ]
+  },
+  "obs_preserve_router": {
+    "events": [
+      { "type": "conditionalScene", "condition": { "type": "flag", "flag": "obs_hidden_plate_found", "equals": true }, "trueScene": "obs_preserve_with_clue", "falseScene": "obs_preserve_without_clue" }
+    ]
+  },
+  "obs_destroy_router": {
+    "events": [
+      { "type": "conditionalScene", "condition": { "type": "flag", "flag": "obs_hidden_plate_found", "equals": true }, "trueScene": "obs_destroy_with_clue", "falseScene": "obs_destroy_without_clue" }
+    ]
+  },
+  "obs_preserve_with_clue": {
+    "events": [
+      { "type": "say", "speaker": "Tomás", "text": "Você leu o aviso dele e ainda quer guardar isto. Então a contenção fica sob o seu nome — e o aviso, na capa." },
+      { "type": "say", "speaker": "Narrador", "text": "Na maleta fechada, as duas placas refletem a mesma janela. Em uma delas, há uma silhueta diante da luz." },
+      { "type": "endCase", "endingId": "preserved", "title": "A prova permanece", "subtitle": "A cúpula foi contida. A última placa entrou no Arquivo Vesper sob sua responsabilidade.", "hookLabel": "REGISTRO SEGUINTE", "hook": "A JANELA TEM UMA TESTEMUNHA" }
+    ]
+  },
+  "obs_preserve_without_clue": {
+    "events": [
+      { "type": "say", "speaker": "Tomás", "text": "Preservamos, então. Mas ninguém abre a contenção sem você presente." },
+      { "type": "say", "speaker": "Narrador", "text": "Quando a maleta se fecha, uma luz retangular atravessa por um instante a junta de metal." },
+      { "type": "endCase", "endingId": "preserved", "title": "A prova permanece", "subtitle": "A cúpula foi contida. A última placa entrou no Arquivo Vesper sob sua responsabilidade.", "hookLabel": "REGISTRO SEGUINTE", "hook": "ORIGEM DA JANELA — DESCONHECIDA" }
+    ]
+  },
+  "obs_destroy_with_clue": {
+    "events": [
+      { "type": "say", "speaker": "Tomás", "text": "O aviso do astrônomo pesa a favor do fogo. Faça." },
+      { "type": "say", "speaker": "Narrador", "text": "O reagente escurece a emulsão devagar, como uma noite entrando pela placa. A cópia escondida fica no Arquivo: nela, a janela ainda tem uma silhueta diante da luz." },
+      { "type": "endCase", "endingId": "destroyed", "title": "A luz interrompida", "subtitle": "A última placa foi inutilizada. O observatório tornou a ficar imóvel, mas uma cópia sobreviveu.", "hookLabel": "REGISTRO SEGUINTE", "hook": "A JANELA TEM UMA TESTEMUNHA" }
+    ]
+  },
+  "obs_destroy_without_clue": {
+    "events": [
+      { "type": "say", "speaker": "Tomás", "text": "Sem a placa, talvez nunca encontremos a origem. Também não damos a ela outro caminho até aqui." },
+      { "type": "say", "speaker": "Narrador", "text": "O reagente escurece a emulsão. A abertura da cúpula deixa de corrigir a posição e aponta, quieta, para um céu que não responde." },
+      { "type": "endCase", "endingId": "destroyed", "title": "A luz interrompida", "subtitle": "A última placa foi inutilizada. O observatório tornou a ficar imóvel, sem prova material da nona luz.", "hookLabel": "REGISTRO SEGUINTE", "hook": "ORIGEM DA JANELA — DESCONHECIDA" }
+    ]
+  }
+}

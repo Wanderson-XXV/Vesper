@@ -1,0 +1,10 @@
+{
+  "id": "character_id",
+  "knownByDefault": false,
+  "profile": {
+    "role": "Papel conhecido pelo jogador",
+    "firstImpression": "Observação da protagonista",
+    "knownFacts": [],
+    "linkedEvidence": []
+  }
+}

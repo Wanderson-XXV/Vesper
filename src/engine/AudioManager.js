@@ -1,0 +1,139 @@
+export class AudioManager {
+  constructor(state, campaign) {
+    this.state = state;
+    this.campaign = campaign;
+    this.music = null;
+    this.currentTrack = null;
+    this.ctx = null;
+  }
+
+  ensureContext() {
+    if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+  }
+
+  musicGain() {
+    const s = this.state.data.settings;
+    if (s.muted) return 0;
+    return Math.max(0, Math.min(1, Number(s.masterVolume ?? 0.8) * Number(s.musicVolume ?? 0.22)));
+  }
+
+  sfxGain() {
+    const s = this.state.data.settings;
+    if (s.muted) return 0;
+    return Math.max(0, Math.min(1, Number(s.masterVolume ?? 0.8) * Number(s.sfxVolume ?? 0.9)));
+  }
+
+  refreshMusicVolume() {
+    if (this.music) this.music.volume = this.musicGain();
+  }
+
+  setMasterVolume(v) {
+    this.state.data.settings.masterVolume = Number(v);
+    this.refreshMusicVolume();
+    this.state.save();
+  }
+
+  setMusicVolume(v) {
+    this.state.data.settings.musicVolume = Number(v);
+    this.refreshMusicVolume();
+    this.state.save();
+  }
+
+  setSfxVolume(v) {
+    this.state.data.settings.sfxVolume = Number(v);
+    this.state.save();
+  }
+
+  setMuted(muted) {
+    this.state.data.settings.muted = Boolean(muted);
+    this.refreshMusicVolume();
+    this.state.save();
+  }
+
+  async playMusic(track) {
+    const def = this.campaign.audio?.[track];
+    if (!def || this.currentTrack === track) return;
+    this.currentTrack = track;
+    if (this.music) { this.music.pause(); this.music = null; }
+    try {
+      const audio = new Audio(def.url);
+      audio.loop = true;
+      audio.preload = 'auto';
+      audio.volume = this.musicGain();
+      this.music = audio;
+      await audio.play();
+    } catch {
+      // Music is optional; the game remains playable without it.
+    }
+  }
+
+  stopMusic() {
+    if (this.music) this.music.pause();
+    this.music = null;
+    this.currentTrack = null;
+  }
+
+  playRemote(name) {
+    const def = this.campaign.audio?.[name];
+    if (!def || this.state.data.settings.muted) return;
+    try {
+      const a = new Audio(def.url);
+      a.volume = this.sfxGain();
+      a.play().catch(() => {});
+    } catch {}
+  }
+
+  synth(type) {
+    if (this.state.data.settings.muted) return;
+    this.ensureContext();
+    const ctx = this.ctx;
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.value = Math.max(0.015, this.sfxGain() * 0.34);
+    master.connect(ctx.destination);
+
+    if (type === 'knock') {
+      const osc = ctx.createOscillator(); const gain = ctx.createGain();
+      osc.type = 'triangle'; osc.frequency.setValueAtTime(92, now); osc.frequency.exponentialRampToValueAtTime(48, now + 0.14);
+      gain.gain.setValueAtTime(0.9, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+      osc.connect(gain); gain.connect(master); osc.start(now); osc.stop(now + 0.22);
+    } else if (type === 'ritual') {
+      [110, 164, 247].forEach((f, i) => {
+        const osc = ctx.createOscillator(); const gain = ctx.createGain();
+        osc.type = 'sine'; osc.frequency.value = f;
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(0.18, now + 0.08 + i * 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
+        osc.connect(gain); gain.connect(master); osc.start(now); osc.stop(now + 1.05);
+      });
+    } else if (type === 'unlock') {
+      [640, 420, 290].forEach((f, i) => {
+        const osc = ctx.createOscillator(); const gain = ctx.createGain();
+        osc.type = 'square'; osc.frequency.value = f;
+        gain.gain.setValueAtTime(0.08, now + i * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18 + i * 0.1);
+        osc.connect(gain); gain.connect(master); osc.start(now + i * 0.1); osc.stop(now + 0.25 + i * 0.1);
+      });
+    } else if (type === 'paper' || type === 'archive') {
+      this.noise(master, 0.22, 1100);
+    } else if (type === 'tape') {
+      this.noise(master, 0.8, 650);
+    }
+  }
+
+  noise(master, duration, cutoff) {
+    const ctx = this.ctx; const now = ctx.currentTime;
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+    const src = ctx.createBufferSource(); src.buffer = buffer;
+    const filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = cutoff;
+    src.connect(filter); filter.connect(master); src.start(now);
+  }
+
+  playSfx(name) {
+    if (name === 'door') return this.playRemote('door');
+    this.synth(name);
+  }
+}

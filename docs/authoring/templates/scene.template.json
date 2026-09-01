@@ -1,0 +1,8 @@
+{
+  "id": "scene_id",
+  "events": [
+    { "type": "say", "speaker": "tomas", "text": "..." },
+    { "type": "say", "speaker": "player", "text": "..." },
+    { "type": "setFlag", "flag": "context_introduced", "value": true }
+  ]
+}

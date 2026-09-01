@@ -1,0 +1,158 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "room_biblioteca",
+      "path": "assets/rooms/biblioteca.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_escritorio",
+      "path": "assets/rooms/escritorio.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_exterior",
+      "path": "assets/rooms/exterior.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_exterior_closed",
+      "path": "assets/rooms/exterior_closed.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_galeria",
+      "path": "assets/rooms/galeria.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_hall",
+      "path": "assets/rooms/hall.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_porao",
+      "path": "assets/rooms/porao.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_quarto",
+      "path": "assets/rooms/quarto.png",
+      "category": "production",
+      "kind": "background",
+      "status": "prototype-approved",
+      "provenance": "provided during project prototyping",
+      "licenseStatus": "review-before-public-release"
+    },
+    {
+      "id": "room_observatorio_arquivo",
+      "path": "assets/rooms/observatorio/arquivo.png",
+      "category": "production",
+      "kind": "background",
+      "status": "production-generated",
+      "provenance": "Generated for Vesper with OpenAI image generation on 2026-08-27",
+      "licenseStatus": "project-generated-review-before-public-release"
+    },
+    {
+      "id": "room_observatorio_cupula",
+      "path": "assets/rooms/observatorio/cupula.png",
+      "category": "production",
+      "kind": "background",
+      "status": "production-generated",
+      "provenance": "Generated for Vesper with OpenAI image generation on 2026-08-27",
+      "licenseStatus": "project-generated-review-before-public-release"
+    },
+    {
+      "id": "character_livia",
+      "path": "assets/characters/livia.png",
+      "category": "production",
+      "kind": "character-sprite",
+      "status": "prototype-approved",
+      "provenance": "Kalaverita Visual Novel Horror Asset Pack",
+      "licenseStatus": "CC BY-NC 4.0 reported by source page"
+    },
+    {
+      "id": "character_tomas",
+      "path": "assets/characters/tomas.png",
+      "category": "production",
+      "kind": "character-sprite",
+      "status": "prototype-approved",
+      "provenance": "Kalaverita Visual Novel Horror Asset Pack",
+      "licenseStatus": "CC BY-NC 4.0 reported by source page"
+    },
+    {
+      "id": "character_theo",
+      "path": "assets/source-packs/kalaverita-horror-vn/BUTLER_FACE1.png",
+      "category": "production",
+      "kind": "character-portrait",
+      "status": "prototype-approved",
+      "provenance": "Kalaverita Visual Novel Horror Asset Pack",
+      "licenseStatus": "CC BY-NC 4.0 reported by source page"
+    },
+    {
+      "id": "music_suspense_intrigue",
+      "path": "assets/suspense-intrigue.mp3",
+      "category": "production",
+      "kind": "music-placeholder",
+      "status": "prototype-only",
+      "provenance": "user-provided YouTube compilation",
+      "licenseStatus": "unverified-do-not-publish"
+    },
+    {
+      "id": "vesper_mark",
+      "path": "assets/vesper-mark.svg",
+      "category": "production",
+      "kind": "interface-mark",
+      "status": "production-code-native",
+      "provenance": "Created in-repository for Vesper",
+      "licenseStatus": "project-owned"
+    },
+    {
+      "id": "source_kalaverita_horror_vn",
+      "path": "assets/source-packs/kalaverita-horror-vn/",
+      "category": "source-pack",
+      "kind": "asset-pack",
+      "status": "reference-and-source",
+      "provenance": "https://kalaverita.itch.io/visual-novel-horror-asset-pack",
+      "licenseStatus": "CC BY-NC 4.0 reported by source page"
+    },
+    {
+      "id": "reference_ninah",
+      "path": "docs/references/ninah/",
+      "category": "reference",
+      "kind": "visual-reference",
+      "status": "reference-only",
+      "provenance": "user-supplied/research screenshots",
+      "licenseStatus": "not-for-production"
+    }
+  ]
+}

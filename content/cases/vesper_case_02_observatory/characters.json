@@ -1,0 +1,45 @@
+[
+  {
+    "id": "tomas",
+    "name": "Tomás Vale",
+    "role": "Investigador ritualista",
+    "description": "Parceiro de campo experiente. Ensina o ofício pela metade perigosa: a declaração.",
+    "portrait": "./assets/characters/tomas.png",
+    "topics": [
+      {
+        "id": "declaration",
+        "label": "O que significa, exatamente, 'declarar' um ritual?",
+        "scene": "tomas_about_declaration",
+        "requires": ["obs_case_started"]
+      },
+      {
+        "id": "interdiction",
+        "label": "O que o instituto sabe sobre o desaparecimento do Ivo?",
+        "scene": "tomas_about_interdiction",
+        "requires": ["obs_case_started"]
+      },
+      {
+        "id": "ivo",
+        "label": "Que tipo de pessoa era o Ivo?",
+        "scene": "tomas_about_ivo",
+        "requires": ["obs_ivo_known"]
+      },
+      {
+        "id": "window",
+        "label": "Você já viu um lugar responder a outro?",
+        "scene": "tomas_about_window",
+        "requires": ["obs_ninth_not_star"]
+      }
+    ],
+    "profile": {
+      "role": "Investigador ritualista",
+      "firstImpression": "Ele reconheceu o movimento da cúpula antes de ouvir o mecanismo.",
+      "knownFacts": [
+        "Foi chamado pela diretoria do instituto para parar a cúpula antes da votação de sexta.",
+        "Prefere confirmar uma marca no instrumento antes de dar nome ao fenômeno.",
+        "Já viu um lugar responder a outro — nunca por uma janela."
+      ],
+      "linkedEvidence": ["obs_hidden_plate"]
+    }
+  }
+]

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "bridge_loops_arrays",
+    "name": "Do sinal à sequência",
+    "audience": "Condicionais firmes; primeiro contato com loops e arrays",
+    "status": "playable",
+    "supportedLanguages": ["java", "python"],
+    "concepts": ["conditionals", "loops", "arrays", "state"],
+    "prerequisites": ["conditionals"],
+    "ritualSlots": {
+      "calibration": "obs_bridge_shutters",
+      "catalog": "obs_bridge_exposures",
+      "dome": "obs_bridge_alignment"
+    },
+    "sceneSlots": {
+      "calibration_intro": "obs_bridge_shutters_intro",
+      "catalog_intro": "obs_bridge_exposures_intro",
+      "dome_intro": "obs_bridge_alignment_intro"
+    }
+  },
+  {
+    "id": "advanced_collections",
+    "name": "Placas e catálogos",
+    "audience": "Arrays e loops firmes; introdução a matrizes e mapas",
+    "status": "playable",
+    "supportedLanguages": ["java", "python"],
+    "concepts": ["two_dimensional_arrays", "nested_loops", "maps", "frequency"],
+    "prerequisites": ["arrays", "loops"],
+    "ritualSlots": {
+      "calibration": "obs_advanced_plate_grid",
+      "catalog": "obs_advanced_catalog",
+      "dome": "obs_advanced_ninth_light"
+    },
+    "sceneSlots": {
+      "calibration_intro": "obs_advanced_plate_grid_intro",
+      "catalog_intro": "obs_advanced_catalog_intro",
+      "dome_intro": "obs_advanced_ninth_light_intro"
+    }
+  }
+]

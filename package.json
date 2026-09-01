@@ -1,0 +1,30 @@
+{
+  "name": "vesper-platform",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "db:migrate": "node server/migrate.mjs",
+    "bootstrap:local-mentor": "node server/bootstrap-local-mentor.mjs",
+    "user:create-mentor": "node server/create-mentor.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:ui": "playwright test",
+    "validate:content": "node scripts/validate-content.mjs",
+    "lint:narrative": "node scripts/lint-narrative.mjs",
+    "check:assets": "node scripts/check-assets.mjs",
+    "validate:agents": "node scripts/validate-agent-ready.mjs",
+    "validate": "npm run validate:content && npm run lint:narrative && npm run check:assets && npm run validate:agents && npm test"
+  },
+  "dependencies": {
+    "argon2": "^0.44.0",
+    "pg": "^8.16.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vesper.local/schemas/case-catalog.schema.json",
+  "type": "object",
+  "required": ["version", "defaultCase", "cases"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "defaultCase": { "type": "string", "minLength": 1 },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "contentPath", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "title": { "type": "string", "minLength": 1 },
+          "contentPath": { "type": "string", "pattern": "^\\./content/cases/" },
+          "status": { "enum": ["playable", "draft", "archived"] }
+        }
+      }
+    }
+  }
+}

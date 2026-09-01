@@ -1,0 +1,313 @@
+[
+  {
+    "id": "exterior",
+    "name": "Exterior da Mansão",
+    "background": "./assets/rooms/exterior.png",
+    "description": "",
+    "firstEnterScene": null,
+    "connections": [
+      {
+        "to": "hall",
+        "label": "Entrar na mansão",
+        "requires": [
+          "gate_unlocked"
+        ]
+      }
+    ],
+    "interactions": [
+      {
+        "id": "gate",
+        "label": "Examinar o portão",
+        "hideWhen": [
+          "gate_unlocked"
+        ],
+        "kind": "ritual",
+        "sceneSlot": "gate_ritual_intro",
+        "fallbackScene": "gate_tutorial_intro"
+      }
+    ],
+    "npcs": [
+      "livia",
+      "tomas"
+    ],
+    "backgroundStates": [
+      {
+        "requires": [
+          "gate_unlocked"
+        ],
+        "background": "./assets/rooms/exterior.png"
+      },
+      {
+        "background": "./assets/rooms/exterior_closed.png"
+      }
+    ]
+  },
+  {
+    "id": "hall",
+    "name": "Hall Principal",
+    "background": "./assets/rooms/hall.png",
+    "description": "",
+    "firstEnterScene": "hall_first",
+    "connections": [
+      {
+        "to": "exterior",
+        "label": "Voltar para o exterior"
+      },
+      {
+        "to": "biblioteca",
+        "label": "Ir para a biblioteca",
+        "requires": [
+          "ritual_1_completed"
+        ]
+      },
+      {
+        "to": "galeria",
+        "label": "Seguir para a galeria",
+        "requires": [
+          "ritual_1_completed"
+        ]
+      }
+    ],
+    "interactions": [
+      {
+        "id": "clock",
+        "label": "Olhar o relógio",
+        "scene": "hall_clock"
+      },
+      {
+        "id": "case",
+        "label": "Verificar os objetos devolvidos pela polícia",
+        "hideWhen": [
+          "ritual_1_completed"
+        ],
+        "kind": "ritual",
+        "sceneSlot": "hall_ritual_intro",
+        "fallbackScene": "ritual_1_intro"
+      },
+      {
+        "id": "family_portrait",
+        "label": "Examinar a fotografia no aparador",
+        "scene": "hall_family_portrait",
+        "once": true
+      }
+    ],
+    "npcs": [
+      "livia",
+      "tomas"
+    ]
+  },
+  {
+    "id": "biblioteca",
+    "name": "Biblioteca",
+    "background": "./assets/rooms/biblioteca.png",
+    "description": "",
+    "firstEnterScene": "library_first",
+    "connections": [
+      {
+        "to": "hall",
+        "label": "Voltar ao hall"
+      }
+    ],
+    "interactions": [
+      {
+        "id": "report",
+        "label": "Ver o que há sob o mata-borrão",
+        "scene": "library_report",
+        "once": true
+      },
+      {
+        "id": "shelf",
+        "label": "Examinar a estante sem catálogo",
+        "scene": "library_shelf",
+        "once": true
+      }
+    ],
+    "npcs": [
+      "tomas"
+    ]
+  },
+  {
+    "id": "galeria",
+    "name": "Galeria dos Vesper",
+    "background": "./assets/rooms/galeria.png",
+    "description": "",
+    "firstEnterScene": "gallery_first",
+    "connections": [
+      {
+        "to": "hall",
+        "label": "Voltar ao hall"
+      },
+      {
+        "to": "quarto",
+        "label": "Subir para a ala privada",
+        "requires": [
+          "ritual_2_completed"
+        ]
+      }
+    ],
+    "interactions": [
+      {
+        "id": "lineages",
+        "label": "Seguir as marcas deixadas por Theo",
+        "hideWhen": [
+          "ritual_2_completed"
+        ],
+        "kind": "ritual",
+        "sceneSlot": "gallery_ritual_intro",
+        "fallbackScene": "ritual_2_intro"
+      },
+      {
+        "id": "empty_frame",
+        "label": "Examinar as marcas na parede",
+        "scene": "gallery_empty_frame",
+        "once": true
+      },
+      {
+        "id": "late_portrait",
+        "label": "Examinar o que apareceu no corredor",
+        "scene": "gallery_changed_portrait",
+        "requires": [
+          "ritual_3_completed"
+        ],
+        "once": true
+      }
+    ],
+    "npcs": [
+      "tomas"
+    ]
+  },
+  {
+    "id": "quarto",
+    "name": "Quarto de Theo",
+    "background": "./assets/rooms/quarto.png",
+    "description": "",
+    "firstEnterScene": "theo_room_first",
+    "connections": [
+      {
+        "to": "galeria",
+        "label": "Voltar para a galeria"
+      },
+      {
+        "to": "escritorio",
+        "label": "Ir para o escritório",
+        "requires": [
+          "ritual_3_completed"
+        ]
+      }
+    ],
+    "interactions": [
+      {
+        "id": "detector",
+        "label": "Ligar o detector de Theo",
+        "hideWhen": [
+          "ritual_3_completed"
+        ],
+        "kind": "ritual",
+        "sceneSlot": "bedroom_ritual_intro",
+        "fallbackScene": "ritual_3_intro"
+      },
+      {
+        "id": "note",
+        "label": "Ler a página arrancada",
+        "scene": "theo_note",
+        "once": true
+      },
+      {
+        "id": "photo",
+        "label": "Examinar a fotografia na cômoda",
+        "scene": "theo_photo",
+        "once": true
+      }
+    ],
+    "npcs": []
+  },
+  {
+    "id": "escritorio",
+    "name": "Escritório de Vesper",
+    "background": "./assets/rooms/escritorio.png",
+    "description": "",
+    "firstEnterScene": "office_first",
+    "connections": [
+      {
+        "to": "quarto",
+        "label": "Voltar para o quarto de Theo"
+      },
+      {
+        "to": "porao",
+        "label": "Descer para o porão",
+        "requires": [
+          "ritual_4_completed"
+        ]
+      }
+    ],
+    "interactions": [
+      {
+        "id": "measurements",
+        "label": "Examinar o caderno de medições",
+        "hideWhen": [
+          "ritual_4_completed"
+        ],
+        "kind": "ritual",
+        "sceneSlot": "office_ritual_intro",
+        "fallbackScene": "ritual_4_intro"
+      },
+      {
+        "id": "blueprint",
+        "label": "Abrir a planta antiga",
+        "scene": "office_blueprint",
+        "requires": [
+          "ritual_4_completed"
+        ],
+        "once": true
+      },
+      {
+        "id": "neri_memo",
+        "label": "Ler o memorando de Augusto",
+        "scene": "office_neri_memo",
+        "requires": [
+          "ritual_4_completed"
+        ],
+        "once": true
+      }
+    ],
+    "npcs": [
+      "tomas"
+    ]
+  },
+  {
+    "id": "porao",
+    "name": "Porão",
+    "background": "./assets/rooms/porao.png",
+    "description": "",
+    "firstEnterScene": "basement_first",
+    "music": "basement",
+    "connections": [
+      {
+        "to": "escritorio",
+        "label": "Subir para o escritório",
+        "hideWhen": [
+          "ending_completed"
+        ]
+      }
+    ],
+    "interactions": [
+      {
+        "id": "seal",
+        "label": "Observar o padrão na parede",
+        "hideWhen": [
+          "ritual_5_completed"
+        ],
+        "kind": "ritual",
+        "sceneSlot": "basement_ritual_intro",
+        "fallbackScene": "ritual_5_intro"
+      },
+      {
+        "id": "bottle",
+        "label": "Examinar o frasco sem rótulo",
+        "scene": "basement_bottle",
+        "once": true
+      }
+    ],
+    "npcs": []
+  }
+]

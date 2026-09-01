@@ -1,0 +1,200 @@
+[
+  {
+    "id": "arrays",
+    "title": "Registros em sequência",
+    "concept": "Arrays",
+    "what": "Um array reúne vários valores do mesmo tipo sob um único nome. Em vez de criar uma variável para cada leitura, você guarda a sequência inteira e acessa cada posição pelo índice.",
+    "mentalModel": "Imagine o rolo de papel de um instrumento ritual: cada marca tem uma posição. O array é esse rolo transformado em dados. Você pode consultar uma marca específica ou caminhar por todas, da primeira até a última.",
+    "syntax": "int[] leituras = {1, 0, 1, 1, 0, 1};",
+    "example": "System.out.println(leituras[0]); // 1\nSystem.out.println(leituras.length); // 6",
+    "pythonSyntax": "leituras = [1, 0, 1, 1, 0, 1]",
+    "pythonExample": "print(leituras[0])  # 1\nprint(len(leituras))  # 6",
+    "commonMistake": "Confundir quantidade com último índice. Se length é 6, os índices vão de 0 até 5.",
+    "ritualUse": "Use quando um instrumento entregar várias leituras que precisam ser examinadas em ordem.",
+    "protagonistNote": "Quando o instrumento entrega várias marcas de uma vez, eu não preciso dar nome a cada uma. Guardo a sequência e trabalho pelas posições.",
+    "tomasTip": "Índice é posição, não quantidade. Se há seis leituras, as posições vão de 0 a 5."
+  },
+  {
+    "id": "variables",
+    "title": "Guardar uma medida",
+    "concept": "Variáveis e contadores",
+    "what": "Uma variável guarda um valor que pode ser consultado e alterado durante o programa. Um contador é apenas uma variável usada para registrar quantas vezes algo aconteceu.",
+    "mentalModel": "É uma anotação à margem do rito. Você começa com um valor conhecido e atualiza essa anotação conforme encontra novas evidências.",
+    "syntax": "int ativos = 0;\nativos++; // mesmo que ativos = ativos + 1",
+    "example": "int perigosos = 0;\nif (leitura >= 7) {\n    perigosos++;\n}",
+    "pythonSyntax": "ativos = 0\nativos += 1  # mesmo que ativos = ativos + 1",
+    "pythonExample": "perigosos = 0\nif leitura >= 7:\n    perigosos += 1",
+    "commonMistake": "Criar o contador dentro do bloco que se repete. Assim ele volta ao valor inicial antes de conseguir acumular a contagem.",
+    "ritualUse": "Use quando o rito precisa lembrar uma quantidade, um nível atual, uma posição ou qualquer valor que mude durante a análise.",
+    "protagonistNote": "Se eu preciso lembrar de alguma coisa depois que uma etapa termina, essa informação precisa estar guardada em uma variável.",
+    "tomasTip": "Dá um nome que diga o que a variável representa. “x” funciona; “selosAtivos” evita confusão."
+  },
+  {
+    "id": "comparisons",
+    "title": "Perguntas que o rito entende",
+    "concept": "Comparações",
+    "what": "Comparações produzem verdadeiro ou falso. Elas permitem perguntar se dois valores são iguais, diferentes ou se um está acima ou abaixo de outro.",
+    "mentalModel": "Antes de um if agir, ele precisa de uma pergunta objetiva. “A leitura chegou ao limite?” vira uma comparação como leitura >= 7.",
+    "syntax": "==  igual\n!=  diferente\n>   maior que\n<   menor que\n>=  maior ou igual\n<=  menor ou igual",
+    "example": "if (leitura >= 7) {\n    System.out.println(\"ISOLAR\");\n}",
+    "pythonSyntax": "==  igual\n!=  diferente\n>   maior que\n<   menor que\n>=  maior ou igual\n<=  menor ou igual",
+    "pythonExample": "if leitura >= 7:\n    print(\"ISOLAR\")",
+    "commonMistake": "Confundir = com ==. Um único = atribui um valor; == compara dois valores.",
+    "ritualUse": "Use sempre que uma regra depende de limite, igualdade, mudança ou classificação de uma leitura.",
+    "protagonistNote": "Quase todo rito começa ficando mais simples quando eu consigo transformar a regra numa pergunta de verdadeiro ou falso.",
+    "tomasTip": "Cuidado com as bordas. “Maior que 7” e “maior ou igual a 7” não são a mesma regra."
+  },
+  {
+    "id": "if-else",
+    "title": "Escolher entre dois procedimentos",
+    "concept": "if / else",
+    "what": "if / else escolhe exatamente um de dois procedimentos. Se a pergunta for verdadeira, o primeiro bloco acontece; se for falsa, o segundo acontece.",
+    "mentalModel": "Alguns ritos não pedem uma contagem: pedem uma escolha. Primeiro você faz uma pergunta objetiva sobre a leitura. A resposta decide qual procedimento Tomás pode executar.",
+    "syntax": "if (marca == 1) {\n    System.out.println(\"ROMPER\");\n} else {\n    System.out.println(\"IGNORAR\");\n}",
+    "example": "if (leitura < 7) {\n    System.out.println(\"EXAMINAR\");\n} else {\n    System.out.println(\"ISOLAR\");\n}",
+    "pythonSyntax": "if marca == 1:\n    print(\"ROMPER\")\nelse:\n    print(\"IGNORAR\")",
+    "pythonExample": "if leitura < 7:\n    print(\"EXAMINAR\")\nelse:\n    print(\"ISOLAR\")",
+    "commonMistake": "Escrever duas condições separadas quando há apenas dois resultados. Se uma resposta é o contrário exato da outra, else deixa isso claro.",
+    "ritualUse": "Use quando uma leitura exige uma de duas ações: romper ou ignorar, examinar ou isolar, seguir ou recuar.",
+    "protagonistNote": "Se a situação só admite dois procedimentos, não preciso inventar um terceiro caminho. A leitura escolhe um deles.",
+    "tomasTip": "Antes de escrever, diga as duas ações em voz alta. Se elas forem claras, a condição entre elas também costuma ser."
+  },
+  {
+    "id": "else-if",
+    "title": "Escolher entre faixas",
+    "concept": "if / else if / else",
+    "requires": [
+      "ritual_1_completed"
+    ],
+    "what": "Quando uma leitura pode cair em mais de duas situações, else if acrescenta uma nova pergunta antes do caso que sobra.",
+    "mentalModel": "Você testa as faixas em ordem. A primeira que combinar decide o procedimento. O else final fica com tudo que não entrou nas faixas anteriores.",
+    "syntax": "if (leitura <= 3) {\n    System.out.println(\"OBSERVAR\");\n} else if (leitura <= 7) {\n    System.out.println(\"FIXAR\");\n} else {\n    System.out.println(\"RECUAR\");\n}",
+    "example": "Uma leitura 6 não entra no primeiro teste. Ela entra no segundo e a resposta é FIXAR.",
+    "pythonSyntax": "if leitura <= 3:\n    print(\"OBSERVAR\")\nelif leitura <= 7:\n    print(\"FIXAR\")\nelse:\n    print(\"RECUAR\")",
+    "pythonExample": "leitura = 6\nif leitura <= 3:\n    print(\"OBSERVAR\")\nelif leitura <= 7:\n    print(\"FIXAR\")\nelse:\n    print(\"RECUAR\")",
+    "commonMistake": "Criar intervalos que se sobrepõem ou esquecer a borda. Depois de testar <= 3, testar <= 7 cobre naturalmente de 4 a 7.",
+    "ritualUse": "Use quando um mostrador define três procedimentos ou mais, como observar, estabilizar ou recuar diante de uma moldura.",
+    "protagonistNote": "Não preciso repetir todos os limites. Cada pergunta vem depois de excluir as anteriores.",
+    "tomasTip": "Organize as faixas da menor para a maior. Assim, cada teste fica menor e mais fácil de conferir."
+  },
+  {
+    "id": "combined-conditions",
+    "title": "Exigir dois sinais",
+    "concept": "&&",
+    "requires": [
+      "ritual_2_completed"
+    ],
+    "what": "O operador && une duas condições que precisam ser verdadeiras ao mesmo tempo.",
+    "mentalModel": "Uma passagem pode mostrar um rastro e, ainda assim, ser insegura. O rito só permite seguir quando os dois sinais exigidos concordam.",
+    "syntax": "if (rastro == 1 && distorcao == 0) {\n    System.out.println(\"SEGUIR\");\n} else {\n    System.out.println(\"RECUAR\");\n}",
+    "example": "rastro == 1 é verdadeiro, mas distorcao == 0 é falso quando a leitura é 1. Com &&, o conjunto é falso e a resposta é RECUAR.",
+    "pythonSyntax": "if rastro == 1 and distorcao == 0:\n    print(\"SEGUIR\")\nelse:\n    print(\"RECUAR\")",
+    "pythonExample": "rastro = 1\ndistorcao = 1\nif rastro == 1 and distorcao == 0:\n    print(\"SEGUIR\")\nelse:\n    print(\"RECUAR\")",
+    "commonMistake": "Ler && como se bastasse uma condição. Ele só produz verdadeiro quando todas as condições ligadas por ele são verdadeiras.",
+    "ritualUse": "Use quando dois sinais independentes precisam concordar antes de uma ação: rastro e segurança, selo e alinhamento, porta e ausência de interferência.",
+    "protagonistNote": "Se um sinal diz sim e o outro diz não, ainda não tenho permissão para agir.",
+    "tomasTip": "Separe as perguntas antes de uni-las. Se cada uma estiver certa sozinha, && mostra que as duas são exigidas."
+  },
+  {
+    "id": "named-measures",
+    "title": "Guardar medidas diferentes",
+    "concept": "Variáveis nomeadas",
+    "requires": [
+      "ritual_3_completed"
+    ],
+    "what": "Quando o rito recebe medidas com funções diferentes, cada uma precisa de uma variável com nome claro. Assim você consegue combinar os valores sem trocar um pelo outro.",
+    "mentalModel": "A régua da escrivaninha não entrega quatro versões da mesma coisa: ela informa uma massa e uma distância de cada lado. Dar nome a cada medida preserva o que ela representa.",
+    "syntax": "int massaEsquerda = scanner.nextInt();\nint distanciaEsquerda = scanner.nextInt();\nint massaDireita = scanner.nextInt();\nint distanciaDireita = scanner.nextInt();\n\nint forcaEsquerda = massaEsquerda * distanciaEsquerda;\nint forcaDireita = massaDireita * distanciaDireita;",
+    "example": "Se massaEsquerda é 3 e distanciaEsquerda é 5, a força esquerda é 15. Compare esse resultado com a força do outro lado.",
+    "pythonSyntax": "massa_esquerda = int(input())\ndistancia_esquerda = int(input())\nmassa_direita = int(input())\ndistancia_direita = int(input())\n\nforca_esquerda = massa_esquerda * distancia_esquerda\nforca_direita = massa_direita * distancia_direita",
+    "pythonExample": "massa_esquerda = 3\ndistancia_esquerda = 5\nforca_esquerda = massa_esquerda * distancia_esquerda\nprint(forca_esquerda)  # 15",
+    "commonMistake": "Comparar apenas as massas. Na trava, a distância ao eixo também muda a força que cada lado exerce.",
+    "ritualUse": "Use quando a decisão depende de mais de uma medida, como massa e distância, ou como selo, alinhamento e distorção.",
+    "protagonistNote": "Quando cada número tem uma origem diferente, dar um nome certo vale mais do que tentar lembrar a ordem de cabeça.",
+    "tomasTip": "Leia a ordem do registro e anote o que cada posição significa antes de calcular qualquer coisa."
+  },
+  {
+    "id": "for",
+    "title": "Repetir uma regra",
+    "concept": "For",
+    "what": "O for repete um mesmo bloco seguindo três partes: onde o percurso começa, até quando continua e como avança. É uma forma compacta de aplicar a mesma regra a várias posições.",
+    "mentalModel": "Você aponta para a primeira leitura, faz o que precisa, desloca o ponteiro e repete. O for automatiza exatamente esse movimento.",
+    "syntax": "for (int i = 0; i < leituras.length; i++) {\n    // regra repetida\n}",
+    "example": "for (int i = 0; i < leituras.length; i++) {\n    System.out.println(leituras[i]);\n}",
+    "pythonSyntax": "for i in range(len(leituras)):\n    # regra repetida",
+    "pythonExample": "for i in range(len(leituras)):\n    print(leituras[i])",
+    "commonMistake": "Usar i <= leituras.length. A última posição válida é length - 1, então normalmente usamos i < leituras.length.",
+    "ritualUse": "Use quando a mesma decisão precisa ser aplicada a muitas leituras.",
+    "protagonistNote": "Se eu perceber que estou copiando a mesma análise várias vezes, provavelmente falta um laço.",
+    "tomasTip": "Antes de escrever o for, diga em voz alta: onde começo, quando paro e como avanço."
+  },
+  {
+    "id": "if",
+    "title": "Decidir o que conta",
+    "concept": "If",
+    "what": "O if cria uma condição: o bloco só acontece quando a expressão entre parênteses é verdadeira. Ele é a peça básica para transformar uma leitura em decisão.",
+    "mentalModel": "O instrumento entrega uma marca; você faz uma pergunta sobre ela. Se a resposta for sim, executa a ação. Caso contrário, segue o rito sem executar aquele bloco.",
+    "syntax": "if (leituras[i] == 1) {\n    ativos++;\n}",
+    "example": "int ativos = 0;\nfor (int i = 0; i < leituras.length; i++) {\n    if (leituras[i] == 1) {\n        ativos++;\n    }\n}",
+    "pythonSyntax": "if leituras[i] == 1:\n    ativos += 1",
+    "pythonExample": "ativos = 0\nfor i in range(len(leituras)):\n    if leituras[i] == 1:\n        ativos += 1",
+    "commonMistake": "Usar = quando queria comparar. Para verificar igualdade entre inteiros, use ==.",
+    "ritualUse": "Use para separar leituras que obedecem a uma regra: ativo/inativo, seguro/perigoso, acima/abaixo do limite.",
+    "protagonistNote": "A condição precisa ser uma pergunta que tenha resposta de sim ou não. Se eu não consigo formular essa pergunta, ainda não entendi o problema.",
+    "tomasTip": "Não começa pelo código. Primeiro decide qual pergunta separa o que importa do que não importa."
+  },
+  {
+    "id": "previous",
+    "title": "Comparar com a marca anterior",
+    "concept": "Atual × anterior",
+    "requires": [
+      "ritual_1_completed"
+    ],
+    "what": "Alguns padrões só aparecem quando você compara uma leitura com a que veio imediatamente antes.",
+    "mentalModel": "A pergunta deixa de ser “qual é este valor?” e vira “este valor mudou em relação ao anterior?”.",
+    "syntax": "if (valores[i] != valores[i - 1]) {\n    // houve mudança\n}",
+    "example": "int grupos = 1;\nfor (int i = 1; i < valores.length; i++) {\n    if (valores[i] != valores[i - 1]) grupos++;\n}",
+    "pythonSyntax": "if valores[i] != valores[i - 1]:\n    # houve mudanca",
+    "pythonExample": "grupos = 1\nfor i in range(1, len(valores)):\n    if valores[i] != valores[i - 1]:\n        grupos += 1",
+    "commonMistake": "Começar em i = 0 e tentar acessar i - 1. Nesse caso, normalmente o percurso começa em 1.",
+    "ritualUse": "Use quando a mudança entre duas marcas consecutivas é mais importante que a marca isolada.",
+    "protagonistNote": "Às vezes a marca isolada não diz nada. O que importa é perceber o instante em que ela deixa de ser igual à anterior.",
+    "tomasTip": "Se você usa i - 1, começar em i = 0 quase sempre é um aviso para revisar o percurso."
+  },
+  {
+    "id": "state",
+    "title": "Guardar o estado atual",
+    "concept": "Estado",
+    "requires": [
+      "ritual_2_completed"
+    ],
+    "what": "Uma variável pode funcionar como memória enquanto o ritual percorre os registros.",
+    "mentalModel": "O ritual carrega uma informação de uma leitura para a próxima: um nível, uma sequência em andamento ou um contador que pode ser reiniciado.",
+    "syntax": "if (sinal == 1) {\n    nivel++;\n} else {\n    nivel = 0;\n}",
+    "example": "int nivel = 0;\nfor (int i = 0; i < sinais.length; i++) {\n    nivel = sinais[i] == 1 ? nivel + 1 : 0;\n}",
+    "pythonSyntax": "if sinal == 1:\n    nivel += 1\nelse:\n    nivel = 0",
+    "pythonExample": "nivel = 0\nfor sinal in sinais:\n    nivel = nivel + 1 if sinal == 1 else 0",
+    "commonMistake": "Recriar a variável dentro do for e perder a memória a cada repetição.",
+    "ritualUse": "Use quando o que acontece agora depende do que já estava acontecendo antes.",
+    "protagonistNote": "Uma variável fora do laço consegue carregar memória de uma leitura para a seguinte. É assim que o rito “lembra” o que já estava acontecendo.",
+    "tomasTip": "Pergunta qual informação precisa sobreviver quando o laço passa para a próxima posição."
+  },
+  {
+    "id": "max",
+    "title": "Não perder o maior valor",
+    "concept": "Máximo",
+    "requires": [
+      "ritual_3_completed"
+    ],
+    "what": "Quando um valor importante pode aparecer e depois sumir, uma segunda variável guarda o melhor resultado já visto.",
+    "mentalModel": "O valor atual muda o tempo todo; o recorde só muda quando alguma coisa o supera.",
+    "syntax": "if (atual > maior) {\n    maior = atual;\n}",
+    "example": "int maior = valores[0];\nfor (int i = 1; i < valores.length; i++) {\n    if (valores[i] > maior) maior = valores[i];\n}",
+    "pythonSyntax": "if atual > maior:\n    maior = atual",
+    "pythonExample": "maior = valores[0]\nfor i in range(1, len(valores)):\n    if valores[i] > maior:\n        maior = valores[i]",
+    "commonMistake": "Usar maior = 0 quando os dados podem ser negativos. Muitas vezes é mais seguro começar com o primeiro valor.",
+    "ritualUse": "Use quando o selo, detector ou registro responde ao maior pico já observado.",
+    "protagonistNote": "O valor atual pode diminuir depois. Se eu preciso lembrar do maior que já apareceu, guardo o recorde em outra variável.",
+    "tomasTip": "Atual e melhor não são a mesma coisa. Um muda o tempo todo; o outro só muda quando perde o recorde."
+  }
+]

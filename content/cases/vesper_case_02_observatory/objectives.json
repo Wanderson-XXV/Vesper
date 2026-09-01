@@ -1,0 +1,19 @@
+[
+  {
+    "id": "obs_objective_calibrate",
+    "text": "Fazer a coroa do leitor completar a volta sem esmagar a placa.",
+    "hideWhen": ["obs_calibration_done"]
+  },
+  {
+    "id": "obs_objective_catalog",
+    "text": "Descobrir quais gavetas do catálogo foram mexidas depois da interdição.",
+    "requires": ["obs_calibration_done"],
+    "hideWhen": ["obs_catalog_done"]
+  },
+  {
+    "id": "obs_objective_dome",
+    "text": "Encontrar a janela estável da cúpula e encaixar o calço.",
+    "requires": ["obs_catalog_done"],
+    "hideWhen": ["obs_alignment_done"]
+  }
+]
