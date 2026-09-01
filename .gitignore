@@ -13,7 +13,7 @@ test-results/
 # Local database backups and runtime state
 deploy/backups/
 *.dump
-*.sql
+deploy/backups/*.sql
 
 # Unlicensed prototype audio (keep local until publication rights are cleared)
 assets/audio/
