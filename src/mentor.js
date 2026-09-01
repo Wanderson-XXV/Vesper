@@ -1,8 +1,10 @@
 import { ApiClient } from './engine/ApiClient.js';
+import { appPath } from './engine/AppPaths.js';
 
 const root = document.querySelector('#mentorApp');
 const api = new ApiClient();
 const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+const rewriteAppLinks = () => root.querySelectorAll('a[href="/"]').forEach((link) => { link.href = appPath('/'); });
 
 function renderRows(rows, teamId) {
   if (!rows.length) return '<p class="mentor-empty">Nenhum aluno ou progresso registrado nesta equipe.</p>';
@@ -21,7 +23,7 @@ async function loadReport(teamId) {
   panel.innerHTML = '<p>Carregando relatório…</p>';
   try {
     const report = await api.request(`/api/mentor/teams/${teamId}/report`);
-    panel.innerHTML = `${renderRows(report.students, teamId)}<a class="ghost-btn mentor-export" href="/api/mentor/teams/${teamId}/report.csv">EXPORTAR CSV</a>`;
+    panel.innerHTML = `${renderRows(report.students, teamId)}<a class="ghost-btn mentor-export" href="${appPath(`/api/mentor/teams/${teamId}/report.csv`)}">EXPORTAR CSV</a>`;
     panel.querySelectorAll('[data-reset-student]').forEach((button) => button.onclick = async () => {
       if (!confirm('Redefinir a senha deste aluno e encerrar as sessões abertas?')) return;
       try {
@@ -36,10 +38,12 @@ async function boot() {
   const me = await api.me();
   if (!me) {
     root.innerHTML = '<div class="mentor-auth"><span>ARQUIVO VESPER</span><h1>Sessão necessária</h1><p>Entre pelo jogo com uma conta de mentor e volte a esta página.</p><a class="primary-btn" href="/">VOLTAR AO VESPER</a></div>';
+    rewriteAppLinks();
     return;
   }
   if (!['mentor', 'admin'].includes(me.user.role)) {
     root.innerHTML = '<div class="mentor-auth"><h1>Acesso reservado</h1><p>Este relatório está disponível apenas para mentores.</p><a class="primary-btn" href="/">VOLTAR AO JOGO</a></div>';
+    rewriteAppLinks();
     return;
   }
   root.innerHTML = `
@@ -49,6 +53,7 @@ async function boot() {
       <nav>${me.teams.map((team) => `<button data-team="${team.id}"><strong>${escapeHtml(team.name)}</strong><span>CÓDIGO ${escapeHtml(team.code)}</span></button>`).join('') || '<span>Nenhuma equipe criada.</span>'}</nav>
     </section>
     <section class="mentor-report" data-report><p>Selecione ou crie uma equipe.</p></section>`;
+  root.querySelectorAll('a[href="/"]').forEach((link) => { link.href = appPath('/'); });
   root.querySelectorAll('[data-team]').forEach((button) => button.onclick = () => loadReport(button.dataset.team));
   root.querySelector('[data-team-form]').onsubmit = async (event) => {
     event.preventDefault();

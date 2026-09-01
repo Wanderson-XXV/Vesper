@@ -5,6 +5,7 @@ import { AudioManager } from './engine/AudioManager.js';
 import { SceneEngine } from './engine/SceneEngine.js';
 import { AppUI } from './ui/AppUI.js';
 import { ApiClient } from './engine/ApiClient.js';
+import { appPath } from './engine/AppPaths.js';
 
 function navigateWith(selection) {
   const params = new URLSearchParams(window.location.search);
@@ -182,7 +183,7 @@ async function boot() {
     window.addEventListener('pagehide', () => {
       if (!state.runId || !state.data.player?.name) return;
       const payload = { caseId: state.data.caseId, routeId: state.data.learningTrack, languageId: state.data.language, runId: state.runId, revision: state.revision, snapshot: state.data, events: state.data.storyEvents || [] };
-      navigator.sendBeacon?.('/api/runs/sync', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+      navigator.sendBeacon?.(appPath('/api/runs/sync'), new Blob([JSON.stringify(payload)], { type: 'application/json' }));
     });
   } catch (err) {
     console.error(err);

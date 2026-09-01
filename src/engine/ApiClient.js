@@ -1,6 +1,8 @@
+import { appPath } from './AppPaths.js';
+
 export class ApiClient {
   async request(path, options = {}) {
-    const response = await fetch(path, {
+    const response = await fetch(appPath(path), {
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
       ...options
