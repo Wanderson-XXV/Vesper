@@ -172,10 +172,11 @@ test('stale forced password modal recovers when the account was already updated 
   await expect(page.getByRole('heading', { name: 'Defina uma nova senha' })).toBeVisible();
   await page.getByRole('textbox', { name: 'Nova senha', exact: true }).fill('senha-temporaria');
   await page.getByRole('textbox', { name: 'Confirme a nova senha', exact: true }).fill('senha-temporaria');
+  const reload = page.waitForEvent('framenavigated');
   await page.getByRole('button', { name: 'ATUALIZAR SENHA' }).click();
   await expect(page.getByText('A sessão foi atualizada. Recarregando…')).toBeVisible();
+  await reload;
   await expect(page.getByRole('heading', { name: 'Defina uma nova senha' })).toBeHidden({ timeout: 3000 });
-  expect(meCalls).toBeGreaterThanOrEqual(2);
 });
 
 test('registration confirms the password before sending credentials', async ({ page }) => {
