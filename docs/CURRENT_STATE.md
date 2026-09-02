@@ -1,4 +1,4 @@
-# Current State — 2026-08-27 — plataforma multicase
+# Current State — 2026-09-02 — plataforma multicase
 
 ## Produto
 
@@ -31,6 +31,32 @@ MVP jogável de **Vesper**, antologia investigativa web com casos, rotas curricu
 - mentor consulta respostas por tentativa e pode emitir senha temporária para alunos da própria equipe;
 - validação online por oráculo de saída, com o cliente fora da autoridade de recompensa.
 
+## Confiabilidade e engenharia — acompanhamento 2026-09-02
+
+O MVP possui a infraestrutura de contas, runs, snapshots e eventos, mas o playtest revelou bloqueadores antes de uso com turmas:
+
+- cursor de cena agora é persistido no cliente, incluindo fala, escolha, ritual pendente e encerramento;
+- backend já valida estritamente `runId`, caso, rota, linguagem, versão e revisão;
+- snapshots versionados já possuem contrato, migração e validação server-side;
+- o fluxo de iniciar após autenticação distingue retomada de execução já existente;
+- o reinício envia o checkpoint final e preserva eventos antes de arquivar a tentativa;
+- a área de conta agora permite perfil, username, troca de senha, confirmações, visibilidade acessível de senha e logout separado;
+- o hardening do Prompt 6 tornou a conclusão online server-authoritative, com final local somente após confirmação remota, CAS obrigatório e retry explícito quando a API falha;
+- eventos de escolha, pista, tentativa e dica agora usam identidade e sequência determinísticas, validam a origem declarada e não concedem recompensa de pista pelo sync genérico; escolhas só alteram relações quando correspondem ao cursor pendente;
+- o cache local registra o request em voo: uma alteração feita durante o flush pode ser rebaseada com segurança quando o snapshot remoto confirma exatamente o request anterior; conflitos preservam uma cópia local de recuperação e permanecem visíveis;
+- `pagehide` usa beacon somente quando não há request ativo. Como navegadores não garantem entrega após o descarregamento, o checkpoint continua no cache e é reconciliado na próxima carga; reload real durante request ativo continua sendo cenário de teste manual;
+- cadastro agora exige confirmação de senha também no servidor, e os glifos de interface remanescentes foram substituídos pelo registro local de ícones;
+- no ambiente local, `npm run validate` passou com 22 testes e 1 integração PostgreSQL ignorada por ausência de `TEST_DATABASE_URL`; no container, a integração PostgreSQL do Prompt 6 passou sem `SKIP`, e `npm run test:ui` passou com 8/8.
+
+O contrato permanente está em `docs/decisions/0013-precise-checkpoints-and-account-management.md` e o padrão de ícones em `docs/decisions/0014-lucide-icon-system.md`. A execução das tarefas está em `docs/architecture/IMPLEMENTATION_PLAN_2026-09-02.md`.
+
+### Acompanhamento das frentes
+
+- Fundação local de ícones: concluída, coberta por testes e integrada aos controles antes representados por glifos em `AppUI.js`.
+- Backend de execução/autenticação: handlers duplicados revisados e removidos; `node --check` passou; integração PostgreSQL e validação completa passaram no container com 19 testes e nenhum `SKIP`.
+- Save preciso no cliente: implementado com checkpoints estáveis, retomada por cursor, restart sem reload para o Hub, conclusão confirmada pelo servidor e recuperação coordenada de flush/`pagehide`.
+- Área de conta no frontend: implementada com avatar/nome clicável, perfil, username, troca de senha, confirmações client/server-side, toggles acessíveis e logout dentro da conta.
+
 ## Assets atuais
 
 - 7 backgrounds principais da mansão + exterior com portão fechado;
@@ -55,4 +81,4 @@ MVP jogável de **Vesper**, antologia investigativa web com casos, rotas curricu
 
 ## Próximo fluxo recomendado
 
-Consulte `architecture/PLATFORM_ARCHITECTURE.md` para o retrato completo do produto e `architecture/PLATFORM_ROADMAP.md` para a ordem de expansão. Para qualquer track, continue o fluxo: ritual design → narrativa → integração sem quebrar tracks existentes → revisão → playtest → consolidação de feedback.
+Consulte `architecture/PLATFORM_ARCHITECTURE.md` para o retrato completo do produto e `architecture/PLATFORM_ROADMAP.md` para a ordem de expansão. Para qualquer track, continue o fluxo: ritual design → narrativa → integração sem quebrar tracks existentes → revisão → playtest → consolidação de feedback. Para plataforma, use também `architecture/SCALABILITY_PLAN_2026-09-02.md`.

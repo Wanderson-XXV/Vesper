@@ -19,3 +19,6 @@ O repo contém contexto suficiente para prompts curtos. Prefira pedir objetivo e
 
 ## Aprender com feedback
 > Consolide meu feedback desta rodada usando `vesper-feedback-consolidation`. Mostre quais pontos são locais e quais serão promovidos para memória permanente.
+
+## Plataforma: save, conta e ícones
+> Leia `docs/architecture/IMPLEMENTATION_PLAN_2026-09-02.md`. Execute somente a frente indicada no prompt, respeite os arquivos de propriedade e não misture backend, engine e UI em chats paralelos sem worktree separado. Toda alteração deve considerar as decisões `0013` e `0014` e terminar com `npm run validate`.

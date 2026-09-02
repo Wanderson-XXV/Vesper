@@ -1,6 +1,6 @@
 # Arquitetura da Plataforma Vesper
 
-> Estado: implementado no MVP multicase. Este documento descreve o produto que existe no repositório; propostas ainda não entregues ficam em `PLATFORM_ROADMAP.md`.
+> Estado: MVP multicase implementado, com correções de confiabilidade e gestão de conta aprovadas para implementação. Este documento distingue o produto atual do contrato aprovado; propostas ainda não entregues ficam em `PLATFORM_ROADMAP.md`.
 
 ## 1. O que é Vesper
 
@@ -171,6 +171,8 @@ O painel de mentor é `mentor.html`. Não há ranking público.
 
 Para VPS, use um domínio real, credenciais fora do exemplo e `COOKIE_SECURE=true`. Para teste local HTTP, use `DOMAIN=http://localhost` e `COOKIE_SECURE=false`. A runbook fica em `deploy/README.md`.
 
+Após a configuração inicial, o deploy repetível usa `deploy/update.sh`; opcionalmente, `.github/workflows/deploy.yml` executa validação e chama esse script por SSH após cada `push` em `main`. O workflow não transporta `.env` nem dados do banco.
+
 Backups só contam como proteção depois de um teste de restauração em banco separado. Staging deve usar outro projeto Compose, domínio, `.env` e volumes.
 
 ## 9. Execução de código: fronteira futura
@@ -190,3 +192,13 @@ Pybricks com hardware permanece fora desse executor até existir uma estratégia
 - Estado e próximos passos: `docs/CURRENT_STATE.md` e `docs/architecture/PLATFORM_ROADMAP.md`.
 
 Antes de integrar alteração narrativa, pedagógica ou estrutural, rode `npm run validate`. Mudanças de conteúdo também exigem leitura da cena anterior, alvo e posterior; mudanças de plataforma exigem teste manual do Hub e do fluxo que foi alterado.
+
+## 11. Contrato aprovado de confiabilidade e conta
+
+A decisão `0013` formaliza a retomada precisa: uma execução não é apenas sala, flags e inventário. Ela precisa carregar um cursor narrativo versionado capaz de reconstruir cena, fala, escolha, ritual ou encerramento. O servidor deve rejeitar mistura de `runId`, caso, rota, linguagem, versão e revisão.
+
+Iniciar, retomar e criar nova tentativa são intenções diferentes. Uma nova tentativa arquiva a execução ativa e cria outra de forma atômica, preservando eventos e respostas da tentativa anterior. O Hub continua permitindo escolher outro caso ou rota sem reutilizar o save selecionado anteriormente.
+
+A gestão de conta é separada das ações da investigação. O contrato aprovado inclui consulta de perfil, alteração de usuário e alteração de senha com confirmação, além de mostrar/esconder senha no frontend. A implementação não inclui ainda criação completa de personagem ou sistema de skins.
+
+O acompanhamento executável, os responsáveis por área e os prompts de integração estão em `docs/architecture/IMPLEMENTATION_PLAN_2026-09-02.md`.

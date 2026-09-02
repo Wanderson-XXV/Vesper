@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS case_runs (
   archived_at timestamptz,
   attempt_number integer NOT NULL DEFAULT 1 CHECK (attempt_number >= 1),
   revision bigint NOT NULL DEFAULT 0 CHECK (revision >= 0),
+  envelope_version integer NOT NULL DEFAULT 1 CHECK (envelope_version >= 1),
   UNIQUE (user_id, case_id, route_id, attempt_number)
 );
 
@@ -91,6 +92,7 @@ ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password boolean NOT NULL
 ALTER TABLE case_runs ADD COLUMN IF NOT EXISTS archived_at timestamptz;
 ALTER TABLE case_runs ADD COLUMN IF NOT EXISTS attempt_number integer NOT NULL DEFAULT 1;
 ALTER TABLE case_runs ADD COLUMN IF NOT EXISTS revision bigint NOT NULL DEFAULT 0;
+ALTER TABLE case_runs ADD COLUMN IF NOT EXISTS envelope_version integer NOT NULL DEFAULT 1;
 ALTER TABLE ritual_attempts ADD COLUMN IF NOT EXISTS client_attempt_id text;
 ALTER TABLE case_runs DROP CONSTRAINT IF EXISTS case_runs_user_id_case_id_route_id_key;
 

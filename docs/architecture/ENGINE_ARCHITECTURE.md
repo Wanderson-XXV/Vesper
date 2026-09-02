@@ -35,3 +35,13 @@ Só quando o conteúdo atual não consegue expressar uma necessidade reaproveit�
 ## Persistência online
 
 Investigações exigem sessão e PostgreSQL disponíveis. Snapshots e eventos são sincronizados com revisão otimista; o `localStorage` é somente cache de recuperação isolado por conta e execução. O servidor valida autoria, acesso por equipe e recompensas; o cliente não é autoridade para XP, resposta premiada ou retomada.
+
+## Contrato de checkpoint preciso
+
+O contrato aprovado na decisão `0013` exige que a execução possa ser reconstruída sem depender de estado em memória. O envelope remoto é canônico para `runId`, `caseId`, `routeId`, `languageId`, `contentVersion`, `attemptNumber`, `revision` e `status`.
+
+O snapshot versionado deve preservar, no mínimo, sala, flags, pistas, inventário, personagens conhecidos, relações, presença, tentativas, dicas, desafios concluídos, final, jogador, linguagem, timestamps e um cursor narrativo. O cursor contém `mode`, `sceneId`, `nextEventIndex`, `sceneStack` quando necessário e o desafio pendente quando houver.
+
+O cursor deve ser atualizado em checkpoints estáveis: antes ou depois de um evento interativo, nunca de forma que uma fala, escolha ou ritual seja perdido silenciosamente. Retomar deve reabrir o modo correto; `renderRoom()` sozinho não é uma retomada válida quando existe cena pendente.
+
+Snapshots legados precisam de migração explícita. Configurações audiovisuais permanecem preferências locais. Recompensas, conclusão e autoria da execução permanecem server-authoritative. Consulte `docs/decisions/0013-precise-checkpoints-and-account-management.md` para o contrato completo.

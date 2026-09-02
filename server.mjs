@@ -11,9 +11,6 @@ const argValue = (name) => {
 };
 const port = Number(argValue('port') || process.env.PORT || 5173);
 const host = argValue('host') || process.env.HOST || '0.0.0.0';
-if (!process.env.DATABASE_URL) {
-  throw new Error('DATABASE_URL é obrigatória. O Vesper não inicia sem PostgreSQL e não oferece modo offline.');
-}
 const api = createApi(root);
 const types = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
@@ -43,6 +40,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(port, host, () => {
   console.log(`\nVesper rodando em http://localhost:${port}\n`);
-  console.log('API online conectada ao PostgreSQL. Login e banco são obrigatórios para jogar.');
+  if (process.env.DATABASE_URL) console.log('API configurada para PostgreSQL. Login e banco são obrigatórios para jogar.');
+  else console.log('Hub disponível; PostgreSQL ausente. API, autenticação e investigações estão bloqueadas.');
   console.log('Ctrl+C para encerrar.');
 });

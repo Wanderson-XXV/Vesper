@@ -27,7 +27,16 @@ export class ApiClient {
 
   login(username, password) { return this.request('/api/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }); }
   register(payload) { return this.request('/api/auth/register', { method: 'POST', body: JSON.stringify(payload) }); }
-  changePassword(password) { return this.request('/api/auth/change-password', { method: 'POST', body: JSON.stringify({ password }) }); }
+  getAccount() { return this.me(); }
+  changePassword(payload) {
+    const body = typeof payload === 'string'
+      ? { newPassword: payload, confirmPassword: payload }
+      : payload;
+    return this.request('/api/auth/change-password', { method: 'POST', body: JSON.stringify(body) });
+  }
+  updateUsername(payload) {
+    return this.request('/api/account/username', { method: 'POST', body: JSON.stringify(payload) });
+  }
   logout() { return this.request('/api/auth/logout', { method: 'POST', body: '{}' }); }
   createTeam(name) { return this.request('/api/teams', { method: 'POST', body: JSON.stringify({ name }) }); }
   currentRun(caseId, routeId) { return this.request(`/api/runs/current?caseId=${encodeURIComponent(caseId)}&routeId=${encodeURIComponent(routeId)}`); }
@@ -39,8 +48,9 @@ export class ApiClient {
       method: 'POST',
       body: JSON.stringify({
         caseId: data.caseId,
-        routeId: data.learningTrack,
-        languageId: data.language,
+        routeId: data.routeId || data.learningTrack,
+        languageId: data.languageId || data.language,
+        contentVersion: data.contentVersion,
         runId: data.runId,
         revision: data.revision,
         snapshot: data,
@@ -58,11 +68,13 @@ export class ApiClient {
       method: 'POST',
       body: JSON.stringify({
         caseId: data.caseId,
-        routeId: data.learningTrack,
-        languageId: data.language,
+        routeId: data.routeId || data.learningTrack,
+        languageId: data.languageId || data.language,
+        contentVersion: data.contentVersion,
         endingId: data.endingId,
         runId: data.runId,
-        snapshot: data
+        revision: data.revision,
+        snapshot: data.snapshot || data
       })
     });
   }

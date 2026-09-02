@@ -1,6 +1,8 @@
 # Roadmap da Plataforma Vesper
 
-> Atualizado em 2026-08-27. Este roadmap separa entrega concluída, validação pendente e expansão futura. Não usar esta lista para inferir que uma fase futura já existe no produto.
+> Atualizado em 2026-09-02. Este roadmap separa entrega concluída, validação pendente e expansão futura. Não usar esta lista para inferir que uma fase futura já existe no produto.
+
+O plano operacional detalhado, incluindo deploy, contas, saves, progressão, narrativas ramificadas e executor, está em `SCALABILITY_PLAN_2026-09-02.md`.
 
 ## Entregue no MVP multicase
 

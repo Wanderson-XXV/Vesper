@@ -27,6 +27,7 @@ Este arquivo é o ponto de entrada da memória do projeto. Quando houver dúvida
 | mapa do repositório | `architecture/REPO_MAP.md` |
 | processo de criação/revisão | `architecture/AUTHORING_WORKFLOW.md` |
 | roadmap de plataforma e fronteiras futuras | `architecture/PLATFORM_ROADMAP.md` |
+| plano de escalabilidade, deploy e futuras adições | `architecture/SCALABILITY_PLAN_2026-09-02.md` |
 | pacote portátil para outras IAs | `authoring/portable/README.md` |
 | estado atual e pendências | `CURRENT_STATE.md` |
 | prompts operacionais para agentes | `AGENT_PLAYBOOK.md` |

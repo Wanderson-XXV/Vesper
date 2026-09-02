@@ -50,41 +50,35 @@ docker compose --env-file .env -f deploy/docker-compose.yml down
 
 ### Docker em produção (VPS)
 
-Na VPS, mantenha as credenciais fora do repositório e execute os comandos dentro de `deploy/`.
+Na VPS Hostinger atual, mantenha as credenciais fora do repositório. O clone está em `/opt/apps/vesper`, o proxy já publica `https://tiereducation.com.br/vesper/` e o Compose usa as portas `3005`/`3443`.
 
-1. Crie o arquivo de produção a partir da raiz do repositório:
+1. O arquivo `deploy/.env` já existe na instalação atual. Não o substitua.
 
 ```powershell
-Copy-Item .env.example deploy\.env
+cd /opt/apps/vesper
 ```
 
-Substitua todas as credenciais e o domínio; não faça commit desse arquivo.
-
-2. Configure o DNS do domínio para apontar para a VPS.
-3. No `deploy/.env`, use um domínio real e `COOKIE_SECURE=true`:
-
-```env
-DOMAIN=app.exemplo.com
-COOKIE_SECURE=true
-HTTP_PORT=80
-HTTPS_PORT=443
-```
-
-4. Dentro de `deploy/`, suba o ambiente:
+Para atualizar a instalação, execute apenas:
 
 ```bash
-docker compose --env-file .env -f docker-compose.yml up -d --build
+bash deploy/update.sh
 ```
 
-5. Confirme `https://app.exemplo.com/api/health` e crie o primeiro mentor:
+2. Confirme o status dos containers:
 
 ```bash
-docker compose --env-file .env -f docker-compose.yml exec \
-  -e MENTOR_USERNAME=professor \
-  -e MENTOR_PASSWORD='troque-esta-senha-longa' app npm run user:create-mentor
+docker compose --env-file deploy/.env -f deploy/docker-compose.yml ps
 ```
 
-Não use `BOOTSTRAP_DEFAULT_MENTOR=true` em produção. Para detalhes sobre backups, staging e rotação de credenciais, consulte `deploy/README.md`.
+3. Confirme `https://tiereducation.com.br/vesper/` e o health check interno:
+
+```bash
+docker compose --env-file deploy/.env -f deploy/docker-compose.yml exec -T app node --input-type=module -e 'const r=await fetch("http://127.0.0.1:5173/api/health"); console.log(r.status, await r.text())'
+```
+
+Não use `BOOTSTRAP_DEFAULT_MENTOR=true` em produção. Para o procedimento completo e o deploy automático, consulte `deploy/README.md`.
+
+Depois da configuração inicial, o fluxo normal é `git commit` + `git push origin main`; o workflow de deploy atualiza a VPS. Consulte `deploy/README.md` para os secrets e o primeiro setup.
 
 Não execute `npm start`: a forma suportada de executar o jogo é pelo Docker Compose, com PostgreSQL disponível.
 

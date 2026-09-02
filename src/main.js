@@ -73,21 +73,32 @@ async function boot() {
       (data) => api.syncState(data),
       (status, error) => ui.setSaveStatus(status, error)
     );
+    if (state.recoveryError) ui.setSaveStatus('error', state.recoveryError);
     ui.onSaveExit = async () => {
       await state.flushSync();
       window.location.assign(window.location.pathname);
     };
     ui.onRestart = async () => {
+      await state.flushSync();
+      const runId = state.runId;
+      const finalSnapshot = state.toSnapshot();
       const fresh = state.newGame();
       fresh.player.name = account.user.username;
       fresh.runId = null;
       fresh.revision = 0;
       const result = await api.restartRun({
-        runId: state.runId, caseId: content.campaign.id, routeId: state.data.learningTrack,
-        languageId: state.data.language, snapshot: fresh
+        runId, caseId: content.campaign.id, routeId: state.data.learningTrack,
+        languageId: state.data.language, revision: finalSnapshot.revision,
+        finalSnapshot, newSnapshot: fresh, events: finalSnapshot.storyEvents || []
       });
-      state.attachRun(result.run);
-      window.location.reload();
+      state.attachRun(result.run, { preferRemote: false });
+      state.onlineAuthoritative = true;
+      ui.closeSettings();
+      state.visitRoom(content.campaign.startRoom);
+      ui.applyRoomBackground(content.roomMap[content.campaign.startRoom]);
+      audio.ensureContext();
+      await audio.playMusic('ambient');
+      await scenes.start(content.campaign.startScene);
     };
 
     const startFresh = async () => {
@@ -97,21 +108,22 @@ async function boot() {
       state.setPlayerName(account.user.username);
       const started = await api.startRun({
         caseId: content.campaign.id, routeId: content.campaign.learningTrack,
-        languageId: selectedLanguage, snapshot: state.data
+        languageId: selectedLanguage, contentVersion: content.campaign.contentVersion,
+        snapshot: state.toSnapshot()
       });
       state.attachRun(started.run, { preferRemote: false });
+      state.onlineAuthoritative = true;
       state.visitRoom(content.campaign.startRoom);
       ui.applyRoomBackground(content.roomMap[content.campaign.startRoom]);
       audio.ensureContext();
       await audio.playMusic('ambient');
-      scenes.start(content.campaign.startScene);
+      await scenes.start(content.campaign.startScene);
     };
 
     const continueGame = async () => {
       audio.ensureContext();
       await audio.playMusic(content.roomMap[state.data.currentRoom]?.music || 'ambient');
-      ui.setMode('explore');
-      ui.renderRoom();
+      await scenes.resume();
     };
 
     const showTitleScreen = () => {
@@ -130,7 +142,8 @@ async function boot() {
         onContinue: continueGame,
         onSelectCase: (caseId) => navigateWith({ case: caseId, route: null }),
         onSelectTrack: async (route) => {
-          if (!content.trackMap?.[route] || route === content.campaign.learningTrack) return;
+          const previousRoute = content.campaign.learningTrack;
+          if (!content.trackMap?.[route] || route === previousRoute) return;
           content.campaign.learningTrack = route;
           content.activeTrack = content.trackMap[route];
           const params = new URLSearchParams(window.location.search);
@@ -141,7 +154,6 @@ async function boot() {
           if (account && apiStatus.database && !account.user.must_change_password) {
             run = (await api.currentRun(content.campaign.id, route)).run;
           }
-          if (route !== content.campaign.learningTrack) return;
           currentRun = run;
           if (run) {
             state.attachRun(run);
@@ -150,13 +162,19 @@ async function boot() {
             state.revision = 0;
             state.saveKey = state.makeSaveKey(route);
             state.data = state.newGame();
-            state.setLanguage(selectedLanguage);
+            const routeLanguages = content.activeTrack?.supportedLanguages || supportedLanguages;
+            const routeLanguage = routeLanguages.includes(state.profile.preferredLanguage)
+              ? state.profile.preferredLanguage
+              : routeLanguages[0];
+            state.setLanguage(routeLanguage);
             if (account) state.setPlayerName(account.user.username);
           }
           state.onlineAuthoritative = Boolean(account && run);
+          ui.updateTitleLanguage(state.data.language);
           ui.updateTitleActions({ hasSave: Boolean(run), account });
         },
         onSelectLanguage: (language) => {
+          if (currentRun) return;
           state.profile.preferredLanguage = language;
           state.saveProfile();
           state.setLanguage(language);
@@ -178,12 +196,17 @@ async function boot() {
     if (account?.user?.must_change_password) ui.openPasswordChange(() => window.location.reload());
     if (account && sessionStorage.getItem('vesper_start_after_authentication') === '1') {
       sessionStorage.removeItem('vesper_start_after_authentication');
-      startFresh();
+      (currentRun ? continueGame() : startFresh()).catch((error) => ui.setSaveStatus('error', error));
     }
     window.addEventListener('pagehide', () => {
       if (!state.runId || !state.data.player?.name) return;
-      const payload = { caseId: state.data.caseId, routeId: state.data.learningTrack, languageId: state.data.language, runId: state.runId, revision: state.revision, snapshot: state.data, events: state.data.storyEvents || [] };
-      navigator.sendBeacon?.(appPath('/api/runs/sync'), new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+      const payload = state.preparePagehideSync();
+      if (!payload) return;
+      const queued = navigator.sendBeacon?.(appPath('/api/runs/sync'), new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+      if (!queued) state.cancelPreparedSync(new Error('O último checkpoint ficou pendente neste dispositivo.'));
+    });
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted && state.hasUnconfirmedPagehideSync()) window.location.reload();
     });
   } catch (err) {
     console.error(err);

@@ -1,4 +1,14 @@
 import { requirementsMet, hiddenByFlags } from '../engine/ConditionEngine.js';
+import { icon } from './icons.js';
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 export class AppUI {
   constructor({ root, content, state, challengeEngine, audio, api = null, account = null }) {
@@ -22,6 +32,7 @@ export class AppUI {
     this.onStart = null;
     this.onStartConditionals = null;
     this.onContinue = null;
+    this.onAccountChange = null;
     this.onSaveExit = null;
     this.onRestart = null;
     this.saveStatus = 'saved';
@@ -80,6 +91,8 @@ export class AppUI {
     hasSave = false, catalog, currentCase, tracks, currentTrack, languages, currentLanguage,
     profile, account, onlineAvailable, onStart, onContinue, onSelectCase, onSelectTrack, onSelectLanguage, onAccountChange
   }) {
+    this.account = account;
+    this.onAccountChange = onAccountChange;
     this.onStart = onStart; this.onContinue = onContinue;
     this.applyReadingPreferences();
     this.setMode('title');
@@ -90,7 +103,11 @@ export class AppUI {
     this.contentLayer.innerHTML = `
       <div class="title-screen">
         <div class="title-account-access">
-          ${onlineAvailable ? `<button class="title-account-btn" id="accountBtn">${account ? `SAIR · ${account.user.username}` : 'ENTRAR'}</button>` : '<span class="title-account-status">ARQUIVO INDISPONÍVEL</span>'}
+          ${onlineAvailable
+            ? (account
+              ? `<button class="title-account-btn" id="accountBtn" aria-label="Minha conta" title="Minha conta">${icon('user-round', { size: 15, decorative: true })}<span class="title-account-name">${escapeHtml(account.user?.username || 'Investigador')}</span></button>`
+              : `<button class="title-account-btn" id="accountBtn">${icon('user-round', { size: 15, decorative: true })}<span>ENTRAR</span></button>`)
+            : '<span class="title-account-status">ARQUIVO INDISPONÍVEL</span>'}
         </div>
         <div class="case-selector-layout">
           <aside class="case-dossiers" aria-label="Casos disponíveis">
@@ -147,11 +164,9 @@ export class AppUI {
       else if (id === 'optionsBtn') this.openSettings(true);
     };
     const accountButton = this.contentLayer.querySelector('#accountBtn');
-    if (accountButton) accountButton.onclick = async () => {
-      if (account) {
-        await this.api.logout();
-        onAccountChange?.();
-      } else this.openAccount(onAccountChange);
+    if (accountButton) accountButton.onclick = () => {
+      if (account) this.openAccount(onAccountChange, { accountMode: true });
+      else this.openAccount(onAccountChange);
     };
     this._animateTitleIn();
   }
@@ -217,41 +232,140 @@ export class AppUI {
       onComplete: () => { onComplete?.(); }
     });
   }
-  openAccount(onAuthenticated, { startAfterAuthentication = false } = {}) {
+  passwordField(name, label, autocomplete, { required = true } = {}) {
+    return `<div class="password-field"><label for="${name}">${label}</label><span class="password-control"><input id="${name}" name="${name}" type="password" minlength="8" autocomplete="${autocomplete}"${required ? ' required' : ''}><button type="button" class="password-toggle" data-password-toggle="${name}" aria-label="Mostrar senha" title="Mostrar senha">${icon('eye', { size: 16, decorative: true })}</button></span></div>`;
+  }
+
+  bindPasswordToggles() {
+    this.modalLayer.querySelectorAll('[data-password-toggle]').forEach((button) => {
+      button.onclick = () => {
+        const input = this.modalLayer.querySelector(`[name="${button.dataset.passwordToggle}"]`);
+        if (!input) return;
+        const visible = input.type === 'text';
+        input.type = visible ? 'password' : 'text';
+        const label = visible ? 'Mostrar senha' : 'Esconder senha';
+        button.setAttribute('aria-label', label);
+        button.setAttribute('title', label);
+        button.innerHTML = icon(visible ? 'eye' : 'eye-off', { size: 16, decorative: true });
+      };
+    });
+  }
+
+  async logoutAccount(onLoggedOut, button = null) {
+    if (!this.api) return;
+    if (button) button.disabled = true;
+    try {
+      await this.api.logout();
+      onLoggedOut?.({ action: 'logout' });
+    } catch (error) {
+      if (button) button.disabled = false;
+      this.toast(`Não foi possível sair: ${error.message}`);
+    }
+  }
+
+  openAccount(onAuthenticated, { startAfterAuthentication = false, accountMode = Boolean(this.account) } = {}) {
     this.modal = 'account';
-    const render = (view = 'login') => {
+    const render = (view = (accountMode ? 'profile' : 'login')) => {
       const creating = view === 'register';
+      const profileView = view === 'profile';
+      const usernameView = view === 'username';
+      const passwordView = view === 'password';
+      const title = profileView ? 'Minha conta' : usernameView ? 'Alterar usuário' : passwordView ? 'Alterar senha' : (creating ? 'Criar registro' : 'Entrar no Arquivo');
+      const accountUser = this.account?.user || {};
+      const username = escapeHtml(accountUser.username || this.state.profile.displayName || 'Investigador');
+      const body = profileView
+        ? `<section class="account-summary"><span>USUÁRIO REGISTRADO</span><strong>${username}</strong><small>Seu registro permanece vinculado ao progresso desta investigação.</small></section>
+           <div class="account-actions"><button class="ghost-btn" type="button" data-account-view="username">ALTERAR USUÁRIO</button><button class="ghost-btn" type="button" data-account-view="password">ALTERAR SENHA</button></div>
+           <button class="account-logout-btn" type="button" data-account-logout>${icon('log-out', { size: 15, decorative: true })}<span>SAIR DO ARQUIVO</span></button>`
+        : usernameView
+          ? `<form class="account-form" data-username-form>
+               <label>Novo usuário <input name="username" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9._-]{3,32}" title="Use de 3 a 32 letras, números, ponto, sublinhado ou hífen" required autofocus></label>
+               ${this.passwordField('currentPassword', 'Senha atual', 'current-password')}
+               ${this.passwordField('confirmCurrentPassword', 'Confirme a senha atual', 'current-password')}
+               <button class="primary-btn" type="submit">ATUALIZAR USUÁRIO</button>
+             </form>
+             <p class="account-switch"><button type="button" data-account-view="profile">${icon('arrow-left', { size: 14, decorative: true })} VOLTAR À CONTA</button></p>`
+          : passwordView
+            ? `<form class="account-form" data-password-form>
+                 ${this.passwordField('currentPassword', 'Senha atual', 'current-password')}
+                 ${this.passwordField('newPassword', 'Nova senha', 'new-password')}
+                 ${this.passwordField('confirmPassword', 'Confirme a nova senha', 'new-password')}
+                 <button class="primary-btn" type="submit">ATUALIZAR SENHA</button>
+               </form>
+               <p class="account-switch"><button type="button" data-account-view="profile">${icon('arrow-left', { size: 14, decorative: true })} VOLTAR À CONTA</button></p>`
+            : `<form class="account-form" data-account-form>
+                 <label>Usuário <input name="username" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9._-]{3,32}" title="Use de 3 a 32 letras, números, ponto, sublinhado ou hífen" required autofocus></label>
+                 ${this.passwordField('password', 'Senha', creating ? 'new-password' : 'current-password')}
+                 ${creating ? `${this.passwordField('confirmPassword', 'Confirme a senha', 'new-password')}<label>Código da turma <input name="teamCode" minlength="8" autocomplete="off" required></label>` : ''}
+                 <button class="primary-btn" type="submit">${creating ? 'CRIAR E ENTRAR' : 'ENTRAR'}</button>
+               </form>
+               <p class="account-switch">${creating ? 'Já possui registro?' : 'Ainda não possui registro?'} <button type="button" data-account-view="${creating ? 'login' : 'register'}">${creating ? 'Entrar' : 'Criar conta'}</button></p>`;
       this.modalLayer.innerHTML = `
         <div class="modal-backdrop"><div class="account-modal account-modal-${view}" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
-          <div class="modal-title"><div><span>ARQUIVO VESPER</span><h2 id="accountTitle">${creating ? 'Criar registro' : 'Entrar no Arquivo'}</h2></div><button class="icon-btn" data-close aria-label="Fechar">×</button></div>
-          <p class="account-intro">${creating ? 'Seu usuário identifica o investigador. Aparência e detalhes de personagem serão definidos depois.' : 'Entre para acessar casos, progresso e o seu registro de investigação.'}</p>
-          <form class="account-form" data-account-form>
-            <label>Usuário <input name="username" autocomplete="username" minlength="3" maxlength="32" required autofocus></label>
-            <label>Senha <input name="password" type="password" minlength="8" autocomplete="${creating ? 'new-password' : 'current-password'}" required></label>
-            ${creating ? '<label>Código da turma <input name="teamCode" minlength="8" autocomplete="off" required></label>' : ''}
-            <button class="primary-btn" type="submit">${creating ? 'CRIAR E ENTRAR' : 'ENTRAR'}</button>
-          </form>
-          <p class="account-switch">${creating ? 'Já possui registro?' : 'Ainda não possui registro?'} <button type="button" data-account-view="${creating ? 'login' : 'register'}">${creating ? 'Entrar' : 'Criar conta'}</button></p>
+          <div class="modal-title"><div><span>${profileView ? 'ARQUIVO VESPER' : passwordView || usernameView ? 'SEGURANÇA DO ARQUIVO' : 'ARQUIVO VESPER'}</span><h2 id="accountTitle">${title}</h2></div><button class="icon-btn" data-close aria-label="Fechar">${icon('x', { size: 17, decorative: true })}</button></div>
+          <p class="account-intro">${profileView ? 'Consulte o registro do investigador e atualize os dados de acesso quando necessário.' : usernameView ? 'A alteração será aplicada ao seu registro, sem mudar os saves vinculados ao seu identificador.' : passwordView ? 'Confirme a senha atual antes de registrar uma nova senha.' : creating ? 'Seu usuário identifica o investigador. Aparência e detalhes de personagem serão definidos depois.' : 'Entre para acessar casos, progresso e o seu registro de investigação.'}</p>
+          ${body}
           <div class="account-feedback" aria-live="polite"></div>
         </div></div>`;
+      this.bindPasswordToggles();
+      this.modalLayer.querySelector('[data-close]').onclick = () => this.closeModal();
+      this.modalLayer.querySelectorAll('[data-account-view]').forEach((button) => {
+        button.onclick = () => render(button.dataset.accountView);
+      });
+      const accountLogout = this.modalLayer.querySelector('[data-account-logout]');
+      if (accountLogout) accountLogout.onclick = () => this.logoutAccount(onAuthenticated, accountLogout);
+      if (profileView) return;
       const feedback = this.modalLayer.querySelector('.account-feedback');
-      const submit = async (action) => {
+      const submit = async (action, submitButton) => {
         feedback.textContent = 'Consultando o arquivo…';
+        if (submitButton) submitButton.disabled = true;
         try {
           await action();
-          onAuthenticated?.({ startAfterAuthentication });
-        } catch (error) { feedback.textContent = error.message; }
+          feedback.className = 'account-feedback success';
+          feedback.textContent = creating ? 'Registro criado.' : usernameView ? 'Usuário atualizado.' : passwordView ? 'Senha atualizada.' : 'Entrada autorizada.';
+          submitButton?.form?.reset();
+          window.setTimeout(() => onAuthenticated?.({ action: 'account-updated', startAfterAuthentication }), 450);
+        } catch (error) {
+          feedback.textContent = error.message;
+          if (submitButton) submitButton.disabled = false;
+        }
       };
-      this.modalLayer.querySelector('[data-account-form]').onsubmit = (event) => {
+      const accountForm = this.modalLayer.querySelector('[data-account-form]');
+      if (accountForm) accountForm.onsubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const username = data.get('username');
+        const usernameValue = data.get('username');
         const password = data.get('password');
-        if (creating) submit(() => this.api.register({ username, password, teamCode: data.get('teamCode'), preferredLanguage: this.state.data.language }));
-        else submit(() => this.api.login(username, password));
+        const submitButton = event.currentTarget.querySelector('[type="submit"]');
+        if (creating && password !== data.get('confirmPassword')) {
+          this.modalLayer.querySelector('.account-feedback').textContent = 'Confirmação de senha não confere';
+          return;
+        }
+        if (creating) submit(() => this.api.register({ username: usernameValue, password, confirmPassword: data.get('confirmPassword'), teamCode: data.get('teamCode'), preferredLanguage: this.state.data.language }), submitButton);
+        else submit(() => this.api.login(usernameValue, password), submitButton);
       };
-      this.modalLayer.querySelector('[data-account-view]').onclick = () => render(creating ? 'login' : 'register');
-      this.modalLayer.querySelector('[data-close]').onclick = () => this.closeModal();
+      const usernameForm = this.modalLayer.querySelector('[data-username-form]');
+      if (usernameForm) usernameForm.onsubmit = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const submitButton = event.currentTarget.querySelector('[type="submit"]');
+        if (data.get('currentPassword') !== data.get('confirmCurrentPassword')) {
+          feedback.textContent = 'Confirmação da senha atual não confere';
+          return;
+        }
+        submit(() => this.api.updateUsername({ username: data.get('username'), currentPassword: data.get('currentPassword'), confirmCurrentPassword: data.get('confirmCurrentPassword') }), submitButton);
+      };
+      const passwordForm = this.modalLayer.querySelector('[data-password-form]');
+      if (passwordForm) passwordForm.onsubmit = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const submitButton = event.currentTarget.querySelector('[type="submit"]');
+        if (data.get('newPassword') !== data.get('confirmPassword')) {
+          feedback.textContent = 'Confirmação de senha não confere';
+          return;
+        }
+        submit(() => this.api.changePassword({ currentPassword: data.get('currentPassword'), newPassword: data.get('newPassword'), confirmPassword: data.get('confirmPassword') }), submitButton);
+      };
     };
     render();
   }
@@ -263,16 +377,32 @@ export class AppUI {
       <div class="modal-backdrop"><div class="account-modal" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
         <div class="modal-title"><div><span>SEGURANÇA DO ARQUIVO</span><h2 id="passwordTitle">Defina uma nova senha</h2></div></div>
         <p class="account-intro">A senha temporária deve ser substituída antes de acessar qualquer investigação.</p>
-        <form class="account-form" data-password-form><label>Nova senha <input name="password" type="password" minlength="8" autocomplete="new-password" required autofocus></label><button class="primary-btn">ATUALIZAR SENHA</button></form>
+        <form class="account-form" data-password-form>
+          ${this.passwordField('password', 'Nova senha', 'new-password')}
+          ${this.passwordField('confirmPassword', 'Confirme a nova senha', 'new-password')}
+          <button class="primary-btn">ATUALIZAR SENHA</button>
+        </form>
         <div class="account-feedback" aria-live="polite"></div>
       </div></div>`;
     this.modalLayer.querySelector('[data-password-form]').onsubmit = async (event) => {
       event.preventDefault();
       const feedback = this.modalLayer.querySelector('.account-feedback');
       feedback.textContent = 'Atualizando…';
-      try { await this.api.changePassword(new FormData(event.currentTarget).get('password')); onChanged?.(); }
+      const data = new FormData(event.currentTarget);
+      if (data.get('password') !== data.get('confirmPassword')) {
+        feedback.textContent = 'Confirmação de senha não confere';
+        return;
+      }
+      try {
+        await this.api.changePassword({ newPassword: data.get('password'), confirmPassword: data.get('confirmPassword') });
+        feedback.className = 'account-feedback success';
+        feedback.textContent = 'Senha atualizada.';
+        event.currentTarget.reset();
+        window.setTimeout(() => onChanged?.(), 450);
+      }
       catch (error) { feedback.textContent = error.message; }
     };
+    this.bindPasswordToggles();
   }
 
   setServiceUnavailable(onRetry) {
@@ -327,6 +457,7 @@ export class AppUI {
   renderTopbar() {
     const room = this.content.roomMap[this.state.data.currentRoom];
     const pips = Math.ceil(this.state.data.presence / 20);
+    const username = escapeHtml(this.account?.user?.username || this.state.data.player?.name || 'Investigador');
     this.topbar.innerHTML = `
       <div class="location-mark">
         <span class="case-label">${room?.name || ''}</span>
@@ -339,9 +470,11 @@ export class AppUI {
           <span class="presence-label">PRESENÇA</span>
           <div>${Array.from({length:5}, (_,i) => `<i class="${i < pips ? 'on' : ''}"></i>`).join('')}</div>
         </div>
+        ${this.account ? `<div class="top-account"><button class="top-account-profile" data-action="account" aria-label="Minha conta" title="Minha conta">${icon('user-round', { size: 16, decorative: true })}<span>${username}</span></button></div>` : ''}
       </div>`;
     this.topbar.querySelector('[data-action="inventory"]').onclick = () => this.openInventory();
     this.topbar.querySelector('[data-action="settings"]').onclick = () => this.openSettings();
+    this.topbar.querySelector('[data-action="account"]')?.addEventListener('click', () => this.openAccount(this.onAccountChange, { accountMode: true }));
   }
 
   renderRoom() {
@@ -365,9 +498,9 @@ export class AppUI {
     this.contentLayer.innerHTML = `
       <div class="room-ui">
         <div class="action-panel">
-          ${interactions.length ? `<div class="action-group"><div class="action-heading">AÇÕES</div>${interactions.map((i) => `<button class="action-btn ${i.kind === 'ritual' ? 'ritual-action' : ''}" data-interaction="${i.id}">${i.kind === 'ritual' ? '<span class="ritual-glyph">∴</span>' : ''}${i.label}</button>`).join('')}</div>` : ''}
+          ${interactions.length ? `<div class="action-group"><div class="action-heading">AÇÕES</div>${interactions.map((i) => `<button class="action-btn ${i.kind === 'ritual' ? 'ritual-action' : ''}" data-interaction="${i.id}">${i.kind === 'ritual' ? `<span class="ritual-glyph">${icon('shield-check', { size: 16, decorative: true })}</span>` : ''}${i.label}</button>`).join('')}</div>` : ''}
           ${(room.npcs || []).length ? `<div class="action-group people-actions"><div class="action-heading">PESSOAS</div>${(room.npcs || []).map((id) => `<button class="action-btn npc-btn" data-npc="${id}">Conversar com ${this.content.characterMap[id].name}</button>`).join('')}</div>` : ''}
-          ${connections.length ? `<div class="action-group routes"><div class="action-heading">ACESSOS</div>${connections.map((c) => `<button class="route-btn" data-room="${c.to}">→ ${c.label}</button>`).join('')}</div>` : ''}
+          ${connections.length ? `<div class="action-group routes"><div class="action-heading">ACESSOS</div>${connections.map((c) => `<button class="route-btn" data-room="${c.to}">${icon('chevron-right', { size: 15, decorative: true })}${c.label}</button>`).join('')}</div>` : ''}
         </div>
       </div>`;
 
@@ -375,12 +508,21 @@ export class AppUI {
       const el = this.contentLayer.querySelector(`[data-interaction="${i.id}"]`);
       if (!el) return;
       el.onclick = () => {
-        if (i.once) this.state.markInteraction(room.id, i.id);
-        if (i.action === 'openGrimoire') return this.openGrimoire('room');
+        if (i.action === 'openGrimoire') {
+          this.openGrimoire('room');
+          if (i.once) this.state.markInteraction(room.id, i.id);
+          return;
+        }
         const sceneId = i.sceneSlot
           ? (this.content.activeTrack?.sceneSlots?.[i.sceneSlot] || i.fallbackScene || i.scene)
           : i.scene;
-        if (sceneId) this.sceneEngine.start(sceneId);
+        if (sceneId) {
+          el.disabled = true;
+          Promise.resolve(this.sceneEngine.start(sceneId)).then(() => {
+            // The scene engine has already persisted a resumable cursor.
+            if (i.once) this.state.markInteraction(room.id, i.id);
+          }).catch(() => { el.disabled = false; });
+        } else if (i.once) this.state.markInteraction(room.id, i.id);
       };
     });
     (room.npcs || []).forEach((id) => {
@@ -568,6 +710,7 @@ export class AppUI {
     const challenge = this.content.challengeMap[challengeId]; if (!challenge) return cancelCallback?.();
     const generated = generatedOverride || this.challengeEngine.generate(challenge);
     this.activeChallenge = { challenge, generated, cancelCallback };
+    this.sceneEngine?.capturePendingChallenge(challengeId, generated);
     const language = this.state.data.language || 'java';
     const languageNames = { java: 'Java', python: 'Python', micropython: 'MicroPython' };
     const languageLabel = languageNames[language] || language;
@@ -578,7 +721,7 @@ export class AppUI {
         <div class="challenge-modal">
           <div class="challenge-head">
             <div><span>RITO DE CAMPO · ${challenge.shortLabel || ''}</span><h2>${challenge.title}</h2></div>
-            <button class="icon-btn" data-challenge-close aria-label="Fechar">×</button>
+            <button class="icon-btn" data-challenge-close aria-label="Fechar" title="Fechar">${icon('x', { size: 18, decorative: true })}</button>
           </div>
           <p class="challenge-story">${challenge.narrative}</p>
           ${challenge.tutorial ? `<div class="field-procedure"><small>COMO EXECUTAR</small><p>Transcreva as marcas no seu programa em ${languageLabel}. Faça o código aplicar a regra do ritual e traga de volta somente a resposta produzida.</p></div>` : ''}
@@ -661,7 +804,7 @@ export class AppUI {
           this.state.award(`mastery:${this.state.caseId}:${challenge.id}`, challenge.masteryRewards || { xp: 10, fieldMarks: 0 });
         }
         (challenge.flagsOnSuccess || []).forEach((f) => this.state.setFlag(f, true));
-        if (challenge.clueOnSuccess) this.state.addClue(challenge.clueOnSuccess);
+        if (challenge.clueOnSuccess) this.state.addClue(challenge.clueOnSuccess, { challengeId: challenge.id });
         this.audio.playSfx('ritual');
         setTimeout(() => {
           this.closeModal();
@@ -690,7 +833,7 @@ export class AppUI {
     if (firstInventoryOpen) this.state.setFlag('inventory_intro_seen', true);
     this.modalLayer.innerHTML = `
       <div class="modal-backdrop"><div class="inventory-modal">
-        <div class="modal-title"><div><span>MALETA DE CAMPO</span><h2>${this.state.data.player?.name || 'Investigador'}</h2></div><button class="icon-btn" data-close>×</button></div>
+        <div class="modal-title"><div><span>MALETA DE CAMPO</span><h2>${this.state.data.player?.name || 'Investigador'}</h2></div><button class="icon-btn" data-close aria-label="Fechar" title="Fechar">${icon('x', { size: 18, decorative: true })}</button></div>
         ${objective ? `<section class="case-note"><small>ANOTAÇÃO ATUAL</small><p>${objective.text}</p></section>` : ''}
         <section class="investigator-progress"><span>NÍVEL ${this.state.profile.level}</span><strong>${this.state.profile.xp} XP</strong><small>${this.state.profile.fieldMarks} Marcas de Campo</small></section>
         ${firstInventoryOpen ? `<div class="inventory-intro"><div class="inventory-speaker">${(this.state.data.player?.name || 'Investigador').toUpperCase()}</div><p>Vou deixar aqui só o que consegui confirmar. Se eu travar num rito, minhas anotações ficam junto do arquivo.</p></div>` : ''}
@@ -714,7 +857,7 @@ export class AppUI {
     this.modal = 'archive';
     this.modalLayer.innerHTML = `
       <div class="modal-backdrop"><div class="archive-modal casebook-modal">
-        <div class="modal-title"><div><span>ARQUIVO DE CAMPO</span><h2>Evidências recuperadas</h2></div><div class="modal-tools">${source === 'inventory' ? '<button class="ghost-btn small-btn" data-back>VOLTAR</button>' : ''}<button class="icon-btn" data-close>×</button></div></div>
+        <div class="modal-title"><div><span>ARQUIVO DE CAMPO</span><h2>Evidências recuperadas</h2></div><div class="modal-tools">${source === 'inventory' ? '<button class="ghost-btn small-btn" data-back>VOLTAR</button>' : ''}<button class="icon-btn" data-close aria-label="Fechar" title="Fechar">${icon('x', { size: 18, decorative: true })}</button></div></div>
         <div class="archive-grid">
           ${clues.length ? clues.map((c, i) => `<button type="button" class="clue-card ${c.view ? 'clickable' : ''}" data-clue="${c.id}"><span>${String(i+1).padStart(2,'0')}</span><h3>${c.title}</h3><p>${c.text}</p>${c.view ? '<small>ABRIR ORIGINAL</small>' : ''}</button>`).join('') : '<p class="empty-state">Nenhuma evidência catalogada até agora.</p>'}
         </div>
@@ -747,7 +890,7 @@ export class AppUI {
           <div class="evidence-stamp">${clue.view.stamp || 'ARQUIVO DE CAMPO'}</div>
           <h2>${this.interpolate(clue.view.title || clue.title)}</h2>
           <pre>${this.interpolate(clue.view.body || clue.text || '')}</pre>
-          <button class="paper-return" data-return>← VOLTAR AO ARQUIVO</button>
+          <button class="paper-return" data-return>${icon('arrow-left', { size: 14, decorative: true })}VOLTAR AO ARQUIVO</button>
         </div>
       </div>`;
     this.modalLayer.querySelector('[data-return]').onclick = () => this.openArchive(archiveSource);
@@ -770,7 +913,7 @@ export class AppUI {
           <h3>O que sabemos</h3>
           <ul>${(p.knownFacts || []).map((f) => `<li>${f}</li>`).join('') || '<li>Ainda há pouco para registrar.</li>'}</ul>
           ${linked.length ? `<h3>Evidências relacionadas</h3><div class="profile-evidence">${linked.map((e) => `<span>${e.title}</span>`).join('')}</div>` : ''}
-          <button class="paper-return" data-return>← VOLTAR</button>
+          <button class="paper-return" data-return>${icon('arrow-left', { size: 14, decorative: true })}VOLTAR</button>
         </div>
       </div></div>`;
     this.modalLayer.querySelector('[data-return]').onclick = () => {
@@ -801,13 +944,13 @@ export class AppUI {
               ${entries.map((g, i) => `<button data-entry="${g.id}"><em>${String(i+1).padStart(2,'0')}</em><span>${g.title}</span><small>${g.concept || ''}</small></button>`).join('') || '<p>Nenhuma anotação foi compreendida ainda.</p>'}
             </nav>
           </div>
-          <footer class="book-page-footer">${source === 'inventory' ? '<button class="book-tab" data-back>← MALETA</button>' : '<span></span>'}</footer>
+          <footer class="book-page-footer">${source === 'inventory' ? `<button class="book-tab" data-back>${icon('arrow-left', { size: 14, decorative: true })}MALETA</button>` : '<span></span>'}</footer>
         </div>
         <div class="book-page book-page-right">
           <div class="book-page-scroll" data-book-page>
             ${entries.length ? this.grimoireEntryMarkup(entries[0]) : '<div class="empty-page">As páginas seguintes ainda estão em branco.</div>'}
           </div>
-          <footer class="book-page-footer right"><button class="book-tab" data-close>FECHAR GRIMÓRIO →</button></footer>
+          <footer class="book-page-footer right"><button class="book-tab" data-close>FECHAR GRIMÓRIO${icon('chevron-right', { size: 14, decorative: true })}</button></footer>
         </div>
       </div></div>`;
     const page = this.modalLayer.querySelector('[data-book-page]');
@@ -866,7 +1009,7 @@ export class AppUI {
     this.settingsFocus = document.activeElement;
     this.modalLayer.insertAdjacentHTML('beforeend', `
       <div class="modal-backdrop settings-overlay" data-settings-overlay><div class="settings-modal" role="dialog" aria-modal="true" aria-label="Opções">
-        <div class="modal-title"><div><span>AJUSTES</span><h2>Opções</h2></div><button class="icon-btn" data-close>×</button></div>
+        <div class="modal-title"><div><span>AJUSTES</span><h2>Opções</h2></div><button class="icon-btn" data-close aria-label="Fechar" title="Fechar">${icon('x', { size: 18, decorative: true })}</button></div>
         <label>Volume geral <input type="range" min="0" max="1" step="0.01" value="${s.masterVolume}" data-master></label>
         <label>Música <input type="range" min="0" max="1" step="0.01" value="${s.musicVolume}" data-music></label>
         <label>Efeitos sonoros <input type="range" min="0" max="1" step="0.01" value="${s.sfxVolume}" data-sfx></label>
@@ -922,17 +1065,54 @@ export class AppUI {
 
   async showEndCard(event) {
     this.lastEndEvent = event;
-    if (this.account && this.api) {
+    if (this.state.onlineAuthoritative && this.account && this.api && !this.state.data.caseCompleted) {
+      this.renderEndPending();
       try {
         await this.state.flushSync();
-        const result = await this.api.completeCase(this.state.data);
+        const payload = this.state.syncPayload();
+        const result = await this.api.completeCase({ ...payload, endingId: event.endingId || 'completed' });
+        this.state.acceptRemoteCompletion(result.run);
         this.state.syncHandler = null;
         this.setSaveStatus('saved');
         if (result.profile) this.state.applyRemoteProfile(result.profile);
       } catch (error) {
-        console.warn('Conclusão online pendente:', error.message);
+        this.setSaveStatus('error', error);
+        this.renderEndFailure(error, error?.status === 409 ? () => window.location.reload() : () => this.showEndCard(event));
+        return;
       }
     }
+    this.renderEndCard(event);
+  }
+
+  renderEndPending() {
+    this.setMode('ending');
+    this.topbar.innerHTML = '';
+    this.dialogueLayer.innerHTML = '';
+    this.contentLayer.innerHTML = `
+      <div class="end-card end-card-pending" aria-live="polite">
+        ${icon('save', { size: 24, decorative: true })}
+        <span>ARQUIVO VESPER</span>
+        <h1>Confirmando encerramento</h1>
+        <p>O Arquivo está conferindo os rituais e preservando o último registro desta investigação.</p>
+      </div>`;
+  }
+
+  renderEndFailure(error, onRetry) {
+    this.setMode('ending');
+    this.topbar.innerHTML = '';
+    this.dialogueLayer.innerHTML = '';
+    this.contentLayer.innerHTML = `
+      <div class="end-card end-card-error" role="alert">
+        ${icon('shield-check', { size: 24, decorative: true })}
+        <span>ENCERRAMENTO PENDENTE</span>
+        <h1>O Arquivo não confirmou o final</h1>
+        <p>A investigação continua protegida neste dispositivo e pode ser retomada. ${escapeHtml(error?.message || 'Tente novamente quando a conexão estiver disponível.')}</p>
+        <button class="primary-btn" data-completion-retry>${error?.status === 409 ? 'RECARREGAR DO ARQUIVO' : 'CONFIRMAR NOVAMENTE'}</button>
+      </div>`;
+    this.contentLayer.querySelector('[data-completion-retry]').onclick = () => onRetry?.();
+  }
+
+  renderEndCard(event) {
     this.setMode('ending');
     this.topbar.innerHTML = '';
     this.dialogueLayer.innerHTML = '';
