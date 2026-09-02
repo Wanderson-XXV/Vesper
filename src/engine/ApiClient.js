@@ -79,7 +79,7 @@ export class ApiClient {
     });
   }
 
-  resetStudentPassword(teamId, studentId) {
-    return this.request(`/api/mentor/teams/${teamId}/students/${studentId}/reset-password`, { method: 'POST', body: '{}' });
+  resetStudentPassword(teamId, studentId, payload = {}) {
+    return this.request(`/api/mentor/teams/${teamId}/students/${studentId}/reset-password`, { method: 'POST', body: JSON.stringify(payload) });
   }
 }

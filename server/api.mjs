@@ -772,13 +772,23 @@ export function createApi(root) {
            GROUP BY u.id,u.username,p.display_name,p.xp,p.level,p.field_marks,r.id,ev.choices,ev.optional_clues,resp.responses
            ORDER BY p.display_name,r.started_at`, [teamId]
         )).rows);
+        const reportRows = await Promise.all(rows.map(async (row) => {
+          if (!row.case_id) return row;
+          const content = await repository.case(row.case_id);
+          return {
+            ...row,
+            case_title: content?.entry?.title || content?.campaign?.title || row.case_id,
+            case_subtitle: content?.entry?.subtitle || content?.campaign?.subtitle || '',
+            route_name: content?.trackMap?.[row.route_id]?.name || row.route_id
+          };
+        }));
         if (reportMatch[2]) {
-          const columns = ['username','display_name','xp','level','field_marks','case_id','route_id','language_id','attempt_number','status','ending_id','attempts','correct_attempts','max_hint','optional_clues','duration_seconds','choices','responses'];
-          const csv = [columns.join(','), ...rows.map((row) => columns.map((column) => csvCell(row[column])).join(','))].join('\n');
+          const columns = ['username','display_name','xp','level','field_marks','case_id','case_title','route_id','route_name','language_id','attempt_number','status','ending_id','attempts','correct_attempts','max_hint','optional_clues','duration_seconds','choices','responses'];
+          const csv = [columns.join(','), ...reportRows.map((row) => columns.map((column) => csvCell(row[column])).join(','))].join('\n');
           res.writeHead(200, { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': `attachment; filename="vesper-team-${teamId}.csv"` });
           return res.end(csv);
         }
-        return json(res, 200, { teamId, students: rows });
+        return json(res, 200, { teamId, students: reportRows });
       }
 
       const resetMatch = url.pathname.match(/^\/api\/mentor\/teams\/([0-9a-f-]+)\/students\/([0-9a-f-]+)\/reset-password$/i);
@@ -788,7 +798,17 @@ export function createApi(root) {
         const [teamId, studentId] = resetMatch.slice(1);
         const allowed = await db.query("SELECT 1 FROM team_members m JOIN team_members s ON s.team_id=m.team_id WHERE m.team_id=$1 AND m.user_id=$2 AND m.member_role='mentor' AND s.user_id=$3 AND s.member_role='student'", [teamId, user.id, studentId]);
         if (!allowed.rowCount) throw Object.assign(new Error('Aluno não autorizado'), { status: 403 });
-        const temporaryPassword = crypto.randomBytes(12).toString('base64url');
+        const body = await readBody(req);
+        const requestedPassword = body.temporaryPassword ?? body.password;
+        let temporaryPassword;
+        if (requestedPassword === undefined) {
+          temporaryPassword = crypto.randomBytes(12).toString('base64url');
+        } else {
+          temporaryPassword = String(requestedPassword);
+          const confirmation = body.confirmPassword ?? body.passwordConfirmation;
+          if (temporaryPassword.length < 8) fail('Senha temporária deve ter ao menos 8 caracteres');
+          if (typeof confirmation !== 'string' || confirmation !== temporaryPassword) fail('Confirmação de senha não confere');
+        }
         const passwordHash = await argon2.hash(temporaryPassword, { type: argon2.argon2id });
         await db.transaction(user.id, async (client) => {
           await client.query('UPDATE users SET password_hash=$2,must_change_password=true WHERE id=$1', [studentId, passwordHash]);

@@ -134,8 +134,18 @@ test('PostgreSQL: conta, execução versionada, isolamento, restart e sessão', 
     assert.equal((await request('/api/auth/login', { method: 'POST', body: { username: studentName, password: changedPassword } })).status, 401);
 
     const mentorLogin = await request('/api/auth/login', { method: 'POST', body: { username: mentorName, password: mentorPassword } });
-    const reset = await request(`/api/mentor/teams/${teamId}/students/${studentId}/reset-password`, { method: 'POST', cookie: mentorLogin.cookie, body: {} });
+    const temporaryPassword = `Temporary-${suffix}-safe`;
+    const rejectedReset = await request(`/api/mentor/teams/${teamId}/students/${studentId}/reset-password`, {
+      method: 'POST', cookie: mentorLogin.cookie,
+      body: { temporaryPassword, confirmPassword: `${temporaryPassword}-different` }
+    });
+    assert.equal(rejectedReset.status, 400);
+    const reset = await request(`/api/mentor/teams/${teamId}/students/${studentId}/reset-password`, {
+      method: 'POST', cookie: mentorLogin.cookie,
+      body: { temporaryPassword, confirmPassword: temporaryPassword }
+    });
     assert.equal(reset.status, 200);
+    assert.equal(reset.data.temporaryPassword, temporaryPassword);
     assertNoPasswordHash(reset.data);
     assert.equal((await request('/api/me', { cookie: studentCookie })).data.authenticated, false);
     const temporaryLogin = await request('/api/auth/login', { method: 'POST', body: { username: renamedStudent, password: reset.data.temporaryPassword } });

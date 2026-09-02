@@ -3,6 +3,9 @@
 Lista de coisas já testadas e rejeitadas. Use antes de propor algo “novo” que na verdade repete um erro antigo.
 
 ## UI
+- página operacional sem hierarquia, estados de carregamento/erro/sucesso ou tratamento responsivo;
+- usar `prompt`/`confirm` nativo como interface principal de redefinição de senha, especialmente quando um campo editável apenas exibe um valor e não o salva;
+- apresentar identificador técnico normalizado em minúsculas como se fosse o nome humano do investigador;
 - dashboard/SaaS com muitos cards e bordas;
 - fonte narrativa excessivamente ornamental ou pequena a ponto de comprometer a leitura;
 - fonte fina/genérica em opções importantes;
