@@ -400,7 +400,18 @@ export class AppUI {
         event.currentTarget.reset();
         window.setTimeout(() => onChanged?.(), 450);
       }
-      catch (error) { feedback.textContent = error.message; }
+      catch (error) {
+        // A redefinição feita pelo mentor pode invalidar ou atualizar a sessão
+        // enquanto este modal antigo ainda está aberto em outra aba. Nesse caso,
+        // não insistir em uma senha atual inexistente: sincronizar o estado real.
+        if (error.status === 401 || (error.status === 403 && error.message === 'Senha atual inválida')) {
+          feedback.className = 'account-feedback success';
+          feedback.textContent = 'A sessão foi atualizada. Recarregando…';
+          window.setTimeout(() => window.location.reload(), 450);
+          return;
+        }
+        feedback.textContent = error.message;
+      }
     };
     this.bindPasswordToggles();
   }

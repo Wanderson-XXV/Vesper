@@ -150,6 +150,34 @@ test('account profile is separate from logout and exposes safe account actions',
   await expect(page.getByRole('button', { name: 'Esconder senha' }).first()).toBeVisible();
 });
 
+test('stale forced password modal recovers when the account was already updated elsewhere', async ({ page }) => {
+  let meCalls = 0;
+  await page.route('**/api/**', async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+    if (url.pathname === '/api/health') return route.fulfill({ json: { ok: true, database: true, mode: 'online' } });
+    if (url.pathname === '/api/me') {
+      meCalls += 1;
+      return route.fulfill({ json: {
+        authenticated: true,
+        user: { id: 'student-stale', username: 'samira', role: 'student', must_change_password: meCalls === 1 },
+        profile: { preferred_language: 'java', xp: 0, level: 1, field_marks: 0, relationships: {} }, teams: []
+      } });
+    }
+    if (url.pathname === '/api/auth/change-password') return route.fulfill({ status: 403, json: { error: 'Senha atual inválida' } });
+    return route.fulfill({ status: 404, json: { error: 'mock' } });
+  });
+
+  await page.goto('/?case=vesper_case_01&route=arrays_beginner');
+  await expect(page.getByRole('heading', { name: 'Defina uma nova senha' })).toBeVisible();
+  await page.getByRole('textbox', { name: 'Nova senha', exact: true }).fill('senha-temporaria');
+  await page.getByRole('textbox', { name: 'Confirme a nova senha', exact: true }).fill('senha-temporaria');
+  await page.getByRole('button', { name: 'ATUALIZAR SENHA' }).click();
+  await expect(page.getByText('A sessão foi atualizada. Recarregando…')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Defina uma nova senha' })).toBeHidden({ timeout: 3000 });
+  expect(meCalls).toBeGreaterThanOrEqual(2);
+});
+
 test('registration confirms the password before sending credentials', async ({ page }) => {
   await page.route('**/api/**', async (route) => {
     const url = new URL(route.request().url());
