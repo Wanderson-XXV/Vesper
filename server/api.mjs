@@ -693,7 +693,7 @@ export function createApi(root) {
           const attemptNo = count.rows[0].total + 1;
           await client.query(
             'INSERT INTO ritual_attempts(run_id,challenge_id,input,submitted,correct,hint_level,attempt_no,client_attempt_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',
-            [run.id, challenge.id, body.input, String(body.submitted || ''), correct, Number(body.hintLevel || 0), attemptNo, body.clientAttemptId || null]
+            [run.id, challenge.id, JSON.stringify(body.input), String(body.submitted || ''), correct, Number(body.hintLevel || 0), attemptNo, body.clientAttemptId || null]
           );
           if (correct) {
             await grantReward(client, user.id, `challenge:${run.case_id}:${challenge.id}`, challenge.rewards || { xp: 25, fieldMarks: 0 });
