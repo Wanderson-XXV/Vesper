@@ -11,7 +11,7 @@
 - cópias locais de screenshots: `docs/references/ninah/`;
 - não usar como asset de produção.
 
-## Música placeholder
-- arquivo local: `assets/suspense-intrigue.mp3`;
-- origem: upload do usuário, compilado do YouTube;
-- status: apenas protótipo. Direitos precisam ser verificados antes de publicação.
+## Música ambiente
+- a trilha publicada é gerada localmente pelo `AudioManager` com Web Audio API;
+- não depende de arquivo externo ou licença de gravação;
+- `assets/suspense-intrigue.mp3` continua somente como material local de protótipo; não é asset de produção.

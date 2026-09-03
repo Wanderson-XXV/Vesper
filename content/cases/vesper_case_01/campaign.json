@@ -13,10 +13,10 @@
   },
   "audio": {
     "ambient": {
-      "url": "./assets/suspense-intrigue.mp3",
-      "license": "User provided",
-      "source": "Conversation upload",
-      "author": "Tuesday Knights compilation"
+      "type": "synth",
+      "license": "Generated in Web Audio API",
+      "source": "Vesper AudioManager",
+      "author": "Vesper"
     },
     "basement": {
       "url": "https://opengameart.org/sites/default/files/dark_cavern_ambient_002.ogg",

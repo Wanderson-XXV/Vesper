@@ -11,10 +11,10 @@
   "theme": { "accent": "#a8c6c8", "danger": "#a76d68" },
   "audio": {
     "ambient": {
-      "url": "./assets/suspense-intrigue.mp3",
-      "license": "User provided placeholder",
-      "source": "Project asset",
-      "author": "Unverified"
+      "type": "synth",
+      "license": "Generated in Web Audio API",
+      "source": "Vesper AudioManager",
+      "author": "Vesper"
     }
   },
   "learningTrack": "bridge_loops_arrays",

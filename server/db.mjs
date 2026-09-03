@@ -1,4 +1,5 @@
 import pg from 'pg';
+import { readFile } from 'node:fs/promises';
 
 const { Pool } = pg;
 
@@ -28,4 +29,15 @@ export function createDatabase() {
       }
     }
   };
+}
+
+export async function migrateDatabase() {
+  const db = createDatabase();
+  if (!db) throw new Error('DATABASE_URL é obrigatório para executar migrações.');
+  try {
+    const schema = await readFile(new URL('./schema.sql', import.meta.url), 'utf8');
+    await db.query(schema);
+  } finally {
+    await db.pool.end();
+  }
 }

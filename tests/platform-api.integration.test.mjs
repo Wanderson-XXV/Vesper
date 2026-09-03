@@ -171,6 +171,23 @@ test('PostgreSQL: conta, execução versionada, isolamento, restart e sessão', 
     assert.equal(current.status, 200);
     assert.equal(current.data.run.id, started.data.run.id);
 
+    const correctSubmission = await request('/api/submissions', { method: 'POST', cookie: studentCookie, body: {
+      caseId: selection.caseId,
+      routeId: selection.routeId,
+      languageId: selection.languageId,
+      contentVersion: selection.contentVersion,
+      runId: started.data.run.id,
+      challengeId: 'ritual_0',
+      input: [1, 0, 1, 1, 0, 1],
+      submitted: '4',
+      hintLevel: 0,
+      clientAttemptId: `submission-${suffix}`
+    } });
+    assert.equal(correctSubmission.status, 200);
+    assert.equal(correctSubmission.data.correct, true);
+    assert.equal(correctSubmission.data.attemptNo, 1);
+    assert.equal(correctSubmission.data.profile.xp, 35);
+
     const crossCase = await request('/api/runs/sync', { method: 'POST', cookie: studentCookie, body: {
       runId: started.data.run.id, caseId: 'vesper_case_02_observatory', routeId: 'bridge_loops_arrays', languageId: 'java', contentVersion: '1.1.0', revision: 0, snapshot: { caseId: 'vesper_case_02_observatory' }, events: []
     } });

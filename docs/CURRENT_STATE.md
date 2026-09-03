@@ -64,7 +64,7 @@ O contrato permanente está em `docs/decisions/0013-precise-checkpoints-and-acco
 - sprites de Tomás e Lívia derivados do Visual Novel Horror Asset Pack da Kalaverita;
 - pack completo preservado em `assets/source-packs/kalaverita-horror-vn/`;
 - referências de No, I'm Not a Human preservadas em `docs/references/ninah/` somente para direção visual;
-- uma faixa longa de suspense usada como música placeholder.
+- trilha ambiente sintetizada pelo `AudioManager` via Web Audio API; a faixa longa de suspense permanece apenas como material local de teste.
 
 ## Pontos ainda abertos
 
@@ -73,7 +73,7 @@ O contrato permanente está em `docs/decisions/0013-precise-checkpoints-and-acco
 - Caso 02: falta asset de exterior/portão do observatório (a chegada hoje é conduzida por narração) e geradores de engine `divergencePositions`/`crossReference` para variar os rituais de confronto/cruzamento entre playthroughs (hoje usam `fixed`);
 - sistema de expressões faciais ainda pode ser aprofundado;
 - evidências/perfis/Grimório podem continuar ganhando acabamento;
-- licenças de backgrounds e música placeholder devem ser revisadas antes de publicação pública/comercial;
+- licenças dos backgrounds e demais assets visuais devem ser revisadas antes de publicação pública/comercial;
 - o Caso 02 precisa de playtest presencial com as duas turmas para calibrar duração e dificuldade;
 - produção ainda exige domínio real, credenciais fora do exemplo, HTTPS e teste de restauração de backup;
 - a configuração local em Docker foi verificada com PostgreSQL saudável, migração aplicada e API online;

@@ -5,6 +5,8 @@ export class AudioManager {
     this.music = null;
     this.currentTrack = null;
     this.ctx = null;
+    this.musicGainNode = null;
+    this.musicNodes = [];
   }
 
   ensureContext() {
@@ -26,6 +28,7 @@ export class AudioManager {
 
   refreshMusicVolume() {
     if (this.music) this.music.volume = this.musicGain();
+    if (this.musicGainNode) this.musicGainNode.gain.value = this.musicGain() * 0.16;
   }
 
   setMasterVolume(v) {
@@ -53,35 +56,99 @@ export class AudioManager {
 
   async playMusic(track) {
     const def = this.campaign.audio?.[track];
-    if (!def || this.currentTrack === track) return;
-    this.currentTrack = track;
+    if (!def) return false;
+    if (this.currentTrack === track && this.music && !this.music.paused) return true;
     if (this.music) { this.music.pause(); this.music = null; }
+    this.currentTrack = null;
+    this.musicGainNode = null;
+    this.musicNodes = [];
+    if (def.type === 'synth') {
+      try {
+        this.startSynthMusic(track);
+        return true;
+      } catch {
+        this.stopMusic();
+        return false;
+      }
+    }
+    let audio = null;
     try {
-      const audio = new Audio(def.url);
+      audio = new Audio(def.url);
       audio.loop = true;
       audio.preload = 'auto';
       audio.volume = this.musicGain();
       this.music = audio;
       await audio.play();
+      if (this.music !== audio) return false;
+      this.currentTrack = track;
+      return true;
     } catch {
-      // Music is optional; the game remains playable without it.
+      // Music is optional; clear a failed track so a later user gesture can
+      // retry after autoplay or network failures.
+      if (this.music === audio) {
+        audio.pause();
+        this.music = null;
+        this.currentTrack = null;
+      }
+      return false;
     }
+  }
+
+  startSynthMusic(track) {
+    this.ensureContext();
+    const ctx = this.ctx;
+    const master = ctx.createGain();
+    master.gain.value = this.musicGain() * 0.16;
+    master.connect(ctx.destination);
+    const nodes = [
+      [55, 'sine', -7],
+      [82.5, 'triangle', 5],
+      [110, 'sine', -3]
+    ].map(([frequency, type, detune]) => {
+      const osc = ctx.createOscillator();
+      osc.type = type;
+      osc.frequency.value = frequency;
+      osc.detune.value = detune;
+      osc.connect(master);
+      osc.start();
+      return osc;
+    });
+    const music = {
+      paused: false,
+      pause: () => {
+        if (music.paused) return;
+        music.paused = true;
+        nodes.forEach((node) => { try { node.stop(); } catch {} });
+        try { master.disconnect(); } catch {}
+      }
+    };
+    this.music = music;
+    this.musicGainNode = master;
+    this.musicNodes = nodes;
+    this.currentTrack = track;
   }
 
   stopMusic() {
     if (this.music) this.music.pause();
     this.music = null;
     this.currentTrack = null;
+    this.musicGainNode = null;
+    this.musicNodes = [];
   }
 
   playRemote(name) {
     const def = this.campaign.audio?.[name];
-    if (!def || this.state.data.settings.muted) return;
+    if (!def || this.state.data.settings.muted) return false;
     try {
       const a = new Audio(def.url);
       a.volume = this.sfxGain();
-      a.play().catch(() => {});
-    } catch {}
+      const result = a.play();
+      result?.catch(() => this.synth(name));
+      return true;
+    } catch {
+      this.synth(name);
+      return false;
+    }
   }
 
   synth(type) {
@@ -115,6 +182,8 @@ export class AudioManager {
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18 + i * 0.1);
         osc.connect(gain); gain.connect(master); osc.start(now + i * 0.1); osc.stop(now + 0.25 + i * 0.1);
       });
+    } else if (type === 'door') {
+      this.noise(master, 0.28, 700);
     } else if (type === 'paper' || type === 'archive') {
       this.noise(master, 0.22, 1100);
     } else if (type === 'tape') {

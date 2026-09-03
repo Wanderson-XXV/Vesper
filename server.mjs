@@ -3,6 +3,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createApi } from './server/api.mjs';
+import { migrateDatabase } from './server/db.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const argValue = (name) => {
@@ -11,6 +12,18 @@ const argValue = (name) => {
 };
 const port = Number(argValue('port') || process.env.PORT || 5173);
 const host = argValue('host') || process.env.HOST || '0.0.0.0';
+
+if (process.env.DATABASE_URL) {
+  try {
+    await migrateDatabase();
+    console.log('Schema PostgreSQL verificado.');
+  } catch (error) {
+    // Keep the Hub available while the API reports database unavailability.
+    // The Compose entrypoint still runs the migration as a hard preflight.
+    console.error(`Falha ao verificar o schema PostgreSQL: ${error.message}`);
+  }
+}
+
 const api = createApi(root);
 const types = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',

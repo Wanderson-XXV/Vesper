@@ -20,7 +20,9 @@ Theo permanece sem portrait definitivo nesta versão.
 
 ## Música principal
 
-A faixa longa `Suspense and Intrigue - D&D Campaign Music - Tuesday Knights (youtube).mp3` foi enviada pelo usuário e é usada como trilha provisória do MVP. Verificar os direitos/licença antes de qualquer publicação pública.
+A trilha ambiente do MVP é gerada localmente pelo `AudioManager` com Web Audio API; não depende de arquivo externo ou licença de gravação.
+
+A faixa local `Suspense and Intrigue - D&D Campaign Music - Tuesday Knights (youtube).mp3` permanece somente como material de teste não publicado; sua licença ainda não foi verificada.
 
 ## Áudio remoto / efeitos
 
