@@ -171,6 +171,12 @@ O painel de mentor é `mentor.html`. Não há ranking público.
 
 Para VPS, use um domínio real, credenciais fora do exemplo e `COOKIE_SECURE=true`. Para teste local HTTP, use `DOMAIN=http://localhost` e `COOKIE_SECURE=false`. A runbook fica em `deploy/README.md`.
 
+### Diagnóstico de falhas no navegador
+
+As respostas da API incluem o cabeçalho `X-Vesper-Request-Id`. O cliente registra falhas com rota, método, status, duração, código e esse identificador, sem registrar senha, cookie, snapshot ou payload da tentativa. O servidor registra a mesma falha em JSON com o `requestId`, facilitando o cruzamento com `docker compose logs app`.
+
+Quando um jogador relatar um erro, pedir que abra DevTools → Console, reproduza a falha e execute `vesperDiagnostics()`. O resultado é um relatório copiável com as últimas falhas do navegador; o `requestId` permite localizar o evento correspondente no log do VPS.
+
 Após a configuração inicial, o deploy repetível usa `deploy/update.sh`; opcionalmente, `.github/workflows/deploy.yml` executa validação e chama esse script por SSH após cada `push` em `main`. O workflow não transporta `.env` nem dados do banco.
 
 Backups só contam como proteção depois de um teste de restauração em banco separado. Staging deve usar outro projeto Compose, domínio, `.env` e volumes.

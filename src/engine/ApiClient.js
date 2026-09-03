@@ -1,14 +1,55 @@
 import { appPath } from './AppPaths.js';
+import { installDiagnostics, recordDiagnostic } from './Diagnostics.js';
+
+installDiagnostics();
+
+function requestId() {
+  return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
 export class ApiClient {
   async request(path, options = {}) {
-    const response = await fetch(appPath(path), {
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-      ...options
-    });
+    const startedAt = Date.now();
+    const method = options.method || 'GET';
+    const clientRequestId = requestId();
+    const { headers: optionHeaders = {}, ...requestOptions } = options;
+    let response;
+    try {
+      response = await fetch(appPath(path), {
+        ...requestOptions,
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', ...optionHeaders, 'X-Vesper-Request-Id': clientRequestId }
+      });
+    } catch (cause) {
+      const diagnostic = recordDiagnostic('api_network_error', {
+        method,
+        path,
+        clientRequestId,
+        durationMs: Date.now() - startedAt,
+        message: cause.message || String(cause)
+      });
+      throw Object.assign(cause, { requestId: clientRequestId, diagnostic });
+    }
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw Object.assign(new Error(data.error || `Falha HTTP ${response.status}`), { status: response.status, code: data.code, current: data.current });
+    const serverRequestId = response.headers.get('x-vesper-request-id') || data.requestId || clientRequestId;
+    if (!response.ok) {
+      const error = Object.assign(new Error(data.error || `Falha HTTP ${response.status}`), {
+        status: response.status,
+        code: data.code,
+        current: data.current,
+        requestId: serverRequestId
+      });
+      error.diagnostic = recordDiagnostic('api_error', {
+        method,
+        path,
+        status: response.status,
+        code: data.code,
+        requestId: serverRequestId,
+        durationMs: Date.now() - startedAt,
+        message: error.message
+      });
+      throw error;
+    }
     return data;
   }
 

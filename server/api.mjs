@@ -19,6 +19,11 @@ const json = (res, status, value, headers = {}) => {
   res.end(JSON.stringify(value));
 };
 
+function apiRequestId(req) {
+  const requested = String(req.headers['x-vesper-request-id'] || '');
+  return /^[a-zA-Z0-9._:-]{1,100}$/.test(requested) ? requested : crypto.randomUUID();
+}
+
 const parseCookies = (req) => Object.fromEntries((req.headers.cookie || '').split(';').filter(Boolean).map((part) => {
   const index = part.indexOf('=');
   return [part.slice(0, index).trim(), decodeURIComponent(part.slice(index + 1))];
@@ -474,6 +479,25 @@ export function createApi(root) {
 
   return async function handleApi(req, res) {
     const url = new URL(req.url, 'http://vesper.local');
+    const requestId = apiRequestId(req);
+    const startedAt = Date.now();
+    let failure = null;
+    res.setHeader('X-Vesper-Request-Id', requestId);
+    res.once('finish', () => {
+      if (res.statusCode < 400) return;
+      const event = {
+        event: 'api_error',
+        requestId,
+        method: req.method,
+        path: url.pathname,
+        status: res.statusCode,
+        durationMs: Date.now() - startedAt,
+        ...(failure ? { error: failure } : {})
+      };
+      const line = `[Vesper] ${JSON.stringify(event)}`;
+      if (res.statusCode >= 500) console.error(line);
+      else console.warn(line);
+    });
     try {
       if (url.pathname === '/api/health') {
         if (!db) return json(res, 503, { ok: false, mode: 'unavailable', database: false });
@@ -821,8 +845,8 @@ export function createApi(root) {
     } catch (error) {
       const unavailable = isDatabaseUnavailable(error);
       const status = error.status || (unavailable ? 503 : error.code === '23505' ? 409 : 500);
-      if (status >= 500 && !unavailable) console.error(error);
-      return json(res, status, { error: status >= 500 ? (unavailable ? 'PostgreSQL indisponível' : 'Falha interna da API') : error.message, code: status === 503 ? 'DATABASE_UNAVAILABLE' : error.code, current: error.current });
+      failure = { name: error.name, code: error.code, message: error.message, stack: error.stack };
+      return json(res, status, { error: status >= 500 ? (unavailable ? 'PostgreSQL indisponível' : 'Falha interna da API') : error.message, code: status === 503 ? 'DATABASE_UNAVAILABLE' : error.code, current: error.current, requestId });
     }
   };
 }

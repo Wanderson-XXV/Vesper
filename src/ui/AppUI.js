@@ -798,7 +798,8 @@ export class AppUI {
           correct = remoteResult.correct;
         } catch (error) {
           feedback.className = 'challenge-feedback error';
-          feedback.textContent = `O Arquivo não recebeu a resposta: ${error.message}`;
+          const requestId = error.requestId ? ` Código de diagnóstico: ${error.requestId}.` : '';
+          feedback.textContent = `O Arquivo não recebeu a resposta: ${error.message}.${requestId} Abra o console do navegador e procure por [Vesper].`;
           submitButton.disabled = false;
           return;
         }
