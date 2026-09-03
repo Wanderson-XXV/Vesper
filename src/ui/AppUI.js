@@ -386,9 +386,10 @@ export class AppUI {
       </div></div>`;
     this.modalLayer.querySelector('[data-password-form]').onsubmit = async (event) => {
       event.preventDefault();
+      const form = event.currentTarget;
       const feedback = this.modalLayer.querySelector('.account-feedback');
       feedback.textContent = 'Atualizando…';
-      const data = new FormData(event.currentTarget);
+      const data = new FormData(form);
       if (data.get('password') !== data.get('confirmPassword')) {
         feedback.textContent = 'Confirmação de senha não confere';
         return;
@@ -397,7 +398,7 @@ export class AppUI {
         await this.api.changePassword({ newPassword: data.get('password'), confirmPassword: data.get('confirmPassword') });
         feedback.className = 'account-feedback success';
         feedback.textContent = 'Senha atualizada.';
-        event.currentTarget.reset();
+        form.reset();
         window.setTimeout(() => onChanged?.(), 450);
       }
       catch (error) {

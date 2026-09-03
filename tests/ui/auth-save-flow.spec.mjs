@@ -179,6 +179,29 @@ test('stale forced password modal recovers when the account was already updated 
   await expect(page.getByRole('heading', { name: 'Defina uma nova senha' })).toBeHidden({ timeout: 3000 });
 });
 
+test('forced password change reports success after the API accepts the new password', async ({ page }) => {
+  let meCalls = 0;
+  await page.route('**/api/**', async (route) => {
+    const url = new URL(route.request().url());
+    if (url.pathname === '/api/health') return route.fulfill({ json: { ok: true, database: true, mode: 'online' } });
+    if (url.pathname === '/api/me') return route.fulfill({ json: {
+      authenticated: true,
+      user: { id: 'student-success', username: 'samira', role: 'student', must_change_password: meCalls++ === 0 },
+      profile: { preferred_language: 'java', xp: 0, level: 1, field_marks: 0, relationships: {} }, teams: []
+    } });
+    if (url.pathname === '/api/auth/change-password') return route.fulfill({ json: { ok: true } });
+    if (url.pathname === '/api/runs/current') return route.fulfill({ json: { run: null } });
+    return route.fulfill({ status: 404, json: { error: 'mock' } });
+  });
+
+  await page.goto('/?case=vesper_case_01&route=arrays_beginner');
+  await page.getByRole('textbox', { name: 'Nova senha', exact: true }).fill('senha-segura-2026');
+  await page.getByRole('textbox', { name: 'Confirme a nova senha', exact: true }).fill('senha-segura-2026');
+  await page.getByRole('button', { name: 'ATUALIZAR SENHA' }).click();
+  await expect(page.getByText('Senha atualizada.')).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Nova senha', exact: true })).toHaveValue('');
+});
+
 test('registration confirms the password before sending credentials', async ({ page }) => {
   await page.route('**/api/**', async (route) => {
     const url = new URL(route.request().url());
